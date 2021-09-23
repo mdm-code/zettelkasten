@@ -1,0 +1,14 @@
+# Matrix dimensions
+
+The dimensions of the matrix are described as rows x columns, so 2 x 3 matrix
+means that it has three rows and two columns. In Python this may look like
+this:
+
+```python
+X = [
+		[1, 2],
+		[3, 4],
+		[5, 6]
+	]
+```
+

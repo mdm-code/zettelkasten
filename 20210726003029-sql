@@ -1,0 +1,164 @@
+# PostgreSQL
+
+In this not-so-short entry, I am going to write down my notes on SQL syntax so
+that I can go back to it at any time without having to reference any kind of
+external source.
+
+I think it is generally better to write down the stuff you learn to further
+your understanding and prompt your memory.
+
+
+## Basics
+
+
+### Postgres database creation
+
+First things first, let's create a fresh database with a simple statement.
+
+```
+CREATE DATABASE sampledb;
+```
+
+The best way would be to key it into `psql` prompt and then passing `exit`.
+
+Conversely, should one want to delete a database, enter the following statement:
+
+```
+DROP DATABASE sampledb;
+```
+
+A few useful commands that you can run in `psql` are:
+
+```
+\list      - list all databases
+\c         - change database
+\d         - list the relation on the currenct databse
+\d [TABLE] - list the relation for the specific table
+\q         - quit psql
+```
+
+
+### Entry-level statements
+
+The first statement that seems immediately useful is SELECT. It let's you pick
+the data that you want to grab from a given table. It goes a little somehting
+like this:
+
+```
+SELECT
+	select_list
+FROM
+	table_name;
+```
+
+The list of selections has to be comma-separated. You can replace it with `*`
+to grab all columns. And each column name can be followed by an alias in
+inverted commas.
+
+It takes the following list of clauses: WHERE, ORDER BY, LIMIT, FETCH,
+DISTINCT, GROUP BY, HAVING, INNER JOIN, LEFT JOIN, FULL OUTER JOIN, CROSS JOIN,
+UNION, INTERSECT, EXCPET.
+
+SEMICOLON is used here to separate two statements and to signal the end of a
+statement.
+
+#### Concatenation operator (||) and AS alias
+
+In SELECT statement you can use `||` to concatenate two columns e.g.,
+
+```
+SELECT
+	first_name || ' ' || last_name AS 'fullname',
+	email
+FROM
+	table_name;
+```
+
+You can also notice that the column is now aliased as `fullname`, which it, in
+fact, is. Make sure to surround the alias with double quotes whenever it
+contains spaces.
+
+
+#### WHERE clause
+
+The WHERE clause handles conditions in SQL. I.e., it can be used to filter
+results based on some conditions.
+
+```
+SELECT
+	first_name
+FROM
+	employees.ids
+WHERE
+	name = 'Bill'
+```
+
+Here is a list of logical operators that can fit into the WHERE clause:
+=, <, >, != (equal to <>), <=, >=, AND, OR, IN, BETWEEN, LIKE, IS [ NOT ] NULL, NOT.
+
+NOT - negates the result of the operator
+[ NOT ] LIKE - matches a regex pattern; postgres gives you two wildcards;
+	+ % to match any sequence of zero or more characters
+	+ _ matches any single character
+[ NOT ] BETWEEN - return true if the number is in the range of values; e.g.,
+
+```
+amount NOT BETWEEN 8 AND 9
+```
+
+[ NOT ] IN - return true if value is in a list
+
+
+#### ORDER BY clause
+
+This clause allows you to sort row using a selected parameter in either
+ascending or descending order. Here is the syntax for it:
+
+```
+SELECT
+	first_name, last_name, salary, age
+FROM
+	table_name
+ORDER BY
+	salary [ASC | DESC],
+	age ASC NULL [LAST | FIRST];
+```
+
+Note that the clause can take multiple expressions, plus you can specify
+whether NULL values should be kept at the top or at the bottom of the output.
+
+
+#### LIMIT (and FETCH)
+
+LIMIT is another keyword that accompanies SELECT. It allows you to specify
+how many rows you want the output to contain. There is also a way for you
+to set the start offset with the OFFSET expression. Here is an example on
+how to use LIMIT and OFFSET.
+
+```
+SELECT
+	first_name, second_name, age, salary
+LIMIT
+	1000 OFFSET 15
+FROM
+	empolyees;
+```
+
+The FETCH clause is the SQL standard that works in the same way as LIMIT, which
+isn't present in the SQL standard. Here is the syntax for it:
+
+OFFSET start { ROW | ROWS }
+FETCH { FIRST | NEXT } [ row_count ] { ROW | ROWS } ONLY
+
+And here is a simple example
+
+```
+SELECT
+	first_name, second_name, age, salary
+FROM
+	empolyees;
+OFFSET 15
+FETCH FIRST 1000 ROWS ONLY
+```
+
+#### JOINS

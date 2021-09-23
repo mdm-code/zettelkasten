@@ -1,0 +1,7 @@
+# FFMPEG MP4 to WAV conversion command
+
+You can run this one to do it:
+
+```sh
+ffmpeg -i input.mp4 -vn -acodec pcm_s16le -ar 44100 -ac output.wav
+```

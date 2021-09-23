@@ -1,0 +1,27 @@
+# How to use caret (^) and tilde (~) in Git?
+
+
+## Tilde
+
+Long story short, tidle (~) works like this:
+
+`ref~` is shorthand for `ref~1` and means the commit's first parent. `ref~2`
+means the commit's first parent's first parent. `ref~3` means the commit's
+first parent's first parent's first parent. And so on.
+
+
+## Caret
+
+The caret works slightly differently:
+
+`ref^` is shorthand for `ref^1` and means the commit's first parent. But where
+the two differ is that `ref^2` means the commit's second parent (remember,
+commits can have two parents when they are a merge).
+
+
+The two combined can solve the issue where a MERGE COMMIT has two parents. In this
+case, in order to move to the second parent's parent, one can type:
+
+```sh
+git checkout HEAD^2~
+```

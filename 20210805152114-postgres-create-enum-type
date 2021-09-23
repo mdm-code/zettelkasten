@@ -1,0 +1,18 @@
+# How to create an enum type in Postgresql?
+
++sql +enum +postgres
+
+There is a simple way to do it with the CREATE statement. Here is an exmple
+with a table:
+
+```sql
+CREATE TYPE lang AS ENUM ('pl', 'en', 'de');
+CREATE TABLE speaker (
+	id serial,
+	name varchar(333) NOT NULL,
+	lang lang NULL
+)
+```
+
+You would first create the enumerated type, `lang` in this case. Then you can
+use it in one or more of your tables.

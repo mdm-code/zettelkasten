@@ -1,0 +1,9 @@
+# Linear equation extension
+
+The general equation for a line is `y = mx + b` where *m* stands for the slope and `b` stands for
+the intercept. The slope defines how steep a given line is, and the intercept says where the line
+crosses the origin. The slope is the change in Y over the change in X, `2y / 1x = 2`.
+
+The extension of the equation for a line comes with a notion of hyperspace. A line is enough for
+a 2D space, plane is for three-dimensional data, and hyperspace is for everything above it or for
+an n-dimensional space.

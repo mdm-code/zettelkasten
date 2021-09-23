@@ -1,0 +1,30 @@
+# How to squash commits?
+
+It's considered good practice to keep track of the history of file changes
+using VCS.  In order to do that, one could use git commits to see the whole
+history and compare different versions with each other. This lets you run `git
+diff` on commits to see what has changed.
+
+In order to run `git diff` like this you could potentially type in the
+following command:
+
+```sh
+git diff HEAD~3
+```
+
+This will let you see the changes made to the code base by comparing the commit
+the HEAD is pointing at with the commit that is three commits down in the
+version control history.
+
+Now onto squashing. Let's say you're spamming commits while debugging a portion
+of code and you eventually get it to work. You're left with a whole bunch of
+commits that you wouldn't necessarily want to merge into other branches. What
+you could do is that you could squash them into a single commit by running the
+following command:
+
+```sh
+git rebase -i HEAD~3
+```
+
+This will take the first three latest commits and pop up the interactive shell
+where you can pick the latest commit message and squash the other two.

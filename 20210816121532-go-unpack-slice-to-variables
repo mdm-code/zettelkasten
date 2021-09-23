@@ -1,0 +1,22 @@
+# Go unpack slice to variables
+
++go +slice
+
+One thing that I miss from Python when writing code in Go is the idiomatic
+unpacking of an iterable.  You can't really do this in go using similar syntax,
+but there is an easy way around it with a short function and a for-loop.
+
+Here is the code:
+
+```go
+func unpack(s []string, vars... *string) {
+    for i, str := range s {
+        *vars[i] = str
+    }
+}
+```
+
+It works like this: the first argument is a slice---it can be a slice of
+strings like in this example---and then there is the variadic argument that
+takes any number of variable pointers.  The function interates over a slice and
+assigns individual items to the dereferenced variable.

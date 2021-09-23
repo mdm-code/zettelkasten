@@ -1,0 +1,31 @@
+# how to append to Vim macro register?
+
++vim +macro +register
+
+/Users/michal/Documents/journal/zettel/20210828193047-vim-macro-register
+/Users/michal/Documents/journal/zettel/20210828183001-vim-registers
+
+
+In case you forget one of two steps while recording a Vim macro, you can easily
+append them at the end referencing the buffer with the corresponding capital
+letter.
+
+
+## Appending to the Vim register
+
+After you're done recording a macro to "w register, you can then press @W
+(notice the capital letter) to append to the "w register.
+
+
+## Modifying the Vim register
+
+You won't normally have a dedicated option, but the easiest way would be to
+reassign the existing contents after some changed's been introduced. Here is
+how you can do it:
+
+```
+:let @w='<Ctrl-r>w
+```
+
+This pastes the contents of the "w register and assigns it back after some
+changed.

@@ -1,0 +1,30 @@
+# What to do when you need a file I/O, but you don't want create one on the FS?
+
++python +stream +io +stringio
+
+In Python---and in Go as well---there is standard library that will let you
+create an in-memory file-like I/O to fiddle with.
+
+Python has the `io` module that provides with convenient ways of dealing with
+various types of I/O. Most of the time you'd happy with either Text I/O for
+text or Binary I/O for the binary representation.
+
+In case of text, you would create an in-memory text stream with `io.StringIO`
+like this, for instance:
+
+```python
+import io
+
+f = io.StringIO()
+f.write('foo bar baz')
+print(f.getvalue())
+f.close()
+```
+
+In Vim, put your cursor on the first line of the snippet and type
+!5jpython3<CR>. This is going to give you the output read from the in-memory
+file.
+
+With `StringIO` you can write to it and read back from it, but make sure to
+move the curor with `.seek(0)` whenever you want to move back to the start of
+the file.

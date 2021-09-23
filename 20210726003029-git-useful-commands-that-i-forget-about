@@ -1,0 +1,136 @@
+# Git Commands
+
+There is a whole range of Git commands that I have a tendency to forget about.
+Here is a list of the ones that I most often skip in my workflow. 
+
+
+## :/ Syntax for Finding commits
+
+The `:/` regex sytax in Git work like magic in many cases when you don't really
+feel like typing out this small bit of the hash. You can use it to find the commit
+by its message. The way to do it goes like this:
+
+```sh
+git reset --hard :/good
+```
+
+This will revert the current active branch to the last commit that has the word
+'good' in it. It can be used with commands such as 'checkout', 'reset',
+'revert', and many others.
+
+
+## Cherry-pick
+
+This one lets me to reorder commits to suit my needs. For instance, imagine that
+a series of commits is arranged in a not-so-great pattern: they're all jumbled up.
+There is a way to go back to the commit where everything is still in the right
+order, and then you can use `git cherry-pick [hash]` to put commits in the expected
+order.
+
+```sh
+git log [name of the branch] <--- this will show you a list of commits with hashes
+git reset --hard [hash] <--- go back to the last `proper` commit
+
+# As many times as you find suitable:
+git cherry-pick [hash]
+```
+
+
+## Git log
+
+I have no problem with this command per say, I use it rather often. The one thing
+that I want to stress is that you can show the log only for a given branch in
+the following fashion:
+
+```sh
+git log [name of the branch]
+```
+
+
+## Git checkout
+
+There is a way to checkout a single file from a previous commit with `git checkout`.
+
+```sh
+git checkout [hash] [filename]
+```
+
+
+## Git revert
+
+This is a neeeet command that can be used to revert particular commits.
+It lets you pick a commit that you want to revert and create a new commit that reverts
+the bad, previous commit. Then you can push it up the stream just fine. Here is how
+it works:
+
+```sh
+git revert [commit hash]
+```
+
+
+## Git reflog
+
+The `git reflog` shows you where your HEAD was pointing at previously. It can be useful
+the stuff that you don't remember where it was.
+
+The command gives you a list of places you've been jumping around before so that you
+can go back pretty much anywhere in a glimpse of an eye.
+
+I am sure there are many ways to configure the output of the command in order for it to
+suit your needs.
+
+```sh
+git reflog
+```
+
+
+## Git clone
+
+Whenever you put a `.` after the address of the cloned repo, all its contents will be 
+copied directly into the directory you're currently at. There will not be any additional
+directories made.
+
+```sh
+git clone [address] .
+```
+
+
+## Git stash
+
+It's not like I tend to forget about this command, but it seems that I am not utilizing it
+to its fullest potential. There are a few subcommands that are worth remembering.
+
+```sh
+git stash pop/push <-- This works basically like a stack
+git stash list
+git stash clear
+git stash drop <stash>
+git stash apply <-- pop changes and keep them in stash
+```
+
+VERY IMPORTANT: How to create a new branch out of stashed changes:
+
+```sh
+git stash branch <name> <stash-number>
+```
+
+
+## Git tag
+
+The basics of `git tag` are all understood and simple, however, there might subcommands
+that I haven't had the opportunity to come across thus far.
+
+MIND YOU: you can use caret sign (^) and tilde (~) instead of commit hashes, just like in
+`git checkout` or `git revert`.
+
+Later tagging, whenever you happen to forget to tag it:
+
+```sh
+git tag <tag-name> <commit-hash>
+```
+
+Pushing tags to remote:
+
+```sh
+git push <remote> <tag-name> | --tags (to push all tags)
+```

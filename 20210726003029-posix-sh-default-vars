@@ -1,0 +1,33 @@
+# Setting default variable values in POSIX shell
++posix +sh +shell
+
+There are four operators used to set default parameter expansion.
+The second variant usually substitutes null of the parameter is null.
+The different between unset and null variables is crucial here.
+
+```sh
+${parameter:-word} ${parameter-word}
+# Use default value if undefined
+# If parameter is unset or null, do the substitution
+
+${parameter:+word} ${parameter+word}
+# Change if defined
+# Always use alternative value
+# If parameter is null, do the substitution
+
+${parameter:?word} ${parameter?word}
+# Complain if undefined
+# Indicate error if null or unset
+
+${parameter:=word} ${parameter=word}
+# Redefine if undefined
+# Assign default values to both parameter and variable (if different)
+```
+
+
+Use `unset` to unset a variable.
+
+```sh
+foo=bar
+unset foo
+```

@@ -1,0 +1,50 @@
+# How to access object attributes on a JSON field type in Postgres
+
++postgres +sql +json
+
+There are two or three things that should be remembered when dealing with
+JSON field type in Postgres (I don't know about other DB providers though).
+
+Let's say there is a `metadata` field on some table, say, `recording`, then
+we can get a JSON field with this syntax:
+
+```sql
+SELECT
+	metadata -> 'start_time' AS ts_start
+FROM recording
+```
+
+OUTPUT:
+1	"12:34"
+2	"14:58"
+... n
+
+This will get us start times for all the recordings in the table. However, if
+it is a string enclosed in double quotes, the quotes will be retained. There
+is a way to go around it though with another syntactic sugar.
+
+Another things is `->>` syntax. This one will not include double quotes from
+JSON in the output.
+
+```sql
+SELECT
+	metadata ->> 'start_time' AS ts_start
+FROM recording
+```
+
+OUTPUT:
+1	12:34
+2	14:58
+... n
+
+As you can see, there aren't any commas around the timestamp now.
+
+The third thing is how to access list/array elements. This can become quite
+useful when working with complex JSON fields. The trick is to reference
+the array element by its position, 0, 1, 5, ... N; whatever there is.
+Here is how to do it. This a completely made up example again.
+
+```sql
+metadata -> 0 -> 'info' ->> 'participant1'
+```
+

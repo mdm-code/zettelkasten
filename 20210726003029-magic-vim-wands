@@ -1,0 +1,74 @@
+# Magic Vim wands
+
+This short is about how to run any shell command in Vim and get its output straight
+into the current open file buffer.
+
+
+## !! wand
+
+The first one is two exclamation marks (`!!`).  It takes a single line as its
+input and passes it to a shell command.  You press bang two times in the
+`normal` mode, and then type in the name of the shell program you'd like to run
+on the `ex` command window.
+
+Here is an example of how to do it. Type in the following calculation into an
+open buffer in Vi.
+
+```sh
+123 + 456 / 2
+```
+
+Then, with the cursor on this line, in the normal mode, press `!!` and type in `bc`
+for a basic calculator.
+
+The ouput that you get is the result of the calculation.
+
+```sh
+351
+```
+
+And that's basically it.
+
+
+## !} wand
+
+This wand is waaay cooler. It alows you to pass a whole paragraph as an input
+to the command.  So instead of passing a single line, now you feed a whole
+paragraph in. Isn't it cool?
+
+IN FACT: The `!` bang command in normal mode works with any kind of Vim motion,
+it can be G, can be 2}, whatever rocks your boat at tim time.
+
+This means that you can run a whole script/program/whatever right from Vi.
+
+Here is an example of Fibonacci:
+
+```python
+terms = 10
+
+def fib(n):
+	if n <= 1:
+		return n
+	else:
+		return(fib(n-1) + fib(n-2))
+
+for i in range(terms):
+	print(fib(i))
+```
+
+And here is the input if you put your cursor on the first line of the python
+code and then press `!9jpython<enter>` in the normal mode.
+
+```sh
+0
+1
+1
+2
+3
+5
+8
+13
+21
+34
+```
+

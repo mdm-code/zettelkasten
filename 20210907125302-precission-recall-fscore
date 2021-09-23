@@ -1,0 +1,17 @@
+# Precision, Recall, F-score
+
+As for the three supplementary measures, here are the equations:
+
+Precission:
+```
+P = C / (C + I + S)
+```
+
+Recall:
+```
+R = C / (C + D + S)
+```
+
+F-score:
+```
+F = 2 * PR / (P + R)# precission recall fscore

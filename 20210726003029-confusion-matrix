@@ -1,0 +1,33 @@
+# Confusion matrix
+
++NLP +machine_learning +deep_learning
+
+The confusion matrix is a table that visualizes the performance of a
+classification problem, be it done by an algorithm or humans.
+
+In simple terms, it can be illustrated with the example that follows.  Given a
+list of an actual, observed, empirically assigned labels and a list of expected
+predictions, it's easy to produce a confusion matrix.
+
+```
+N          = 10
+1          = cat
+0          = dog
+actual     = [1, 1, 1, 0, 0, 0, 1, 1, 1, 0]
+prediction = [0, 0, 1, 0, 0, 1, 1, 0, 0, 1]
+```
+
+Here is the confusion matrix saying that out of 10 observations, cats were
+correctly identified 2 times and misclassified 4 times, and dogs were correctly
+classified twice and wrongly so also two times. Correctly identified values
+are placed diagonally (in **bold**).
+
+1. Confusion Matrix Example
+===========================
+actual_class\predicted_class |   cat     |    dog
+-----------------------------+-----------+---------
+            cat              |  **2**    |     4
+-----------------------------+-----------+---------
+            dog              |    2      |   **2**
+
+

@@ -1,0 +1,8 @@
+# How to drop user or database in PostgreSQL?
+
++postgres +drop +database +sql +user
+
+Use the following commands to 1) drop a database, 2) drop a user:
+
+1) `DROP DATABASE testdb`
+2) `DROP USER IF EXISTS testuser`

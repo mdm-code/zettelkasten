@@ -1,0 +1,20 @@
+# How to capture STDERR and STDOUT (possibly STDIN?)
+
++python +stdin +stdout +stderr +contextlib
+
+There is no need to write a separate context manager in order to intercept FDx
+in Python.  The contextlib package now offers redirect_std{out,err,in} context
+manager.
+
+The most straightforward way to use it is to write something like this:
+
+```python
+import contextlib
+import sys
+
+with contextlib.redirect_stdout(sys.stderr):
+	# your code goes here
+```
+
+This will let you dodge the problem with annoying packages that have a tendency
+to write some INFO output to STDOUT, for instance.

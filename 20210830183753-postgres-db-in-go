@@ -1,0 +1,67 @@
+# How to use Postgres database in Go?
+
++Go +go +postgres +database +db
+
+
+## Package installation
+
+The first step to use Postgres in the Go programming language is to get the
+PostgreSQL Go driver package.
+
+```sh
+go get -u github.com/lib/pq
+```
+
+This is the most widely use PostgreSQL package in the Go world.
+
+
+## Using in code
+
+To use the drivers in code, you'd import them without any references to just
+register the drivers. Plus, you always import the standard library package
+`databases/sql` used to execute SQL statements. Here is snippet of how to do
+it:
+
+```go
+package main
+
+import (
+	"database/sql"
+	_ "github.com/lib/pq"
+)
+
+const (
+	host = "localhost"
+	user = "pguser"
+	pswd = "hello123"
+	dbnm = "test_db"
+	port = 8080
+)
+```
+
+
+## Establishing DB connection
+
+Here is how to open a new database connection in Go:
+
+```go
+package main
+
+import (
+	"database/sql"
+	"fmt"
+	_ "github.com/lib/pq"
+)
+
+sPgConn := fmt.Sprintf("port=%d host=%s user=%s password=%s dbname=%s sslmode=disable", port, user, pswd, dbnm)
+db, err := sql.Open("postgres", sPgConn)
+if err != nil {
+	log.Fatal("error raised")
+}
+defer db.Close()
+
+error = db.Ping()
+if err != nil {
+	log.Fatal(err)
+}
+```

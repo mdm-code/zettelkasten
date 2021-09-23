@@ -1,0 +1,15 @@
+# $CDPATH shell variable
++shell +posix +cd
+
+There is a better way than putting all kinds of nasty aliases for different
+commonly used directories like, e.g., `cdm` for `maths` or `cdg` for `.go` etc.
+
+Instead, you can export `$CDPATH` which works like `$PATH` for the `cd` command
+and searches it for catalogs that are on the $CDPATH.
+
+```sh
+export CDPATH='$HOME:$HOME/Documents'
+```
+
+This is an ok set up as long as you symlink all the catalogs you frequent to
+either your home or Documents catalog.

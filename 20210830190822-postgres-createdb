@@ -1,0 +1,7 @@
+# Use PostgreSQL createdb
+
++sql +postgres +postgresql +createdb +database
+
+The easiest way to create a new PostgreSQL database is through the `createdb`
+CLI command. You can specify the host, port and all the good stuff that you'd
+want.

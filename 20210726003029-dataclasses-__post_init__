@@ -1,0 +1,19 @@
+# __post_init__() on dataclasses.dataclass
+
++python +dataclasses +asdict +json
+
+You can define this method on a dataclass to collate/create an attribute
+that will be visible after the dataclass is instantiated.
+
+```python
+@dataclass
+class A:
+	a: str
+	b: str
+	c: str = field(init=False)
+
+	def __post_init__(self) -> None:
+		self.c = self.a + " " + self.b
+```
+
+This will make sure the attribute `.c` is grabbed by `dataclasses.asdict()`.

@@ -1,0 +1,15 @@
+# How to create an empty file from the command line prompt?
+
+One way to do it would be to type in the following thing
+
+```sh
+:> file
+```
+
+This is equal to `touch`.
+
+This is another possibility, but shellcheck warns about it.
+
+```sh
+> file
+```

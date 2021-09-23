@@ -1,0 +1,32 @@
+# How Unix fifo pipes work?
+
++unix +pipe +fifo
+
+Named pipes are files that exist on the file system, unlike unnamed pipes
+spawned with `|`. They're created with `mkfifo` command.
+
+The operation is pretty simple, but you need to make sure that there is
+the sender and receiver. Here a simple example.
+
+In the first terminal, let's type these lines and send the output of the
+`ls` command through the named pipe.
+
+```sh
+mkfifo mypipe
+ls -l ~ > mypipe
+```
+
+On the other terminal, we'd have to state that we await for the input to
+be piped.
+
+```sh
+cat < mypipe
+```
+
+One thing to note is that Unix pipes are much faster than files or socket.
+Even though they are a file on the file system, they're not written to disk
+as in the case of regular files. The system understands that the user wants
+to use pipes just for communication and that there is no need for its 
+contents to be saved.
+
+And that's pretty much about it.

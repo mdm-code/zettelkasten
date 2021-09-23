@@ -1,0 +1,12 @@
+# How to check if a command exists?
+
++posix +shell
+
+The POSIX way would be to use the following command:
+
+```sh
+command -v egrep
+```
+
+This will return the path or nothing depending on whether
+the command exists or not.

@@ -1,0 +1,69 @@
+# Use Go compiler with Vim :make and :cw or :copen commands
+
+For quick development, there is an easy hack that lets you grap errors from the
+compiler and feed them into the quickfix list in Vim. This is helpful to do
+some quick debugging when developing a program in Go.
+
+Since Go is compiled in the very much the same fashion as C++ or C or any
+language of this family of programming languages, it is straightforward to do
+this thing.
+
+The first thing to do is to set up the `makeprg` variable and pass a command
+you want to run to it. This can be done on the Vim's command prompt like this:
+
+```
+# To run:
+:set makeprg=go\ run\ %
+
+# To build:
+:set makeprg=go\ build\ %
+
+# Push it to the limits with linting and running:
+:set makeprg=golint\ %\ &&\ go\ run\ %
+```
+
+Otherwise, you might want to set thing variable locally for Go files in your
+.vimrc file like this, for instance:
+
+```
+autocmd FileType go setlocal makeprg=go \ run \ %
+```
+
+Now, what you want to do with this is to pass the output from the compiler to
+the quickfix list that can be invoked with either `:copen` or `:cw`, the latter
+popping up only when there are errors. So the simplest way would be to do the
+following:
+
+```
+:make | cw
+```
+
+The quickfix list can be navigated using the following commands, which can of
+course be bound to a Vim shortcut to make things easier.
+
+```
+:copen	-
+:cclose	:ccl
+:cnext	:cn
+:cprev	:cp
+:cfirst	-
+:clast	-
+:cc n
+:cdo
+```
+
+You can spaw the quickfix list using Vimgrep:
+
+```
+:vim[grep] foo %
+```
+
+`:cdo` is the coolest one that lets you perform some operation on all search
+hits, for instance:
+
+```
+:cdo s/foo/bar/ | update
+```
+
+The `update` will save the buffer after each update.
+

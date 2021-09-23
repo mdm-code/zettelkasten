@@ -1,0 +1,13 @@
+# How to turn off Go test caching?
+
++go +test +testing +db +database +cache
+
+This is most annoying whenever you want to see the output of a database query,
+for instance, or similar transactional actions. In order to make it go away,
+execute
+
+```sh
+go clean -testcache
+```
+
+If you're using `make`, add this line to your `Makefile`.

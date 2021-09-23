@@ -1,0 +1,26 @@
+# Posix shell conditional expressions
+
++shell +conditionals +test +posix
+
+This is used in `[ ]`, `if [ ]; then` and `test`. The first two
+values refer to strings and not files.
+
+Expression | Value | What does it do?
+    -z     | var   | if the length of string is zero.
+    -n     | var   | if the length of string is non-zero.
+    -b     | file  | if file exists and is a block special file.
+    -c     | file  | if file exists and is a character special file.
+    -d     | file  | if file exists and is a directory.
+    -e     | file  | if file exists.
+    -f     | file  | if file exists and is a regular file.
+    -g     | file  | if file exists and its set-group-id bit is set.
+    -h     | file  | if file exists and is a symbolic link.
+    -p     | file  | if file exists and is a named (FIFO) pipe.
+    -r     | file  | if file exists and is readable.
+    -s     | file  | if file exists and its size is greater than zero.
+    -t     | fd    | if file descriptor is open and refers to a terminal.
+    -u     | file  | if file exists and its set-user-id bit is set.
+    -w     | file  | if file exists and is writable.
+    -x     | file  | if file exists and is executable.
+    -L     | file  | if file exists and is a symbolic link.
+    -S     | file  | if file exists and is a socket.

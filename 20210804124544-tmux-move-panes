@@ -1,0 +1,6 @@
+# How to move panes in tmux?
+
++tmux +shell
+
+You can use the meta key plus `{` or `}` to shift the current pane with the one
+with the index -/+1.

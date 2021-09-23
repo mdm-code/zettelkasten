@@ -1,0 +1,14 @@
+# How to used `dd` to trim bytes from the start of the file
+
+There is an easy way to remove the first *n* bytes from the start of the file
+on Unix/Linux.
+
+To strip the first 16 bytes from the `dd-in.txt` file and write it to `dd-out.txt`
+file, use the following dd command syntax.
+
+```sh
+dd if=dd-in.txt of=dd-out.txt ibs=16 skip=1
+```
+
+This way, the first sixteen bytes are removed from the input file.
+

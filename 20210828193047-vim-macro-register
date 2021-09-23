@@ -1,0 +1,16 @@
+# How to use the Vim macro register?
+
++vim +macro +register +nvim
+
+/Users/michal/Documents/journal/zettel/20210828183001-vim-registers
+
+
+Vim register can be accessed with double quotes in normal mode or
+by keying in Ctrl-r in insert mode (and in command mode as well).
+
+Then you can type in the ID of the register, that is a-zA-Z0-9 or
+any of the special registers that you can look up in Vim help pages.
+
+To save something to a register, type in " followed by the register
+ID. Keep in mind that that there are read-only registers in Vim, e.g.,
+/, +, ; etc.

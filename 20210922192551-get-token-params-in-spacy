@@ -1,0 +1,36 @@
+# How to get all parameter of a word/token in Spacy?
+
++spacy +feat +token +nlp +morph
+
+To get all the interesting bits and pieces of word morphology, the lemma, the
+part of speech etc., you can access Token attributes/properties.
+
+Previously there was not `morph` attribute on Token, but now it gives you a
+complete list of features attributed to a particular word.
+
+Here is a code snippet on how to use it in Spacy.
+
+```python
+import spacy
+
+nlp = spacy.load("en_core_web_sm")
+
+doc = nlp("She sells sea shells at the sea shore.")
+
+for sent in doc.sents:
+	for word in sent:
+		print("""
+		sequence   = word.i
+		form       = word.text
+		lemma      = word.lemma_  # Without `_` gives you num. reference
+		pos        = word.pos_
+		tag        = word.tag_
+		head       = word.head.i  # Without `.i` it's will give you the Token
+		dep        = word.dep_
+		morph      = word.morph
+		whitespace = True if word.whitespace_ else False
+		""")
+```
+
+The authors made a really good job to simplify the recovery of word attributes.
+

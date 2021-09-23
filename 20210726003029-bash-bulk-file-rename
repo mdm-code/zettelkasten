@@ -1,0 +1,9 @@
+# Bulk file rename in Bash
+
+To rename multiple files using Bash, you can run the following command. It
+changes the file ending from `.txt` to `.html`. Read up some more on string
+manipulation in Bash and flex in front of your coleagues.
+
+```sh
+for f in *.txt; do mv "$f" "${f%.txt}.html"; done
+```

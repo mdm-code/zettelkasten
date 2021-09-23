@@ -1,0 +1,65 @@
+# What do Vim registers mean?
+
++vim +register +macro +neovim
+
+/Users/michal/Documents/journal/zettel/20210828193047-vim-macro-register
+/Users/michal/Documents/journal/zettel/20210829193920-vim-append-to-macro-register
+
+
+Vim registers are used as memory to store text. Most of the stuff is no news to
+me, and I'm not going to discuss it here is depth.
+
+There is the unnamed register `""`. When you yank or delete text without
+specifying a register, the deleted or yanked text goes here.
+
+
+## Letter registers
+
+Registers that a user can want to use most readily are the ones from a-z.
+Lower case registers are local to a given file. Capital letters are global
+to a given Vim session.
+
+
+## Numbered registers
+
+Next, registers from 0 to 9 are populated. The last deleted text goes into the
+0 register, the previously deleted one is in the register 1, the one before in
+the register 2 and so on. This way, Vim keeps track of last ten yanks or
+deletes.
+
+
+## Read-only registers
+
+There are four read-only registers in Vim: ". "% ": "#.
+1. ". stands for the last inserted text.
+2. "% register has the name of the current file name of corresponding to the
+   buffer.
+3. ": is the most recently used :ex command.
+
+HINT: You can use `@:` in the normal mode to execute the last command again.
+
+4. "# stores the name of the alternate file, the previously edited file.
+   This is the file that you can go to by using Ctrl-^.
+
+
+## The expression and search registers ("= & "/)
+
+This register is used to store the result of an Ex/Ed Vim expression. let's
+imagine you're in insert mode and then you press Ctrl-r followed by =. You
+will see a prompt that you can use to type in Ex command, e.g., 2+2 <CR>.
+Or it can be `system('ls')<CR>`.
+
+The search register ("/) is where the latest text that you searched for went.
+Given you typed `/and` in the normal mode. The "/ register will have `and`
+stored.
+
+
+## Clipboard register (+)
+
+"+ stands for the clipboard register -- it is used to store copied fragments
+of text. Anything copied to this register can be immediately executed. 
+
+
+## Black hole register (_)
+
+It functions like /dev/null in a sense once something's been put here.

@@ -1,0 +1,31 @@
+# python execute zip file
+
++python +zip +zipfile +__main__
+
+There is a rather hacky way to make Python code pretend it's a binary. The way
+to do this is to use `zipfile` Python package.
+
+Let's assume that we got the following directory structure:
+
+```
+/app/
+	__init__.py
+	__main__.py
+```
+
+All of the code goes into the __main__ file. It can be anything really.
+Possibly some really malicious piece of software. I can imagine it being weaved
+into some jpeg because why not.  I don't whether this would work.
+
+What would though is this:
+
+```sh
+python3 -m zipfile -c mybin.zip app/*.py
+touch mybin
+mybin < echo "#!/usr/bin/env python3"
+cat mybin.zip >> mybin
+chmod +x mybin
+./mybin
+```
+
+This gives you a wannabe binary that might trick a five-year-old.

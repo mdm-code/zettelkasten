@@ -1,0 +1,14 @@
+# Regex lookahead and lookbehind
+
+In order to wrangle the true power of regular expressions, one has to be able
+to use negative and positive lookaheads and lookbehinds.  This is necessary to
+capture groups of characters based on some condition.
+
+```re
+^\s*(import|from)\s*(?=.*$|.* as)(\S+ +?)*
+```
+
+This one means that you want to find all lines that start with some amount of
+whitespace followed by `import` or `from` then some whitespace and all words
+divided by spaces until the end of the line or the word `as`.
+

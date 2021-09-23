@@ -1,0 +1,12 @@
+# Statistics z-score
+
+/Users/michal/Documents/journal/zettel/20210813074446-calculating-standard-deviation
+
+
+Z-score tells you how many standard deviations a data-point is from the mean.
+
+So *Z* = (data-point - mean) / standard deviation.
+
+The positive value tells you that the point is above average.  The negative
+says it's below average. 0 means that it is close to average. If it is above 3
+or below -3 it might be considered really unusual.

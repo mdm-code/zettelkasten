@@ -1,0 +1,12 @@
+# How to use awk to split on tabs?
+
++awk +cli +terminal +unix
+
+This is fairly straighforward, but it took me some time to figure out what goes
+where.
+
+This command splits the echoed text on tab on prints out the first column.
+
+```sh
+echo "hello\tworld" | awk -F'\t' '{ print $1 }'
+```

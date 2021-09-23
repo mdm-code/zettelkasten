@@ -1,0 +1,12 @@
+# How to use PostgreSQL CLI - psql
+
++sql +postgresql +postgres +database +psql
+
+The best way to use PostgreSQL on a command line is through `psql`.
+Once its command promt is up and running, try typing \d+ to list
+information about databases, \du to look at existing users or \?
+to list out a long list of allowed psql commands.
+
+To create a new database, you might consider using this:
+
+/Users/michal/Documents/journal/zettel/20210830190822-postgres-createdb

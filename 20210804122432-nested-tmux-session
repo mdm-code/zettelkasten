@@ -1,0 +1,10 @@
+# How to nest tmux sessions?
+
++tmux +shell
+
+Tmux is going complain when you try to nest one tmux session in the other.  The
+way to go about it is to force unset $TMUX parameter. Here is the way to do it.
+
+```sh
+TMUX='' tmux
+```

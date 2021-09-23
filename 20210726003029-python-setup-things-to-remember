@@ -1,0 +1,70 @@
+# A list of things to remember when dealing with Python package setup
+
++python +setuptools +setup.py +git +distutils +Manifest.in
+
+There is whole swath of pitfallow when dealing with distributing Python
+packages. Here are just a couple of them that I came accross recently.
+
+
+## Non-*.py files missing after package is installed with `pip`
+
+This is explained in the next section.
+
+
+## The pitfalls of hardcoded file paths (in praise of relative paths)
+
+This is simple: do not even try to include hardcoded paths inside your code.
+You can either rely on environmental variables that are set upon the code
+execution: this is ok when you, for instance, spin up an API that's going to be
+running for a longer time. In case of CLI applications that are invoked
+manually, I would run in fear from this approach, becuase you'll need to state
+your ENV variables either explicitly or make some sort of a shell function, or
+an alias, which again I would not recomend (issues with aliases in the
+logging shell ect. in Vim, for example).
+
+The easy way out of it would be to append an evironmental variable in the
+`__init__.py` inside your Python package like this:
+
+```python
+import os
+
+os.environ["FILE_ENV_VAR"] = os.path.join(
+	os.path.dirname(__file__), "package/nested_package/your_file.yaml"
+)
+```
+
+This way you are safe whenever you're executing code from anywhere else than
+that local development directory. This is especially important for user
+installations, because you do not know what kind of directory layout they have
+etc.
+
+
+## What's Manifest.in for?
+
+This little thingy is used to declare what kind of files and directories are to
+be copied to the Python package upon installation with `setup.py`. By default,
+only packages with *.py files will be copied. In case there are files---could
+be any kind of a *.schema files, like in my case when I needed it for a JSON
+validator decorator in the code---make sure to include them in the
+`Manifest.in` file.
+
+In order to do it---assuming files are in some kind of directory inside your
+Python package---you might want to add a line like this:
+
+```
+recursive-include package/non-py-files *
+```
+
+This will make sure that all non-*.py files under this directory will be
+included with the package installation.
+
+Another thing you'll need to do would be to pass the following parameter to the
+`setuptools.setup()` function:
+
+```python
+setup(
+	...,
+	include_package_data=True,
+	...
+)
+```

@@ -1,0 +1,24 @@
+## Slot Error Rate (SER)
+
+The first main metric is very similar to *F-score* in the sense that it does
+not take into account correctly predicted non-punctuation boundaries, but
+unlike F-score, it treats Deletion (D), Insertion (I) and Substitution (S)
+equally i.e. it does not downweight D and I with respect to S. F-score
+downweights S and I by a factor of two compared to S. Lastly, C stands for
+correctly assigned (or agreed) punctuation marks.
+
+Here is the equation:
+
+```
+SER = (D + I + S) / (C + D + S) * 100%
+```
+
+
+### CDIS (Correction, Deletion, Insertion, Substitution)
+
+Here is an example of how to do it with punctuation:
+
+* Alignment is counted as C (Corr) when A == B i.e. there is `,` both in A and B
+* Alignment is counted as D (Del) when A != B and there is `,` in A but `[empty]` in B
+* Alignment is counted as I (Ins) when A != B and there is `[empty]` in A but `,` in B
+* Alignment is counted as S (Sub) when A != B and there is `.` in A but `,` in B

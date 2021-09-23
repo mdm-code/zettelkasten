@@ -1,0 +1,12 @@
+# How to reset a remote repository to point to your current commit?
+
+This is fairly straightforward. Would you do is you detach your HEAD from the
+top and go back to the commit you want to revert to. This can be achieved with
+`~ | ^` git checkout or reset commands.
+
+Afterwards, the only thing you'll need to do would be to push the change up the
+stream.  Here is the command you can use:
+
+```sh
+git push origin --force origin main
+```

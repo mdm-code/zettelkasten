@@ -1,0 +1,110 @@
+# When and how to use generics in Python type hints?
+
+Generics allow you to maintain the relation between a function argument and its
+return type, for instance.
+
+Since Python relies on duck typing, generics do not bring anything to the table
+in terms of making strongly typed languages more flexible---whether one likes
+it or not. The use of generics in type hints does however improve readability
+and adds to the informativeness of the code base.
+
+Here is a trivial example of how to use it in Python:
+
+```python
+from typing import TypeVar
+
+T = TypeVar("T")
+
+def last(container: list[T]) -> T:
+	return container[-1]
+
+print(last([1, 2, 3]))
+```
+
+Mind you, you cannot simply return a matching type. It has to come from the
+container for mypy not to trouble you with errors.
+
+You can test your code base with `mypy`:
+
+```sh
+mypy program/
+```
+
+You would normally use `typing.Any` to indicate that there are no strict rules
+as to what can be passed in and returned from a function. However, it's rather
+omnious what this `Any` means. What is the relationship between the argument
+and the type of the returned value.
+
+Here is another example with `dict` this time:
+
+```python
+from typing import TypeVar
+
+K = TypeVar("K")
+V = TypeVar("V")
+
+def give_first(container: dict[K, V]) -> V:
+	return list(container.values())[0]
+
+d = {"foo": "bar"}
+
+print(give_first(d))
+```
+
+The next thing is that you can limit the scope of the generic type. And here
+is how to do it.
+
+This `T` will accept only types of `int` and `str`
+
+```python
+T = TypeVar("T", int, str)
+```
+
+While this one has an upper bound set, which means that only the bound or
+its subtypes are accepted; for example, `bool`.
+
+```python
+T = TypeVar("T", bound=int)
+```
+
+Here is an example of how to use generics with classes (notice the type passed
+at the moment of instatiation!). The magic happens when you extend the
+`Generic` class. Then you define the type corresponding to `T` that will limit
+what can be stored in the `Registry` class.
+
+```python
+#!/usr/bin/env python3
+
+# Standard library imports
+from typing import Generic, TypeVar
+
+
+T = TypeVar("T")
+
+
+class Registry(Generic[T]):
+    def __init__(self) -> None:
+        self._store: dict[str, T] = {}
+
+    def __str__(self) -> str:
+        return self._store.__str__()
+
+    def set_item(self, k: str, v: T) -> None:
+        self._store[k] = v
+
+    def get_item(self, k: str) -> T:
+        return self._store[k]
+
+
+def main() -> None:
+    reg_str = Registry[str]()
+    reg_int = Registry[int]()
+
+    reg_str.set_item("mom", "Anna")
+    reg_int.set_item("dad", 50)
+    print(reg_str, reg_int)
+
+
+if __name__ == "__main__":
+    main()
+```

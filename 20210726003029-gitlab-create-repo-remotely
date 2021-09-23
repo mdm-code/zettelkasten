@@ -1,0 +1,9 @@
+# How to create a repo on the command line?
+
+Use the following command
+
+```sh
+git push --set-upstream git@gitlab.com:USER/REPO.git main
+```
+
+It will push the current branch as master to the remote repository.

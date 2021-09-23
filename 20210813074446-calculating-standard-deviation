@@ -1,0 +1,30 @@
+# Calculating standard deviation (by hand)
+
+/Users/michal/Documents/journal/zettel/20210812151925-statistics-z-score
+
+
+The process is fairly straighforward. Here are the steps to take:
+
+1. Get the mean of the dataset
+2. Calculate the sum of squared distances of each data point from the mean
+3. Divide the sum by the number of elements
+4. Get the square root of this number
+5. Finitio - that's your STDEV
+
+Let's take a set of five data points:
+
+1, 4, 7, 2, 6
+
+Number of elements: 5
+Mean: 4
+
+```python
+from math import sqrt
+elems = [1, 4, 7, 2, 6]
+mean = 4
+sum = sum([(e - mean)**2 for e in elems])
+stdev = sqrt(sum / len(elems))
+print(f"STDEV = {stdev}")
+```
+
+The standard deviation equals 2.28 rounded to the houndredth.

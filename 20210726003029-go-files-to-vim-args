@@ -1,0 +1,12 @@
+# Adding all files recursively to Vim args
+
+Every now and then you might want to be able to search all your files in a
+directory or a directory tree. To do that in Vim, you have to have those files
+open as arguments. They can be accessed by typing in `:args` in Vim.
+
+```
+:args yourProjectName/**/*.go
+```
+
+This little guy will grab all files with `.go` extension and add them to
+`:args` so that they can be search through.

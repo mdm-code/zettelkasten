@@ -1,0 +1,11 @@
+# Cohens Kappa in Scikitlearn
+
++statistics +metrics +python
+
+The measure is used to establish the level of agreement between two annotators.
+It is defined as `K = (P_o - P_e) / (1 - P_e)` where P_o stands for the
+observed empirical probability of agreement on the label assigned to any sample
+and P_e is the expected agreement when both annotators assign labels randomly.
+
+The measure is offered in Sci-kit Learn package for Python.
+
