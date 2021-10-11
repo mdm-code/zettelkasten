@@ -1,0 +1,21 @@
+# How and why to use Git worktree?
+
++git +linux +cli +worktree
+
+/Users/michal/Documents/journal/zettel/20211011184918-git-bare-repository
+
+I like to use git worktree because it lets me keep a number of commits checked
+out in different catalogs. I sometimes work on multiple versions of a program
+at the same time, and I want to run tests, builds and whatnot without having to
+configure the setup each time I clone a fresh repo at some directory.
+
+Git worktree lets me keep track of all branches that are checked out with the
+`git worktree list` command. Others are `add` and `remove`. The merges work in
+the same fashion as in regular branching model, so no worries here.
+
+You can check out a branch wherever you like on your file system. You're not
+restricted by a single root directory.
+
+Git worktree works great when you need to create a disposable copy of code to
+run some tests or builds and then get rid of the code so that it does not
+clutter your workspace.

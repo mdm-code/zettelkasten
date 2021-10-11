@@ -1,0 +1,27 @@
+# Why to use git bare repositories?
+
++git +bare +linux +cli
+
+/Users/michal/Documents/journal/zettel/20211011184348-git-worktree
+
+Instead of using remote services to keep your data safe, you might consider
+using an external drive to store your repositories proper. Another case is when
+you use a shared drive to work on some portion of code with your coworkers
+without services such as Gitlab or Github or Bitbucket.
+
+Here is how to create a bare repository on your machine from the typical one.
+
+```sh
+git clone --bare your/fancy/repo
+```
+
+Here is how to create bare repo from non-bare one:
+
+```sh
+mv repo/.git repo_bare
+rm repo
+git clone repo_bare repo
+```
+
+This is great and lets you work with a standard Git workflow without having to
+accessing remote services.
