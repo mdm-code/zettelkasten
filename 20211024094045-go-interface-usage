@@ -1,0 +1,183 @@
+# How to use interface types in Go?
+
++go +interface +pointer +receiver
+
+
+IMPORTANT: Remember that passing a nil pointer to an interface will not render
+the interface nil. The interface will have a dynamic type, and its dynamic
+value will be the nil pointer. Upon acting on it, the program will panic.
+
+IMPORTANT: A good way to decouple packages is to use an interface for a single
+concrete type is when that type has to live in other package owing to its
+dependencies.
+
+
+Interfaces are behavioural types. In other words, you're not interested in what
+the interface value **is**, you rather know what you can **do** with it.
+
+This is how you define an interface and fullfil its behavioural requirements.
+
+```go
+type Greeter interface {
+	Greet() string
+}
+
+type Receptionist struct {
+	name, surname string
+}
+
+func (r Receptionist) Greet() string {
+	return fmt.Sprintf("Hello, my name is %s %s.", r.name, r.surname)
+}
+```
+
+It is important to remember that pointer methods cannot be called on things that
+cannot be referenced like literals, unaddressable objects etc. This is prohibited:
+
+```go
+type Car struct {}
+
+func (*Car) horn() {
+	fmt.Sprintf("Beep!")
+}
+
+func main() {
+	// this is not allowed
+	fmt.Println(Car{}.horn())
+
+	// this is ok
+	var c Car
+	fmt.Println(c.horn())
+	fmt.Println((&Car{}).horn())
+}
+```
+
+Interface types are strict, and they require a given concrete type to implement
+a given behaviour explicitly meaning that you *cannot* pass T type when some
+functions required by the interface take *T.
+
+If you implement an interface with pointer receiver methods, you cannot pass it 
+by value just like that, because the compiler would not let you to.
+
+
+## Interface values
+
+Interfaces are valueless by themselves, but they keep dynamic type and dynamic
+value. However, a variable has to have a concrete value at the initialization
+stage.
+
+Here is what happens in the code below:
+
+1. We define a Writer interface, which by default has its dynamic type and
+value set to `nil`.
+2. Then we declare an 'empty', `nil` variable that has no concrete value set.
+3. We do a `nil` check and it turns out that the interface is not nil even
+though it does not have any particular value other than a dynamic type of
+*os.File.
+
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+type Writer interface {
+	Write([]byte) (int, error)
+}
+
+func main() {
+	var w Writer
+	var s *os.File
+	w = s
+
+	// The interface is NOT nil becuase it has a type
+	// The concrete value is set to nil.
+	// os.Stdout would have a pointer concrete value.
+	if w != nil {
+		fmt.Printf("(%T, %v)\n", w, w)
+	}
+
+	// This is the same story. But this time around the
+	// pointer serves as the concrete value.
+	p := new(bytes.Buffer)
+	if w != nil {
+		fmt.Printf("(%T, %v)\n", w, w)
+	}
+
+	w = nil  // This resets the interface to its original nil state.
+}
+```
+
+
+## Interface type checking
+
+This can be achieved with type assertion:
+
+```go
+var w io.Writer = os.Stdout
+f, ok := w.(*os.File)
+
+// or
+if f, ok := w.(*os.File); !ok {
+	// fail gracefully
+}
+```
+
+The other option is to use type switch:
+
+```go
+\\ Use x.(type) without a new variable as well,
+\\ but you'd need it to invoke the newly casted
+\\ type behaviour.
+
+switch x := x.(type) {
+	case nil:
+	case bool:
+	case int, uint:
+	...
+	default:
+}
+```
+
+
+## Interface juggling
+
+There is an interesting case when you want to do an interface check without a
+standard interface. Rather you'd write out an interface in a limited scope, a
+function, for example. Then you'd a type check and call it if it exists.
+
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+type Writer interface {
+	Write()
+}
+
+type File struct {
+	name string
+}
+
+func (File) Write() {}
+
+func (File) Hi() { fmt.Println("Hello") }
+
+func main() {
+	type Helloer interface {
+		Hi()
+	}
+
+	var w Writer
+	w = File{"file"}
+	// It says hi even though the Writer has no such behaviour.
+	if h, ok := w.(Helloer); ok {
+		h.Hi()
+	}
+}
+```
