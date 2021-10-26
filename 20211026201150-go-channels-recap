@@ -1,0 +1,86 @@
+# Go channels recap
+
++go +goroutine +channels
+
+
+This is a brief recap of how to use channels in the Go programming languge. It
+is based mainly on a blog post by William Kennedy from Ardan labs
+
+====================================================================
+https://www.ardanlabs.com/blog/2017/10/the-behavior-of-channels.html
+====================================================================
+
+IMPORTANT: Remeber about TWO things when it comes to channels in Go:
+
+	1) You can range over channel to receive signals
+	```go
+	for p := range c {
+		...
+	}
+	```
+	2) You can select from multiple channels and set default.
+	   This is particularly with context.* package to check when e.g. timeout
+	   is reached.
+	```go
+	select {
+		case p := <-ch:
+			fmt.Println(p)
+		default:
+			fmt.Println("dropped")
+	}
+	```
+
+First of all, **CHANNELS IN GO ARE ABOUT SIGNALING**. You push signals over
+channels with or without data.
+
+Second thing, there are three things to understand about Go:
+
+	1) Guarantee of delivery
+	2) State
+	3) With or without data
+
+
+AD 1. Is the guarantee of delivery needed?
+
+Unbuffered channels guarantee delivery i.e. the value is received before it is
+Bent. The drawback is the latency might be a bit higher.
+
+Buffered channels of size > 1 offer no guarantee that signal will be received
+because the send happens before the receive on the other end. You get the bonus
+of reduced latency.
+
+Buffered channels of size 1 have a delayed guarantee of delivery. Receive of
+the first signal happens before the send of the second signal.
+
+
+AD 2. The state can be either of
+	
+	- opened (you can send and receive)
+
+	```go
+	c := make(chan struct{})
+	```
+
+	- closed (you can only receive, send will PANIC)
+
+	```go
+	done := close(c)
+	```
+
+	- nil (all operations will block; DEADLOCK!)
+
+	```go
+	var c chan struct{}
+	```
+
+
+AD 3. You signal *with* data by making a SEND over a channel and *without* data
+	  by CLOSING a channel.
+
+You signal with data to start a new task or report the result back.
+
+You signal without data to make goroutines stop, report back they're done
+without result, or goroutine reports that it's done processing and shuts down.
+
+IMPORTANT: Signaling without data can broadcast send the message to multiple
+recipients at once.
