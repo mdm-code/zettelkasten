@@ -1,0 +1,55 @@
+# python type hints
+
++python +types +hints +mypy
+
+/Users/michal/Documents/journal/zettel/20210923201619-python-type-hints-generics
+
+
+There are two things you might want to do when using type hints in Python base
+code.
+
+One is to make sure that you can use forward type references without writing
+them out like strings like this:
+
+```python
+# This is not what we want:
+class A:
+	def a(self) -> "A":
+		return self
+
+# Instead this is ok:
+class A:
+	def a(self) -> A:
+		return self
+```
+
+This can be achieved by importing `annotations` from the `__future__` module.
+This will implicitly convert all type hints to strings.
+
+```python
+from __future__ import annotations
+```
+
+This way you do not have to worry about errors in your code base. It is also
+going to give you some performance boost because by implicitly changing all
+type hints to strings, they won't be evaluated.
+
+The other thing you might want to do is to restrict imports from other modules
+and packages in order not to forcefully couple your modules because of type
+hints.
+
+You want to check whether a module is run in type-checking mode and import
+dependencies for type hints only in this scenario.
+
+You can do it like this:
+
+```python
+import typing
+
+if typing.TYPE_CHECKING:
+	from .a import A
+```
+
+The import from `.a` will not be evalued when executing the code normally. The
+boolean in `if` statement will evaluate to `True` only when you run a type
+checker.
