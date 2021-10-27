@@ -1,0 +1,74 @@
+# Python 3.10 new features
+
++python +types +hints +context +match
+
+
+/Users/michal/Documents/journal/zettel/20211026124100-python-type-hints
+/Users/michal/Documents/journal/zettel/20210923201619-python-type-hints-generics
+/Users/michal/Documents/journal/zettel/20210726003029-dataclasses-__post_init__
+
+
+There is the new parenthesized syntax for context managers:
+
+```python
+from contextlib import nullcontext as do_nothing
+
+with (
+    do_nothing() as example1,
+    do_nothing() as example2,
+):
+	print(example1, example2)
+```
+
+Pretty cool, huh?
+
+
+The next thing is the structural pattern matching:
+
+```python
+x = 111
+
+match x:
+	case 1 | 2 | 3:
+		print("X is between 1-3")
+	case _ as X:
+		print(f"{X} is not matched")
+```
+
+Mind the default case indicated with `_` and alternatives with `|`. `_` is also
+used as a wildcard to indicate any value in a complex type.
+
+Subpatterns can be captured with AS keyword.
+
+
+There are not key-word only fields in the dataclass decorator, dataclass.field,
+or you can import KW_ONLY from dataclasses.
+
+```python
+from dataclasses import dataclass, KW_ONLY
+
+@dataclass
+class Point:
+    x: float
+    y: float
+    _: KW_ONLY
+    z: float = 0.0
+    t: float = 0.0
+
+p = Point(1.0, 2.0, z=3.0, t=4.0)
+print(p)
+```
+
+
+And there is the long-awaited typing.Union and typing.Optional syntactic pattern.
+
+```python
+import typing
+
+print(typing.Union[int, str] == int | str)
+print(typing.Optional[int] == int | None)
+```
+
+
+There are also better error messages and lots of other features, but the ones
+mentioned above are the most immediately relevant ones.
