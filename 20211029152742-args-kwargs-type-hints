@@ -1,0 +1,30 @@
+# How to add type hints to *args **kwargs in Python?
+
++python +type +hints +args +kwargs
+
+
+/Users/michal/Documents/journal/zettel/20211026124100-python-type-hints
+/Users/michal/Documents/journal/zettel/20210923201619-python-type-hints-generics
+
+
+The loose nature of optional arguments and keyword arguments makes it tricky to
+figure out how one should add type hints to function signatures.
+
+You cannot give the full type because it would cause mypy to give you an
+incompatibile type error.
+
+NOT OK:
+
+```python
+def f(*args: tuple[str, ...], **kwargs: dict[str, int]) -> None: pass
+```
+
+PEP 484 says that:
+
+Arbitrary argument list can as well be type annotated so that the definition
+
+```python
+def f(*args: str, **kwargs: str): ...
+```
+
+is ok and passes type check with mypy.
