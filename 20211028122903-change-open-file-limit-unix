@@ -1,0 +1,17 @@
+# change open file limit unix
+
++unix +file +limit +ulimit
+
+There might be the case that you run into a maxed opened file limit on unix
+system.
+
+To change the upper bound, run the following command:
+```sh
+ulimit -n 200000
+ulimit -u 2048
+```
+
+The first one is global, the latter for the user.
+
+These will reset with every new session, so you might want to put them in your
+.rc file for shell.
