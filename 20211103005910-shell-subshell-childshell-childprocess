@@ -1,0 +1,36 @@
+# Shell subshell childshell childprocess
+
+
++shell +sh +subshell +childshell +childprocess
+
+
+/Users/michal/Documents/journal/zettel/20211103004028-favour-onliner-scripts-over-aliases-or-functions
+
+
+A subshell is a duplicate of the parent shell environment: it has all the
+aliases, functions, variables, opened files etc. If you make a change to
+subshell, it is not reflected in the parent shell. Subshells may be implemented
+by forking the current process and creating child shell process. The exact
+implementation is not however forced by POSIX.
+
+While a subshell can access variable values:
+
+```sh
+x="foo"; (echo "$x")
+```
+
+	( Try to pipe it to `zsh` or `bash` with !!. )
+
+A child shell won't be able to do the same:
+
+```sh
+x="bar"; sh -c 'echo "$x"'
+```
+
+Nothing gets printed, unless... you export it. Unexported variables will not be
+inherited by child processes. The child shell get reset to your default
+configuration. Not the bare configuration -- your personal setup.
+
+```sh
+export y="baz"; sh -c 'echo "$y"'
+```
