@@ -1,0 +1,37 @@
+# Favour one-liner scripts over aliases or functions
+
+
++sh +shell +subshell +childshell +posix +export +function +alias
+
+
+/Users/michal/Documents/journal/zettel/20211103005910-shell-subshell-childshell-childprocess
+
+
+Any alias defined in your shell's dotfiles will not be adopted by child
+processes. You won't be able to call it using Vim `!!` in normal mode or in any
+subshell in general.
+
+```sh
+alias ll="ls -lahiG"
+```
+
+Any function defined like this, whether exported or not, will not be inherited
+by child process, and you won't be able to call it in subshells.
+
+```sh
+ll() {
+	ls -lahiG
+} && export -f ll
+```
+
+You won't be able to tell what stroke you if you try to call an alias or a
+function in a program, for instance, written in Python. This is going to fail
+miserabely unless you define an executable one-liner script available on path.
+
+```python3
+import subprocess
+
+subprocess.call(["ll"])
+```
+
+The same is true for JS, Perl, Go and the like.
