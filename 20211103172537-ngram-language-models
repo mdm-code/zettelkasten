@@ -1,0 +1,136 @@
+# Working with n-gram language models
+
++lm +ngram +probability +speech +recognition
+
+
+N-gram Language Models assign probability to each possible next word. A model
+like this can very well assign probability to any kind of non-unique element of
+a collection, e.g., a sentence, token ID and the like. It does not necessarely
+have to be words.
+
+Languge models, or LMs for short, are specifically models that operate on
+probability.
+
+I know what an n-gram is by heart so I am not going to elaborate on it. There
+are unigrams, bigrams, trigrams, but also 4-grams, 5-grams etc. English and
+Polish works best with trigrams. 4-grams are computationally more expensive and
+bigrams store too little context.
+
+For my usage personally, language models are useful in speech recognition to
+arrive at the most probable sequence of tokens given a number of possible
+concretions.
+
+
+## Probabilities
+
+Having the Markov assumption in the back of our head, let's write tthis
+equation for bigram approximation:
+
+```latex
+P(w_{1:n})\approx\sum^{n}_{k=1}P(w_{k}|w_{k-1})
+```
+
+This is further generalization:
+
+```latex
+P(w_{n}|w_{n-1})=\frac{C(w_{n-1}w_{n})}{C(w_{n-1})}
+```
+
+This is maximum likelihood estimation or MLE for short. As a matter of fact, we
+use relative frequency as MLE.
+
+It assumes that the probability of a sequence of two words equals the raw count
+of these two words together divided by the raw count of the preceding word
+followed by any other word, or the raw count of the precding word for short
+(since any word may follow).
+
+The probability of a whole sentence is the result of the multiplication of
+probabilities when working with raw count.
+
+**We always operate on log probabilities to avoid exceedingly small product,
+which would eventually appear given enough consecutive multiplications.
+
+**In case of log space, the equivalent of multiplication in linear space is
+adding in log space.
+
+At the end, when we need to report the probability we take the exponent of log
+probabilities.
+
+```
+p1 + p2+ p3 + p4 == exp(log p1 + log p2 + log p3 + log p4)
+```
+
+
+# Evaluation of the model
+
+
+## Code sample
+#
+Here is the code thus far:
+```python3
+# Standard library imports
+from collections import defaultdict
+from functools import reduce
+from math import log, exp
+
+
+corpus = """<s> I am Sam </s>
+<s> Sam I am </s>
+<s> I do not like green eggs and ham </s>
+"""
+
+sentences = [s.split() for s in corpus.split("\n")]
+
+tokens = defaultdict(int)
+
+for s in sentences:
+    for w in s:
+        tokens[w] += 1
+
+
+def collate_ngrams(corpus, n=3):
+    ngrams = []
+    for s in corpus.split("\n"):
+        words = [w for w in s.split() if w != ""]
+        ngrams.extend(zip(*[words[n:] for n in range(n)]))
+    return [" ".join(n) for n in ngrams]
+
+
+bigrams = defaultdict(int)
+
+for b in collate_ngrams(corpus, n=2):
+    bigrams[b] += 1
+
+
+# calculate probability P( am | I )
+for b in bigrams.keys():
+    h, w = b.split(" ")
+    print(
+        f"P({w}|{h})",
+        bigrams[b] / tokens[b.split()[0]],
+    )
+
+
+# Let's calculate the probability of a whole sentence
+# using this approach.
+exmpl = [w for w in "<s> I am Sam </s>".split() if w]
+
+bgrms = zip(*[exmpl[n:] for n in range(2)])
+bgrms = [" ".join(n) for n in bgrms]
+
+probs = []
+for b in bgrms:
+    # We want to take logs of probabilities
+    probs.append(
+        log(bigrams[b] / tokens[b.split()[0]])
+    )
+
+log_prob = reduce(lambda x, y: x + y, probs)
+raw_prob = exp(log_prob)  # take the exponent to get the raw count back
+print(" ".join(exmpl), log_prob, raw_prob)
+print(" ".join(
+    ["P({}|{}) = {}".format(
+        *b.split()[::-1], round(bigrams[b] / tokens[b.split()[0]], 2)
+    ) for b in bgrms])
+)
+```
