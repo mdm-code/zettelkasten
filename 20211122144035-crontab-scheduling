@@ -1,0 +1,25 @@
+# How to schedule a job in crontab?
+
++cron +crontab +schedule +job
+
+In order to schedule a job in cron on Linux, one can edit the user file by
+typing in the following command:
+
+```sh
+crontab -e
+```
+
+This will create a new file, if it does not exist.
+
+In order to execute some SQL script every hour, user might want to append the
+following line to the file:
+
+```
+0 * * * * psql -U postgres -d mydb < myscript.sql
+```
+
+To remove an existing file:
+
+```sh
+crontab -r
+```
