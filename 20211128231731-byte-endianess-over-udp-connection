@@ -1,0 +1,23 @@
+# Endianess over udp connection
+
++udp +endianness +endian +socket
+
+Data is sent and received over UDP in the exact same byte order given to the
+socket. Arrays of bytes are not reordered with the diagram.
+
+X86 architecture always uses little-endian to start with, so there is much to
+trouble yourself with, and you often have control over both ends, so you just
+use one or the other.
+
+Either way, if you really need to handle endianess in your program, you have to
+go through each field in the data structure and swap the bytes individually for
+each field:
+
+- single bytes are left as they are
+- short (16-bit) values have their two bytes swapped
+- int (32-bit) values have their sequence reversed
+- long (64-bit) values also are reversed
+
+Some data structures are not affected by endianness at all, for example
+UTF-8-encoded text. Others are defined as complex data structures and have
+fields of varying size.
