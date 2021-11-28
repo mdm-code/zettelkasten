@@ -1,0 +1,11 @@
+# remeber to switch go version in goroot
+
++go +version +golang
+
+This is a personal reminder --- In case there are some problems with
+non-existent packages in the standard library, it might be the case that the
+version of Go is dated.
+
+What I need to do is to switch the link `current` to the correct Go version.
+Or, in case a newer version is required, install it with `go/go.sh` from my
+dotfiles.
