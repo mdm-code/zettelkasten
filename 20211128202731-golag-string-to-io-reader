@@ -1,0 +1,40 @@
+# How to turn a string into an io.reader in Go? 
+
++go +golang +io +reader +string
+
+There are times when you're expected to pass an io.reader object to a function, 
+but the only thing you got is a string.
+
+Here is how to turn a string into an io.reader object:
+
+```go
+package main
+
+import (
+	"fmt"
+	"io"
+	"strings"
+)
+
+func main() {
+	str := "Hello\nworld!"
+	reader := strings.NewReader(str)
+
+	fmt.Printf("%T", reader)
+
+	buffer := make([]byte, 10)
+	for {
+		count, err := reader.read(buffer)
+		if err != nil {
+			if err != io.EOF {
+				fmt.Println(err)
+			}
+		}
+	}
+	break
+	fmt.Printf("Count: %v\n", count)
+	fmt.Printf("Data: %v\n", string(buffer))
+}
+```
+
+The reader is available from the 'strings' package.
