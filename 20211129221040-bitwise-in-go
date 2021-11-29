@@ -1,0 +1,61 @@
+# Bitwise in the Go programming language
+
++go +bitwise +binary +decimal +conversion
+
+The easy way to convert decimal to binary is to start diving a given number by two
+and taking the modulo until 0 is reached.
+
+```
+128 % 2 = 0
+64  % 2 = 0
+32  % 2 = 0
+16  % 2 = 0
+8   % 2 = 0
+4   % 2 = 0
+2   % 2 = 0
+1   % 2 = 1
+
+128_10 == 10000000_2
+```
+
+And then bitwise operators take the binary bitwise, or bit by bit, and are equal to
+logical AND, OR, XOR. Plus, there are left and right byte shifts.
+
+
+AND ( & ) -- only when both bits are 1
+
+0000 1111
+	&
+0010 1100
+	= 
+0000 1100
+
+
+OR ( | ) -- when one or both bits are 1
+
+0000 1111
+	|
+1011 0011
+	=
+1011 1111
+
+
+XOR ( ^ ) -- `EXCLUSIVE OR` when only one of two bits is 1
+
+0010 0011
+	^
+0111 0110
+	=
+0101 0101
+
+
+left shift ( << ) -- shift number to the left
+
+10_2 == 2_10
+2 << 4 == 100000_2 == 32_10
+
+
+right shift ( >> ) -- shift number to the right
+
+128_10 == 10000000_2
+128 >> 2 == 100000_2 == 32_10
