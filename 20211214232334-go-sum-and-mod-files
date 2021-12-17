@@ -1,0 +1,25 @@
+# What's about go.sum and go.mod files
+
++go +mod +sum +go.mod +go.sum +dev
+
+In Go, a module is a set of related packages with `go.mod` at its root.
+It defines
+
+	- Module import path,
+	- The version of the Go programming language,
+	- Dependency requirements with their versions necessary for a successful build.
+
+There are two types of dependencies: Direct and Indirect. Direct means that a
+module directly imports it. Indirect covers all those dependencies that are
+imported by Direct dependencies but are not imported by any of the source files
+in the module itself.
+
+`go.sum` is a checksum file that takes the responsibility of validating whether
+dependencies have been updated in some way.
+
+`go.mod` will, in most cases, list only Direct dependecies. Though it might
+contain Indirect dependencies as well, but only if an Indirect dependency is
+not listed in the `go.mod` file of the imported Direct dependency or if the
+direct dependency does not have the `go.mod` file. It'll be added with `//
+indirect` comment at the end of the line. All dependencies with `// indirect`
+comment are added to `go.sum` file as well.
