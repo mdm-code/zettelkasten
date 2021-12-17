@@ -1,0 +1,23 @@
+# Go programming language os environmental variables
+
++go +environ +env +variable
+
+There are a few functions in the `os` package that let you
+handle environmental variables in Go.
+
+```go
+os.Setenv(key,value) \\ Set the environmental variable
+
+os.Unsetenv(key) \\ Unset or delete the environmental variable
+
+val, ok := os.LookupEnv(key) \\ Get variable with ok boolean value
+
+os.Getenv(key) \\ this gets the variable; if it's not present, it returns
+			   \\ an empty value
+
+for _, env := range os.Environ() {
+	...
+} \\ List out all set environmental variables
+
+os.Clearenv() \\ delete all environmental variables (DO NOT DO THIS!)
+```
