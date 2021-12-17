@@ -1,0 +1,14 @@
+# How to open a port on Ubuntu?
+
++linux +port +ufw
+
+There is a firewall on Ubuntu called `ufw` that takes care of rules for ports
+and connections. It replaces the old `iptables` firewall.
+
+A port can be directly opened using `ufw`:
+
+```sh
+sudo ufw allow 4000
+```
+
+That's about it.
