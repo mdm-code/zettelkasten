@@ -1,0 +1,49 @@
+# How to handle particular errors in Go?
+
+Aside from using the standard idiom:
+
+```go
+if err != nil {
+	return err
+}
+```
+
+There is a way to figure out what kind of error is returned. This
+is handles by `errors.Is()` and `errors.As()` functions.
+
+Let's see how to use `.Is()`, which examines the error object.
+
+```go
+package main
+
+import (
+	"errors"
+	"fmt"
+)
+
+var ErrWrongCharacter = errors.New("bad character")
+
+func main() {
+	f := func() error {
+		return ErrWrongCharacter
+	}
+
+	if errors.As(f(), ErrWrongCharacter) {
+		fmt.Println(f())
+	}
+}
+```
+
+With `.As()` the situation is a little bit different. It checks if any error in
+the chain of wrapped objects matches the specified type instead of looking at
+just the most immediate object type. As needs an interface type:
+
+	```
+	target argument of the As(err error, target interface{}) bool function
+	should be a pointer to the error type, which in this case is *ErrWrongCharacter
+	```
+
+	```go
+	...
+	if errors.As(err, &badInputErr) { ... )
+	```
