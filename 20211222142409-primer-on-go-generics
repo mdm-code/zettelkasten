@@ -1,0 +1,125 @@
+# Go generics -- simple example
+
+
++go +generics +type +interface +type
+
+
+https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md
+
+
+This is a simple example of a function using Go generics for typing:
+
+```go
+package main
+
+import "fmt"
+
+type Number interface {
+	int | int64 | float64
+}
+
+func main() {
+	fmt.Println(add(10, 22))
+	fmt.Printf("%.2f", add(0.1, 1.1))
+}
+
+func add[V Number](x, y V) V {
+	return x + y
+}
+```
+
+Here we see that `interface` is used to declare what types are allowed to be
+passed to the function. The contract is specified in squared brackets and then
+in the function argument part of the function signature, and finally in the
+returned value.
+
+
+## Highlights
+
+By and large, here is the overview of most important features:
+
+	- Functions can have an additional type parameter list that uses square
+	brackets but otherwise looks like an ordinary parameter list: `func F[T any](p T) { ... }`.
+
+	- These type parameters can be used by the regular parameters and in the
+	function body.
+
+	- Types can also have a type parameter list: `type M[T any] []T`.
+
+	- Each type parameter has a type constraint, just as each ordinary parameter
+	has a type: `func F[T Constraint](p T) { ... }`.
+
+	- Type constraints are interface types.
+
+	- The new predeclared name `any` is a type constraint that permits any type. It is equivalent
+	to `interface{}` but can be used in the context of generics, not as an empty interface outside
+	of it.
+
+	- There is also `comparable` and there might be a package called `constraints`.
+
+	- Interface types used as type constraints can embed additional elements to
+	restrict the set of type arguments that satisfy the contraint:
+		+ an arbitrary type T restricts to that type
+		+ an approximation element `~T` restricts to all types whose underlying type is `T`
+		+ a union element `T1 | T2 | ...` restricts to any of the listed elements
+
+	- Generic functions may only use operations supported by all the types
+	permitted by the constraint.
+
+	- Using a generic function or type requires passing type arguments.
+
+	- Type inference permits omitting the type arguments of a function call in
+	common cases.
+
+
+## Other examples
+
+Here is another example of how to specify generics with specific methods:
+
+```go
+package main
+
+import "fmt"
+
+type Helloer interface {
+	hello() string
+}
+
+type Mark struct{}
+
+func (m Mark) hello() string {
+	return "Hi, I'm Mark!"
+}
+
+type Betty struct{}
+
+func (b Betty) hello() string {
+	return "Hi, I'm Betty!"
+}
+
+func main() {
+	fmt.Println(hi(Mark{}).hello())
+	fmt.Println(hi(Betty{}).hello())
+}
+
+func hi[V Helloer](v V) V {
+	return v
+}
+```
+
+
+## Summary
+
+While this document is long and detailed, the actual design reduces to a few major points.
+
+	- Functions and types can have type parameters, which are defined using
+	constraints, which are interface types.
+
+	- Constraints describe the methods required and the types permitted for a
+	type argument.
+
+	- Constraints describe the methods and operations permitted for a type
+	parameter.
+
+	- Type inference will often permit omitting type arguments when calling
+	functions with type parameters.
