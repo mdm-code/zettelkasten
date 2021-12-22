@@ -1,0 +1,29 @@
+# How to sort a slice in Go?
+
++go +slice +sort
+
+/Users/michal/Documents/journal/zettel/20210816121532-go-unpack-slice-to-variables
+
+In order to sort a slice in Go in place, one can use the following function
+from the standard library: `sort.Slice`.
+
+This is how one might want to call it to get the result:
+
+```go
+package main
+
+import (
+	"sort"
+	"fmt"
+)
+
+func main() {
+	data := []int{5, 3, 4, 2, 0, 1}
+
+	sort.Slice(data, func(i, j int) bool {
+		return data[i] < data[j]
+	})
+
+	fmt.Println(data)
+}
+```
