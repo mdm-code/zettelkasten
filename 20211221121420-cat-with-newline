@@ -1,0 +1,10 @@
+# cat with newline
+
+In order to concatenate files that do not terminate with `\n` character,
+iterate over globbed file names and follow the `cat` command with `echo`.
+
+Make sure that `out.txt` does not exist prior to running this command.
+
+```sh
+for f in /**/*.txt; do (cat "${f}"; echo) >> out.txt; done
+```
