@@ -1,0 +1,23 @@
+# go clear slice
+
+The official Go wiki suggests using `nil` slices over empty ones.
+Make `nil` slices the default in all kinds of interfaces as
+jumping between the two will cause errors at some point.
+
+```go
+var s []int
+
+s = append(s, 1)  // Append an element to `s`
+
+s = nil  // Clear it by assigning `nil`
+```
+
+Empty slices are not `nil` and would return `false` in
+
+```go
+s := make([]int, 0)
+s == nil  // false
+
+s = nil
+s == nil  // true
+```
