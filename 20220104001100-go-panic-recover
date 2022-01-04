@@ -1,0 +1,36 @@
+# How to handle panic in Go?
+
+
+/Users/michal/Documents/journal/zettel/20211223001016-error-handling-in-go
+
+
++go +panic +error +defer
+
+
+The most straightforward way to handle `panic` in Go is to defer an annonymous
+function with `recover()` call in it. Reading from a nil open file pointer
+causes causes panic.
+
+```go
+package main
+
+import (
+	"os"
+)
+
+func causePanic() {
+	panic(1)
+}
+
+func main() {
+	defer func() {
+		if err := recover(); err != nil {
+			fmt.Println("deferred: ", err)
+		}
+	}()
+	causePanic()
+}
+```
+
+This lets you recover from `panic`, and it is especially useful in writing
+file system unit tests, any sorts of operations on mocked files, etc.
