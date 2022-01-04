@@ -1,0 +1,70 @@
+# Basics of Linux networking
+
+
++linux +network +interface
+
+
+This entry covers the basics of connecting Linux host to the network, both
+local and the Internet, and to troubleshoot all things going not exactly as it
+was expected.
+
+There are two common Linux network interfaces,
+
+	1. Loopback (lo) with an IP address of 127.0.0.1, which is exectly the IP
+	address representing the host itself. This IP address is not available over
+	the network.
+	
+	2. The ethernet 0 (eth0), typically the connection to the local network.
+	Even in a virtual machine, eth0 still connects to the physical network
+	interface of the host. Make sure it is UP and has an IP address assigned
+	so that you can communicate with the local network and over the Internet.
+
+Note that eth0 comes from the old naming convention, the recent standard
+is described here:
+
+	https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames
+
+
+## IP command
+
+The common Linux command to configure network interfaces is
+
+	`ip link`
+
+By default, it shows the current status of interfacaces and their MAC
+addresses.
+
+You can use `ip link` to configure network interfaces:
+
+	`ip link set [dev] { up | dev }` e.g. `ip link set lo mtu 1500`
+
+In case you want to go back to the older commands like `ifconfig`, `arp` or
+`route`, you can run `apt-get intall net-tools` and there you go.
+
+For Ubuntu Docker image you might want to install it with:
+
+```
+apt install -y iproute2
+```
+
+
+## MAC address
+
+It stands for a media access control address that is uniquely assigned to a
+network interface at layer 2--the data link layer--of the OSI model. A network
+always has, even if it does not have an IP address, one and it also called a
+hardware address. It consists of six groups, two hexadecimal digits each:
+
+	00:50:56:a3:71:f5
+
+
+## IP address
+
+They're unique on the same network and every device has at least one. One can
+use `ip addr` to see the addresses of available interfaces. To verify if the
+connection is up, one can use `ping`.
+
+
+## DHCP
+
+
