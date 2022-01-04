@@ -1,0 +1,27 @@
+# postgres string aggregate
+
+
++postgres +string +aggregate +agg
+
+
+/Users/michal/Documents/journal/zettel/20210803133347-postgres-json-field-manipulation
+
+Here is how to create a aggregate strings in PostgreSQL.
+
+Mind you, in order to insert a newline character, key in `E'\n'` instead
+of bare `'\n'`.
+
+```sql
+SELECT
+	f.tile
+	STRING_AGG(
+		t."content", E"\n"
+		ORDER BY t."seq"
+	) FILTER (WHERE t."content" != '') AS script
+FROM
+	film AS f
+INNER JOIN text AS t USING (film_id)
+GROUP BY
+	f.title
+```
+
