@@ -1,0 +1,21 @@
+# delete push tags git remote
+
++git +tag +tags +origin +remote
+
+/Users/michal/Documents/journal/zettel/20220107180907-delete-push-tags-git-remote
+/Users/michal/Documents/journal/zettel/20210726003029-reset-git-remote-origin-to-commit
+/Users/michal/Documents/journal/zettel/20210726003029-git-useful-commands-that-i-forget-about
+
+To delete a remote tag use `git tag`. Here is how to do it:
+
+```sh
+git tag --delete [tag-name]
+```
+
+To do it on the remote:
+
+```sh
+git push --delete origin [tag-name]
+```
+
+And that's about it.
