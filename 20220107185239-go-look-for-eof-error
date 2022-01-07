@@ -1,0 +1,40 @@
+# Go look for eof error
+
++go +error +EOF +eof +io
+
+/Users/michal/Documents/journal/zettel/20211223001016-error-handling-in-go
+/Users/michal/Documents/journal/zettel/20220104001100-go-panic-recover
+
+
+All file readers return `io.EOF` when they enounter the end of the file. When
+using scanners from bufio module, there is generally no need to test for it,
+but it might be necessary for readers, reading from an opened file and Unix
+Domain Sockets, which send EOF upon closing a connection.
+
+Here is how to look for it:
+
+```go
+package main
+
+import (
+	"io"
+)
+
+func main() {
+	f, _ := os.Open("test.txt")
+	defer f.Close()
+
+	data := make([]byte, 2048)
+
+	for {
+		_, err := f.Read(data)
+		if err != nil {
+			if err == io.EOF {  // Here is where we expect the error
+				break
+			}
+			fmt.Println(err)
+			return
+		}
+	}
+}
+```
