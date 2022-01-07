@@ -1,0 +1,12 @@
+# watch log file Unix
+
++log +tail +unix +shell
+
+
+To watch changes at the end of the log file, use `tail` like this:
+
+```sh
+tail -f your-file.log
+```
+
+The mnemonic here is that `f` stands for `follow`.
