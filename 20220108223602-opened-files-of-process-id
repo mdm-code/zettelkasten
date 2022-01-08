@@ -1,0 +1,15 @@
+# opened files of process id
+
++unix +lsof +pid +file
+
+/Users/michal/Documents/journal/zettel/20220107184947-watch-log-file-unix
+/Users/michal/Documents/journal/zettel/20210804194151-unix-file-fifo-pipes
+
+You might want to check files opened by a given process. Here is how to do it
+with PID:
+
+```sh
+lsof -p 416
+```
+
+The `-p` flag lets you find a process by its PID.
