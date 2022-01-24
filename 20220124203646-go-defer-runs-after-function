@@ -1,0 +1,49 @@
+# go defer runs after function
+
+
++go +function +closure +defer +close
+
+
+/Users/michal/Documents/journal/zettel/20220104001100-go-panic-recover
+/Users/michal/Documents/journal/zettel/20220107185239-go-look-for-eof-error
+
+
+Deffered call runs after a function/method returns. It can return values, but
+there is no way to access them.
+
+Defer can be paired with closures and annonymous functions to make Go code
+idiomatic. For one, you can return annonymous function that has access to
+variables from the sorrounding scope. Two, you can return this function to
+perform some action up the stack. Third, since the complier would not let you
+keep variables without calling them, you are prompted to defer closing functions,
+canceling context etc.
+
+Here is an example:
+
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+func main() {
+	f1 := func() (*os.File, func() error, error) {
+		f, err := os.Open("f.txt")
+		closer := func() error {
+			err := f.Close()
+			return err
+		}
+		return f, closer, err
+	}
+	f, closer, err := f1()
+	if err != nil {
+		os.Exit(1)
+	}
+	defer closer()
+	buffer := make([]byte, 1000)
+	f.Read(buffer)
+	fmt.Println(string(buffer))
+}
+```
