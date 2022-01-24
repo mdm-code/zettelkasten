@@ -1,0 +1,30 @@
+# go slice variadic append
+
+
++go +slice +append +variadic
+
+
+/Users/michal/Documents/journal/zettel/20210816121532-go-unpack-slice-to-variables
+/Users/michal/Documents/journal/zettel/20211222123928-sorting-slices-in-go
+/Users/michal/Documents/journal/zettel/20220104005426-go-clear-slice
+/Users/michal/Documents/journal/zettel/20220122125842-go-sparse-array-and-slice
+
+
+I tend to forget that append has a variadic parameter and you can
+do this:
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	s1 := make([]int, 5, 10)
+	s2 := []int{1, 2, 3, 4, 5}
+	s1 =append(s1, s2...)
+	fmt.Println(s1)
+}
+```
+
+Do not forget that the first five values are zeroes in this case,
+and the next five values are appended right after them.
