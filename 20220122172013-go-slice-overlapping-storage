@@ -1,0 +1,78 @@
+# go slice overlapping storage
+
+
++go +slice +overlap +copy
+
+
+/Users/michal/Documents/journal/zettel/20210816121532-go-unpack-slice-to-variables
+/Users/michal/Documents/journal/zettel/20211222123928-sorting-slices-in-go
+/Users/michal/Documents/journal/zettel/20220104005426-go-clear-slice
+/Users/michal/Documents/journal/zettel/20220122171358-go-slice-variadic-append
+/Users/michal/Documents/journal/zettel/20220122172013-go-slice-overlapping-storage
+/Users/michal/Documents/journal/zettel/20220122125842-go-sparse-array-and-slice
+
+
+REMEMBER that a slice of slice share the same underlying array at one point.
+As long as they're not altered by the append function, changes in one will 
+be reflected in the other.
+
+
+Look at how appending to a slice of slice affects its 'parent':
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	x := make([]int, 5, 5)
+	y := x[:2]
+
+	// NOTE: this does affect x because the capacity is exceeded
+	// and the underlying array is moved.
+	y = append(y, 30, 40, 50, 60)
+
+	// NOTE: this does affect the parent, because the capacity is
+	// not exceeded.
+	z := x[:2]
+	z = append(z, 4, 6, 8)
+	fmt.Println(x)
+}
+```
+
+NOW the tricky bit to understand is that when the copy of the slice is appended
+to, the original keeps its length unchanged, so it cannot see the values appended
+to the copy.
+
+Here is an example:
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+	s1 := make([]int, 5, 10)
+
+	fmt.Printf("slice: %v; len: %d; cap: %d\n", s1, len(s1), cap(s1))
+
+	func(s2 []int) {
+		// This should not excced the capacity of the underlying slice.
+		s2[0] = 1
+		s2 = append(s2, 1, 2, 3, 4)
+		fmt.Printf("slice: %v; len: %d; cap: %d\n", s2, len(s2), cap(s2))
+	}(s1)
+
+	// The s1 slice cannot access changes in the function beyond its length
+	// attribute.
+	// Only the changes done to values within the scope of length are visible like
+	// s2[0] = 1.
+	fmt.Printf("slice: %v; len: %d; cap: %d\n", s1, len(s1), cap(s1))
+
+	// Any append it the outer scope will override the changes done inside of
+	// the function.
+}
+```
+
+Whenever considering modification to slices, pass them as copies or better yet
+RETURN them form a function the same way append() does.
