@@ -1,0 +1,62 @@
+# ffmpeg useful audio conversions
+
+
++ffmpeg +audio +wav +mp3 +mp4 +m4a
+
+
+Most of the useful commands on channel manipulation in `ffmpeg` can be found
+here:
+
+```
+https://trac.ffmpeg.org/wiki/AudioChannelManipulation
+```
+
+
+You can change the number of channels and frequency with these two flags:
+
+```sh
+ffmpeg -i sample.stereo.wav -ac 1 -ar 16000 sample.mono.wav
+```
+
+
+This way you can specify the codec (you can pass mp3, mp4 to this command as
+well).
+
+```sh
+ffmpeg -i input.wav -acodec pcm_s16le -ar 16000 -ac 1 output.wav
+```
+
+
+`-ac` lets you specify the number of channels, and `-ar` sets the output
+frequency.
+
+
+To get some information on the audio file use:
+
+```
+ffprobe sample.wav
+```
+
+
+Here is how to get all big- and little-endian codecs/formats for PCM:
+
+``sh
+ffmpeg -formats | grep PCM 
+
+ DE f32be           PCM 32-bit floating-point big-endian
+ DE f32le           PCM 32-bit floating-point little-endian
+ DE f64be           PCM 64-bit floating-point big-endian
+ DE f64le           PCM 64-bit floating-point little-endian
+ DE s16be           PCM signed 16-bit big-endian
+ DE s16le           PCM signed 16-bit little-endian
+ DE s24be           PCM signed 24-bit big-endian
+ DE s24le           PCM signed 24-bit little-endian
+ DE s32be           PCM signed 32-bit big-endian
+ DE s32le           PCM signed 32-bit little-endian
+ DE u16be           PCM unsigned 16-bit big-endian
+ DE u16le           PCM unsigned 16-bit little-endian
+ DE u24be           PCM unsigned 24-bit big-endian
+ DE u24le           PCM unsigned 24-bit little-endian
+ DE u32be           PCM unsigned 32-bit big-endian
+ DE u32le           PCM unsigned 32-bit little-endian
+ ```
