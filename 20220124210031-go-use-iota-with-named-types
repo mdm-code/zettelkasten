@@ -1,0 +1,35 @@
+# go use iota with named types
+
+
++go +iota +type +const
+
+
+Consider using types as documentation that make the code clearer and more
+explicit. User-defined types and `iota` go together pretty well. The best
+approach to using `iota` and user-defined types is to base the type on an
+integer (I prefer `uint8` for its small memory footprint) and then define a set
+of values in a `const` block.
+
+Do NOT use `iota` when constants make for a part of a specification and have
+their values defined elswhere, basically, when you care about the value. Use
+it for internal purposes only.
+
+Here is a code snippet:
+
+```go
+package main
+
+import "fmt"
+
+type state uint8
+
+const (
+	SCAN state = iota
+	PARSE
+	ERROR
+)
+
+func main() {
+	fmt.Println(SCAN, PARSE, ERROR)
+}
+```
