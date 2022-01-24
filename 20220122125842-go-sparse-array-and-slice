@@ -1,0 +1,40 @@
+# go sparse array and slice
+
+
++go +array +slice +sparse
+
+
+/Users/michal/Documents/journal/zettel/20210816121532-go-unpack-slice-to-variables
+/Users/michal/Documents/journal/zettel/20211222123928-sorting-slices-in-go
+/Users/michal/Documents/journal/zettel/20220104005426-go-clear-slice
+
+
+This is how you can create a sparse array and slice in Go:
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	/* This array is going to look like this:
+
+		[1, 0, 0, 0, 0, 0, 0, 4, 0, 0, 11]
+
+	It's going to start with 1, then 0 up to index 7,
+	then 4, then 0s up to index 10 and 11 at the last index.
+	*/
+	arr := [...]int{1, 7: 4, 10: 11} // Mind the ellipsis for implicit size.
+	fmt.Printf("%T: %v\n", arr, arr)
+	fmt.Println(len(arr))
+
+	// It's possible to declare slice in the same way:
+	s := []int{1, 7: 4, 10: 11}
+	fmt.Printf("%T: %v\n", s, s)
+	fmt.Println(len(s), cap(s))
+}
+```
+
+Read the comments in the code section.
