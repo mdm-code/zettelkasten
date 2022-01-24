@@ -11,6 +11,9 @@ if err != nil {
 There is a way to figure out what kind of error is returned. This
 is handles by `errors.Is()` and `errors.As()` functions.
 
+Use `errors.New()` to create new user-defined errors. However, use these
+sentinel errors sparingly.
+
 Let's see how to use `.Is()`, which examines the error object.
 
 ```go
@@ -47,3 +50,13 @@ just the most immediate object type. As needs an interface type:
 	...
 	if errors.As(err, &badInputErr) { ... )
 	```
+
+There is also `errors.Unwrap()`, but .Is() and .As() are used in most cases.
+
+Use `fmt.Errorf("in function: %w", err)` to wrap errors inside other errors and
+create a stacktrace.
+
+Use `fmt.Printf("%+v", err) to get the verbose error stacktrace.
+
+Use `-trimpath` at the compilation stage not to expose file names in errors on
+which program was compiled.
