@@ -32,5 +32,8 @@ func main() {
 }
 ```
 
+Use recover in defer only when you really need it. Most importantly, do not
+let panic escape the boundaries of your API.
+
 This lets you recover from `panic`, and it is especially useful in writing
 file system unit tests, any sorts of operations on mocked files, etc.
