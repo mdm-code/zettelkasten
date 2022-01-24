@@ -1,6 +1,6 @@
 # How to use interface types in Go?
 
-+go +interface +pointer +receiver
++go +interface +pointer +receiver +type +function
 
 
 IMPORTANT: Remember that passing a nil pointer to an interface will not render
@@ -11,9 +11,53 @@ IMPORTANT: A good way to decouple packages is to use an interface for a single
 concrete type is when that type has to live in other package owing to its
 dependencies.
 
+IMPORTANT: Functions and methods should take accept interfaces and return
+structs to make your code more flexible. Returning interfaces increases coupling
+by skipping over implicit interfaces. Accepting interfaces as parameters has
+one major tradeoff: all parameters are immediately allocated to the heap and
+put stress on garbage collector.
+
+IMPORTANT: You can invoke methods on nil concrete type, but calling methods on
+nil interface causes panic. If an interface is non-nil, it has a type but no
+value, methods can be invokes, but the type can still cause panic.
+
+IMPORTANT: Functions are types too:
+
+```go
+package main
+
+import "fmt"
+
+type caller interface {
+	call(string) string
+}
+
+type FuncAdapter func(string) string
+
+func (t FuncAdapter) call(s string) string {
+	return t(s)
+}
+
+func callHome(s string) string {
+	return s + " Home"
+}
+
+func main() {
+	f := func(c caller, s string) {
+		out := c.call(s)
+		fmt.Println(out)
+	}
+	f(FuncAdapter(callHome), "call")
+}
+```
+
 
 Interfaces are behavioural types. In other words, you're not interested in what
 the interface value **is**, you rather know what you can **do** with it.
+
+They let you rely on interfaces instead of relying on concrete implementations,
+dependency inversion, in other words. Through type composition you can inject
+dependency through interface fields.
 
 This is how you define an interface and fullfil its behavioural requirements.
 
