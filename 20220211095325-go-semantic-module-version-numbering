@@ -1,0 +1,68 @@
+# go semantic module version numbering
+
+
++go +module +version +semantic +numbering
+
+
+## Basics
+
+A released module is publised with a version number in the semantic versioning
+model:
+
+```
+v1.3.2-beta.2
+
+ v1   .   3   .   3. -         beta.2
+major . minor . path - pre-release identifier
+```
+
+
+## More details
+
+Here is how to read it:
+
+v0.x.x -- means that the module is still in development and unstable. There
+are no backward compatibility or stability guarantees.
+
+v1.x.x -- MAJOR RELEASE: it signals backward incompatible changes of the public
+API.
+
+vx.1.x -- MINOR RELEASE: it signals backward compatible changes of the public
+API.
+
+vx.x.1 -- PATCH RELEASE: it signals changes that don't affect the public API of
+the module or its dependencies.
+
+vx.x.x-beta.2 -- This is a pre-release milestone, e.g., alpha or beta. There
+are no guarantees when it comes to stability or compatibility.
+
+
+Whenever a module is still in development, you want to signal it with
+`v0.0.0-timestamp-revisionId` and always v0 number such as `v0.0.0`.
+
+
+## Advice
+
+
+### 1
+
+Rely on Go auto-generated pseudo-version numbers. It'll generate one when a
+module has not been tagged in its repository. Go tools will generate a
+pseudo-version number for use in the go.mod of modules that import the package
+that has not been tagged.
+
+
+### 2
+
+A major version update to a number higher than v1 will also have a new module
+path. That’s because the module path will have the major version number
+appended, as in the following example:
+
+```
+module example.com/mymodule/v2 v2.0.0
+```
+
+A major version update makes this a new module with a separate history from the
+module’s previous version. If you’re developing modules to publish for others,
+see 'Publishing breaking API changes' in Module release and versioning
+workflow.
