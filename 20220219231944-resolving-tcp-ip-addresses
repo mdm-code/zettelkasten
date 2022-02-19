@@ -1,0 +1,40 @@
+# resolving tcp ip addresses
+
+
++network +ip +tcp +submask +bitwise +linux
+
+
+/Users/michal/Documents/journal/zettel/20220219195751-restart-network-interface
+/Users/michal/Documents/journal/zettel/20220219193955-check-if-network-transmits-data
+/Users/michal/Documents/journal/zettel/20220219114323-four-layers-of-tcp-ip
+/Users/michal/Documents/journal/zettel/20220219225822-layer2-networking-on-linux
+/Users/michal/Documents/journal/zettel/20220219115445-osi-communication-model
+/Users/michal/Documents/journal/zettel/20211226221230-linux-networking-basics
+
+
+IPv4 uses 32-bit number for host/device identification. The number is split into
+four 8-bit ocets.
+
+00000000 000000000 000000000 000000000
+
+This way the address 255.255.255.0 equals 11111111 11111111 11111111 00000000
+
+With the subnet mask in place, it takes bitwise AND arithmetics to get the
+right address:
+
+```
+11000000 10101000 11000000 10101000
+
+^
+
+11111111 11111111 11111111 00000000
+
+=
+
+11000000 10101000 11000000 00000000
+```
+
+And this gives you the number 192.168.192.0
+
+You can use submask to place and figure out whether devices are on the same
+network.
