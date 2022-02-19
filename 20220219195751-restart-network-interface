@@ -1,0 +1,15 @@
+# restart network interface
+
+
++network +restart +linux
+
+
+/Users/michal/Documents/journal/zettel/20220219193955-check-if-network-transmits-data
+/Users/michal/Documents/journal/zettel/20220219114323-four-layers-of-tcp-ip
+/Users/michal/Documents/journal/zettel/20220219115445-osi-communication-model
+/Users/michal/Documents/journal/zettel/20211226221230-linux-networking-basics
+
+
+You do it with `ifup` and `ifdown`. You bring it down with `ifdown` and bring
+it up with `ifup`. They might not be available on the $PATH, so check /bin,
+/sbin and the like.
