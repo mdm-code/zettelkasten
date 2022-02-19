@@ -1,0 +1,42 @@
+# layer2 networking on linux
+
+
++network +layer2 +mac +ip +linux
+
+
+/Users/michal/Documents/journal/zettel/20220219195751-restart-network-interface
+/Users/michal/Documents/journal/zettel/20220219193955-check-if-network-transmits-data
+/Users/michal/Documents/journal/zettel/20220219114323-four-layers-of-tcp-ip
+/Users/michal/Documents/journal/zettel/20220219115445-osi-communication-model
+/Users/michal/Documents/journal/zettel/20211226221230-linux-networking-basics
+
+
+## Bridges
+
+You want to bridge two Ethernet networks when they need to be connected. Linux
+can have two network interfaces that can be bridged with:
+
+```sh
+ip link set
+ip link add
+```
+
+```sh
+sudo ip link add br0 type bridge
+sudo ip link set eth0 master br0
+sudo ip link set eth1 master br0
+bridge fdb show
+```
+
+The last command shows the MAC address table. Once Ethernet networks are
+bridged, all the devices on these networks can communicate, at least at layer
+2.
+
+While bridging, you might want to avoid bridging loops that can bring the 
+network down. You want to use spanning trees for that with `mstpd-ctl` that
+stands for multiple spanning tree protocol daemon (MSTPD). Read more about
+broadcast storms and feed-forward forever broadcasts.
+
+There is no TTL (time to live) on Layer 2. TTL on Layer 3 causes packets to
+be dropped once the number goes down to 0. It is decremented by one by each
+router along the path.
