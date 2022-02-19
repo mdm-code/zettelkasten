@@ -1,7 +1,11 @@
 # Basics of Linux networking
 
 
-+linux +network +interface
++linux +network +interface +dns +dhcp +ip +tcp
+
+
+/Users/michal/Documents/journal/zettel/20220219114323-four-layers-of-tcp-ip
+/Users/michal/Documents/journal/zettel/20220219115445-osi-communication-model
 
 
 This entry covers the basics of connecting Linux host to the network, both
@@ -47,6 +51,12 @@ For Ubuntu Docker image you might want to install it with:
 apt install -y iproute2
 ```
 
+You can look up details for a particular network interface with
+
+```
+ip address show dev eth0
+```
+
 
 ## MAC address
 
@@ -64,7 +74,28 @@ They're unique on the same network and every device has at least one. One can
 use `ip addr` to see the addresses of available interfaces. To verify if the
 connection is up, one can use `ping`.
 
+See:
+/Users/michal/Documents/journal/zettel/20220219114323-four-layers-of-tcp-ip
+
 
 ## DHCP
 
+This is the Dynamic host configuration protocol. It is used to get
+an IP address when a host or a divice comes on the network.
 
+The moment the devices gets on the network, it sends a request to
+the DHCP server to obtain the IP address. If it's present, the IP
+address is assigned and marked as reserves so that no other device
+gets it.
+
+
+## DNS
+
+The next thing is DNS -- i.e., the Domain Name System. It is used
+to map IP addresses to names.
+
+A local file called `/etc/hosts` is used for the first point of lookup
+for any host name prior to going out to a DNS server on the network.
+
+The `/etc/resolv.conf` file shows the local domains to be searched and
+what server names to use for DNS resolution.
