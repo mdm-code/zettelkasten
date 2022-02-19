@@ -1,0 +1,35 @@
+# The four layers of the TCP/IP model
+
+
++unix +linux +network +interface +osi
+
+
+This entry describes the suite of protocols used by the
+TCP/IP model.
+
+
+## Datalink layer
+
+This layer handles the physical part of sending and receiving
+data over the Ethernet cable, wireless network or any other
+device for that matter.
+
+
+## Internet layer
+
+This layer handles the movement of packets around the network.
+
+
+## Transport layer
+
+It offers a reliable data connection between two devices. It
+splits data into packets and acknowledges packet transmission
+on both sides.
+
+
+## Application layer
+
+This is the layer with applications that require network
+communication like e-mail. This is the programming layer for
+the most part.
+
