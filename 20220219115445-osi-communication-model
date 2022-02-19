@@ -1,0 +1,41 @@
+# The OSI communication model
+
+
++linux +network +interface +layer +osi
+
+
+/Users/michal/Documents/journal/zettel/20220219114323-four-layers-of-tcp-ip
+/Users/michal/Documents/journal/zettel/20211226221230-linux-networking-basics
+
+
+There are seven layers that computers use to communicate over the network.
+
+The tcp/ip model is simpler, but the OSI model provides better explanation of
+what's going on.
+
+In general, anything below the application layer is provided by the operating
+system.
+
+There are 7 layers of the ISO OSI model.
+	=== Media layers ====
+	1. The pysical layer handles bits transfered over the wire.
+		- It is all the cables, electrical and optical signals, the fiber.
+
+	2. Data link layer handles device physical addressing with MAC addresses.
+		- This can often be Ethernet as a layer 2 protocol.
+		- It transmits data with MAC addresses of the sender and receiver.
+		- Layer 2 networks allow to broadcast frames with unknown destination.
+		- This results in a broadcast to all nodes in the broadcast domain;
+		  this would mean all devices in the domain and the layer 2 boundary.
+		- It relies on MAC addresses that are globally unique and assigned by
+		  the manufacturer. There is no way to aggregate them.
+
+	3. The network layer handles logical addressing path determination.
+		- It is based on IP addresses.
+
+	=== Host  layers ====
+	4. Transport layer takes care of connection and reliability (TCP, UDP)
+	5. Session layer takes care of the interhost communication.
+	6. Presentation layer handles data encription and representation.
+	7. Application layer handles network process to application (HTTP, SMTP,
+	FTP, POP).
