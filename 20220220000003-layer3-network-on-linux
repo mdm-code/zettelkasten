@@ -1,0 +1,36 @@
+# layer3 network on linux
+
+
++network +linux +layer3 +unix +ip +protocol
+
+
+/Users/michal/Documents/journal/zettel/20220219195751-restart-network-interface
+/Users/michal/Documents/journal/zettel/20220219193955-check-if-network-transmits-data
+/Users/michal/Documents/journal/zettel/20220219114323-four-layers-of-tcp-ip
+/Users/michal/Documents/journal/zettel/20220219225822-layer2-networking-on-linux
+/Users/michal/Documents/journal/zettel/20220219115445-osi-communication-model
+/Users/michal/Documents/journal/zettel/20220219231944-resolving-tcp-ip-addresses
+/Users/michal/Documents/journal/zettel/20211226221230-linux-networking-basics
+
+
+The layer 3 networking is pretty much the default in the Linux world.
+
+IP node relies on the neighbor table, or ARP table, to figure out how to reach
+a device in the same Layer 2 and construct the Ethernet frame. If it cannot reach
+out to one based on the neighbor table, the node issues an ARP request, which is
+broadcast to everyone in the Layer 2 domain. The router looking out outside of the
+Layer 2 domain would respond to the request asking for the MAC address of the device
+with the X.X.X.X. IP address.
+
+The default route for IP addresses that are not on the Layer 2 are sent to the default
+route that can be accessed with the `ip route show` command:
+
+```
+default via 172.17.0.1 dev eth0
+172.17.0.0/16 dev eth0 proto kernel scope link src 172.17.0.2
+```
+
+You can see the default gateway here. The ethernet network is scoped within
+Layer 2 here.
+
+There is also VLAN and the like, but I am not going to elaborate on it here.
