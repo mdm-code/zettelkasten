@@ -1,0 +1,89 @@
+# rpc client server in go
+
+
++rpc +procedure +remote +network +communication +go +example
+
+
+/Users/michal/Documents/journal/zettel/20220221190144-what-is-rpc
+
+
+Here is an example of RPC communication with `net/rpc` in Go:
+
+
+SERVER:
+```go
+package main
+
+import (
+	"bufio"
+	"log"
+	"net/rpc"
+	"os"
+)
+
+type Reply struct {
+	Data string
+}
+
+func main() {
+	client, err := rpc.Dial("tcp", "localhost:8000")
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	in := bufio.NewReader(os.Stdin)
+
+	for {
+		line, _, err := in.ReadLine()
+		if err != nil {
+			log.Fatal(err)
+		}
+		var r Reply
+
+		err = client.Call("Executor.Transmit", line, &r)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		log.Printf("Reply: %v, Data: %s", r, r.Data)
+	}
+
+}
+```
+
+CLIENT:
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+	"net"
+	"net/rpc"
+)
+
+type Executor struct {
+}
+
+type Reply struct {
+	Data string
+}
+
+func (Executor) Transmit(data []byte, reply *Reply) error {
+	s := string(data)
+	fmt.Printf("Received: %s", s)
+	*reply = Reply{s}
+	return nil
+}
+
+func main() {
+	listener, err := net.Listen("tcp", "localhost:8000")
+	if err != nil {
+		log.Fatal("failed to start the server")
+	}
+	rpc.Register(Executor{})
+	rpc.Accept(listener)
+}
+```
