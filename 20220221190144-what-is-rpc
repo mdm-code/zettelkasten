@@ -1,0 +1,38 @@
+# what is rpc
+
+
++rpc +procedure +remote +network +communication +go
+
+
+/Users/michal/Documents/journal/zettel/20220221234136-rpc-client-server-in-go
+
+
+A remote procedural call (RPC) is an inter-process routine that allows you to
+make remote calls on devices easily, in a similar fashion as you would make
+local calls. RPC requires that you supply an object name, a function or
+parameters to a remote server calls. The server then returns the result of the
+called procedure back to the client.
+
+RPC can be used over TCP, UDP transport protocols; also over Unix Domain Socket
+and can be integrated with HTTP.
+
+There are three implementations available in Go:
+
+	* net/rpc
+	* net/rpc/jsonrpc
+	* gRPC (the one by Google)
+
+The first one, net/rpc, uses encoding/gob as decoding and encoding methods and
+supports TCP or HTTP. Since gob is only used on Go, net/rpc supports only
+client and server programs written in Go. Here is an example of client-server
+RPC communication:
+
+
+/Users/michal/Documents/journal/zettel/20220221234136-rpc-client-server-in-go
+
+
+I want to start with the first two. gRPC is cool, but it requires Protobuf, and
+I don't want to get into it at this point.
+
+Here is a decent explanation of the three (Open it only in a browser -- it's
+not static HTML): https://betterprogramming.pub/rpc-in-golang-19661033942.
