@@ -5,6 +5,7 @@
 
 
 /Users/michal/Documents/journal/zettel/20220221190144-what-is-rpc
+/Users/michal/Documents/journal/zettel/20220223175059-rpc-method-prerequisites
 
 
 Here is an example of RPC communication with `net/rpc` in Go:
