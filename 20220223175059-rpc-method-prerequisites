@@ -1,0 +1,30 @@
+# rpc method prerequisites
+
+
++go +rpc +network +struct +method
+
+
+/Users/michal/Documents/journal/zettel/20220221190144-what-is-rpc
+/Users/michal/Documents/journal/zettel/20220221234136-rpc-client-server-in-go
+
+
+There are a few requirements for a method to be allowed to be registered on an
+RPC protocol.
+
+A type can have any number of public/exported methods that follow the following
+criteria:
+
+* The type that is going to be registered has to be exported to start with.
+* A method, obviously, has to be exported i.e. start with an Uppercase letter.
+* The method should take precisely two arguments (three if the receiver counts)
+and the types of these arguments should be exported as well.
+* The second argument should be a pointer to a data structure whose value will
+be overridden.
+* The method should return an error value. If the procedure call errors out,
+you'll get the error.
+
+Here is what it ends up being:
+
+```go
+func (rt RecType) ProcMethod(p Tpayload, r *Treply) error
+```
