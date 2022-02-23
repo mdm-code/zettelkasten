@@ -1,0 +1,56 @@
+# json tags in go structs
+
+
++go	+tag +json +struct +jsonrpc +network
+
+
+/Users/michal/Documents/journal/zettel/20220221234136-rpc-client-server-in-go
+
+
+Here is a quick note on how to use json tags in Go structs.
+
+This is the basic syntax:
+
+```go
+type Person struct {
+	Name    string `json:"name"`
+	Surname string `json:"surname"`
+	Age     int    `json:"age"`
+}
+```
+
+There isn't much to it. There are two caveats:
+
+* What to do when you want to omit an empty/null field?
+* What to do with an exported struct field that you don't want to be used for
+  json?
+
+Ad. 1: Here is the tag to use:
+
+```go
+type Person struct {
+	Name    string `json:"name"`
+	Surname string `json:"surname,omitempty"`
+}
+```
+
+You add the `omitempty` bit and empty values are skipped.
+
+Ad. 2: ignoring fields looks like this:
+
+```go
+type User struct {
+	Nick     string `json:"nick"`
+	Password string `json:"-"`
+}
+```
+
+Non-exported, private fields are omitted in all cases. The dash applies to
+those fields that may be in use in some other packages, and hence cannot be
+left private, but nobody wants to see them in a JSON representation of the
+struct.
+
+The two things are not standard in any way. There are used like that in the
+`encoding/json` package from the Go standard library, and most other packages
+follow this convention, but it might happen that some other ones don't, so make
+sure to read the docs.
