@@ -6,6 +6,7 @@
 
 /Users/michal/Documents/journal/zettel/20220221190144-what-is-rpc
 /Users/michal/Documents/journal/zettel/20220221234136-rpc-client-server-in-go
+/Users/michal/Documents/journal/zettel/20220223180107-go-jsonrpc-usage
 
 
 There are a few requirements for a method to be allowed to be registered on an

@@ -6,6 +6,7 @@
 
 /Users/michal/Documents/journal/zettel/20220221234136-rpc-client-server-in-go
 /Users/michal/Documents/journal/zettel/20220223175059-rpc-method-prerequisites
+/Users/michal/Documents/journal/zettel/20220223180107-go-jsonrpc-usage
 
 
 A remote procedural call (RPC) is an inter-process routine that allows you to
