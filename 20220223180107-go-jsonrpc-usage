@@ -1,0 +1,60 @@
+# go jsonrpc usage
+
+
++go +json +jsonrpc +rpc +network
+
+
+/Users/michal/Documents/journal/zettel/20220223175059-rpc-method-prerequisites
+/Users/michal/Documents/journal/zettel/20220221190144-what-is-rpc
+/Users/michal/Documents/journal/zettel/20220221234136-rpc-client-server-in-go
+
+
+`net/rpc/jsonrpc` usage isn't all that different from pure `net/rpc` package. The
+main difference is on the client. And frankly it boils down, in simple cases,
+to adding few more lines of code.
+
+Here is how it looks like for the server:
+
+```go
+import (
+	"net/rpc"
+	"net/rpc/jsonrpc"
+)
+
+...
+
+listener, _ :=  net.Listen("tcp", "localhost:8000")
+
+manager := newManager()
+rpc.Register(manager)
+
+for {
+	conn, err := listener.Accept()
+	if err != nil {
+		continue
+	}
+	jsonrpc.ServeConn(conn)
+}
+```
+
+What you need to do here is to set up the listener the regular way with net.Listen...
+and then accept incoming connections in a for-loop.
+
+And here is the client:
+
+```go
+import (
+	"log"
+	"net/rpc/jsonrpc"
+)
+
+client, err := jsonrpc.Dial("tcp", "localhost:8000")
+
+if err != nil {
+	log.Fatal(err)
+}
+
+... // Do something with the client.
+```
+
+The `jsonrpc.Dial` call is the only things that has to be changed.
