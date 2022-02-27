@@ -1,0 +1,30 @@
+# go strings field usage
+
+
++go +strings +whitespace
+
+
+/Users/michal/Documents/journal/zettel/20210816121532-go-unpack-slice-to-variables
+/Users/michal/Documents/journal/zettel/20211222123928-sorting-slices-in-go
+
+
+This is a quick note on how to split strings on whitespace with go
+`strings.Fields` function. This is the code snippet that let's you use it.
+
+```go
+package main
+
+import (
+	"fmt"
+	"strings"
+)
+
+func main() {
+	in := "foo bar baz !"
+	out := strings.Fields(in)
+	fmt.Println(out)
+}
+```
+
+The whitespace character is defined by `unicode.IsSpace`. The function returns
+a slice of strings or an empty slice is the string contains only whitespace.
