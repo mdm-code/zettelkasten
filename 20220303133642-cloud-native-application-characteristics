@@ -1,0 +1,64 @@
+# cloud native application characteristics
+
+
++cloud +native +scalability +loose +coupling +observability +resilience +manageability
+
+
+There are a couple features that characterize cloud native applications. It
+does not simply boil down to the fact that an application lives in the cloud. A
+cloud native app is scalable, observable, manageable, resiliant, and is
+characterized by loose coupling of its dependences.
+
+
+## Scalability
+
+It means that an app can continue to behave as expected when facing an increase
+in demand, i.e., it does not require refactoring each time it has to scale up or
+down.
+
+There are two way a service can be scaled:
+
+1. There is vertical scaling that assumes allocating more hardware resources.
+2. The other one is horizontal scaling that entails adding or removing service
+   instances.
+
+The important thing here is to primarily rely on horizontal scaling. It requires
+that a service either does not maintain its state or it can distribute its state
+across its instances.
+
+
+## Loose coupling
+
+In short, when changes are introduced to one component of an application that
+is loosely coupled there is no need to change its other components.
+
+
+## Resilience
+
+In other words, fault tolerance, is a measure of how a system recovers from
+errors and faults. A resilient system continues to operate correctly, also at a
+reduced level, when some of its components has failed. It is often achieved by
+deploying redundant components, there are circut breakers and retry logic that
+can be used to prevent failures from propagating between components.
+
+
+## Manageability
+
+This refers to a running system being able to be adjusted without having to
+introduce changes to the code base. This might include some simple things as
+how databases are accessed, whether that's hardcoded or if it is stored in a
+configuration file, credentials, TLS certificates etc. It can entail replacing
+or upgrading (or downgrading) system components. Manageable systems are
+designed with adaptability in mind. Manageability refers to changes made to the
+system from the outside like deploying new components without have to have the
+entire system to shut down.
+
+
+## Observability
+
+It is a measure of easy it is tell the internal state of a service from
+external outputs with minimal prior knowledge without having to reinstrument or
+look at the code directly. Complex systems are often far too complex to tell
+right away where the problem stems from without the right tools for it. It can
+refer to logging, tracing and all kinds of metrics, but these appear to be
+insufficient nowadays, and the sytems have to be much more informative.
