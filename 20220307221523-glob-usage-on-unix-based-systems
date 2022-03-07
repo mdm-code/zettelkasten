@@ -1,0 +1,100 @@
+# glob usage on unix-based systems
+
+
++glob +pattern +sh +dash +regex
+
+
+/Users/michal/Documents/journal/zettel/20211221121420-cat-with-newline
+/Users/michal/Documents/journal/zettel/20210726003029-bash-bulk-file-rename
+
+
+This is a usual nuisance with unix-derived operating systems that one cannot
+tell what is still POSIX and what is not. Glob patterns are no different, but
+I'm not going to worry too much about it. I will test the use of patterns that
+are not described here:
+
+```
+https://www.man7.org/linux/man-pages/man7/glob.7.html
+```
+
+in `Dash`.
+
+
+## ?
+
+`?` question mark is used to match any single character.
+
+```
+> ls ?????.txt
+
+hello.txt
+```
+
+
+## *
+
+`*` asterisk matches any string including the empty string.
+
+```
+> ls *.jpeg
+
+foo.jpeg bar.jpeg
+```
+
+
+## []
+
+Square brackets `[...]` are used to define character classes.
+
+This glob pattern matches files that start with digits from 1 to 5:
+
+```
+> ls ~/Downloads/[1-5]*.gz
+
+1.tar.gz ... 5.tar.gz
+```
+
+Here are predefined classes:
+
+```
+[:alnum:]  [:alpha:]  [:blank:]  [:cntrl:]
+[:digit:]  [:graph:]  [:lower:]  [:print:]
+[:punct:]  [:space:]  [:upper:]  [:xdigit:]
+```
+
+They can be used like this inside square brackets like this:
+
+```
+[[:lower:]]
+```
+
+
+## ! and ^ used in [...]
+
+It appears `^` is not POSIX while `!` is.
+
+Exclamation mark and caret can be used to prefix a character classs inside
+`[...]` to negate it. I would assume it is safer to use `^` in zsh for instance.
+Here is an example:
+
+```
+> ls [!0-9]*.zip
+
+foo.zip ... bar.zip
+```
+
+
+## More fancy syntax in Bash and Zsh
+
+The two appear to allow some more regex-like patterns using
+
+	^ to match the start of the line
+	$ to match the end of the line
+
+	{ , } to put alternative globbing patterns inside { ... }
+	( | ) apparently to achieve the same effect with different syntax
+
+	```
+	> ls ~/Documents/*{.gz,.zip}
+	> ls ~/Documents/(*.gz|*.zip)
+	```
