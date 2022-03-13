@@ -1,0 +1,31 @@
+# deprecation of go get for executables
+
+
++go +get +install +tool
+
+
+The deprecation pertains to the way executables are installed with the `go`
+tool. Previously, one would use `go get` in the same way one'd add dependencies
+to a project. Starting Go 1.17, `go install` should be used instead to install
+commands.
+
+In Go 1.18, `go get` will no longer be used to build packages, it will only be
+used to add, remove and update dependencies in `go.mod`.
+
+To install an executable while ignoring the current module, use `go install` with
+a version suffix (e.g., `@latest`) like this:
+
+```sh
+go install github.com/go/package@latest
+```
+
+This way, `go.mod` will not be read or updated in the current or parent
+directory.
+
+The reason why this change is being introduced is because `go get` was used to
+both updated dependencies in `go.mod` as well as installing commands. This way
+a source of confusion, since people rarely want to do both at the same time.
+
+`go get` will stop compiling and linking packages by default, which will make
+it faster. This means that `go get` will not be able to report an error when
+updating a package that can't be built for the current platform.
