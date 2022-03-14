@@ -1,0 +1,27 @@
+# brew link multiple python versions
+
+
++python +venv +brew +homebrew +version
+
+
+/Users/michal/Documents/journal/zettel/20211026220807-python3.10-new-features
+/Users/michal/Documents/journal/zettel/20210726003029-python-setup-things-to-remember
+/Users/michal/Documents/journal/zettel/20210818142006-python-execute-zip-file
+
+
+This is a boring one, but it comes right at me every now and again, so...
+
+Here is a set of shell commands on how to install and link different Python
+versions with `Homebrew`:
+
+```sh
+brew install python@3.10
+brew list | grep python
+brew ls python@3.10
+ln -s your/path/to/python@3.10 /usr/local/bin/python@3.10
+python@3.10 -m venv .
+. bin/activate
+deactivate
+```
+
+Most of the stuff is no news, but I just want to keep it here.
