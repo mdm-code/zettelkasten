@@ -1,0 +1,24 @@
+# postgres left join json agg remove null
+
+
++postgres +json_agg +json +aggregate +null
+
+
+/Users/michal/Documents/journal/zettel/20211228130509-postgres-string-aggregate
+/Users/michal/Documents/journal/zettel/20210803133347-postgres-json-field-manipulation
+
+
+Here is a snippet of how to ignore/remove null values from json_agg() on left
+join:
+
+```postgres
+SELECT C.id, C.name,
+  COALESCE(json_agg(E) FILTER (WHERE E.user_id IS NOT NULL), '[]') AS emails
+FROM contacts C
+LEFT JOIN emails E ON C.id = E.user_id
+GROUP BY C.id, C.name
+ORDER BY C.id;
+```
+
+It uses `coalesce` to filter out the output of json_agg() and replace it with
+`[]` if it returns NULL.
