@@ -1,0 +1,75 @@
+# dreded async io in python
+
+
++python +asyncio +async +io +await +asynchronous
+
+
+/Users/michal/Documents/journal/zettel/20210923160325-python-stringio-in-memory-text-stream
+
+
+This is probably my least favourite mental model behind the Python's syntactical
+concepts and their implementation. I write this entry to try revisit the basics.
+
+I am not going to go into what async IO is; it it enough to say that it is a
+single-threaded, single-process cooperative multitasking. Coroutines can be
+scheduled concurrently, but there is no inherent concurrence at play.
+
+In short, there is an event loop iterating over multiple tasks giving each one
+some optimal time to run so that, in an ideal world, none of them blocks the
+other ones for too long.
+
+A coroutine can pause its execution before reaching return and pass control to 
+another coroutine for some time.
+
+You cannot you await in the global scope, outside of an async function.
+
+There are two Python keywords:
+
+```python
+async -- spawns a native coroutine or asynchronous generator
+await -- passses function control back to the event loop, pauses the execution
+```
+
+There rest functions like the good old coroutines with the yield from syntax and
+the like.
+
+One way to execute async code is through:
+
+```python
+# gather, but since you need to await for it, you cannot use it outside of the
+# async function the way you can with asyncio.run(...).
+_ = await asyncio.gather(*(func(n) for n in args))
+
+# run
+_ = asyncio.run(func())
+```
+
+There are asychronous for loops and comprehensions:
+
+```python
+import asyncio
+
+async def func(stop: int = 5):
+	i = 0
+	while i < stop:
+		yield i ** 2
+		i += 1
+		await asyncio.sleep(0.1)
+
+
+async def func2():
+	result = [i async for i in func(5)]
+	return result
+
+
+async def func3():
+	result = []
+	async for i in func(5):
+		result.append(i)
+	return result
+
+result = asyncio.run(func2())
+result2 = asyncio.run(func3())
+
+print(result, result2)
+```
