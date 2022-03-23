@@ -1,0 +1,48 @@
+# postgres use cte
+
+
++postgres +cte +sql +query +expression
+
+
+/Users/michal/Documents/journal/zettel/20211228130509-postgres-string-aggregate
+/Users/michal/Documents/journal/zettel/20220316143654-postgres-left-join-json-agg-remove-null
+/Users/michal/Documents/journal/zettel/20210726003029-sql
+
+
+Common table expressions in PostgreSQL, or CTEs for short, are extremely useful
+in those cases when there is a need to, for example, verify some column value
+against the result of an aggregate function of a column from the same table.
+
+Here is a simplified code snippet on how to write it up:
+
+```postgres
+WITH cte_name AS (
+	SELECT
+		id as staff_id,
+		name
+	FROM employee
+)
+SELECT
+	s.staff_id,
+	name
+FROM staff s
+INNER JOIN cte_name USING (staff_id);
+```
+
+One thing to bare in mind is that the CTE has to be joined in order to access
+its values in the main SELECT expression.
+
+
+Here are some advantages of using CTEs:
+
+1. For one, they improve readability of complex queries. They can help organize
+queries in a more readable fasion.
+
+2. (IMPORTANT) They give the user ability to set up recursive queries on the
+same table. For example, when you want to verify in the main SELECT statement
+if a given value is either MAX or MIN for a given subset of rows. Recursive
+queries can reference themselves to inspect hierarchical data.
+
+3. They can be used alongside window functions to create an initial result set
+and use anotehr select statement to further process the result.
+
