@@ -1,0 +1,45 @@
+# python reveal type hints
+
+
++type +hints +python +mypy +reveal
+
+
+/Users/michal/Documents/journal/zettel/20211026124100-python-type-hints
+/Users/michal/Documents/journal/zettel/20210923201619-python-type-hints-generics
+/Users/michal/Documents/journal/zettel/20220325142202-python-reveal-typ-hints
+/Users/michal/Documents/journal/zettel/20211029152742-args-kwargs-type-hints
+
+
+There are two functions that let you do that, there are:
+
+1. reveal_type()
+2. reveal_locals()
+
+They do not exist at runtime, so be mindful to delete them before running you
+program, or else you will be getting `NameError`.
+
+In Neovim, the output of the two functions is displayed in the editor through
+the async code linter/checker.
+
+Here is how one can use it in a file called `example.py`
+
+```python
+l = [1, 2, 3, None, "4"]
+reveal_type(l)
+```
+
+Then the output can be verified with `mypy` like this `mypy example.py`.
+
+`reveal_locals()` will show all the local variables for a given method or
+function.
+
+```python
+def add(x: int, y: int) -> int:
+	result = x + y
+	reveal_locals()
+	return result
+```
+
+And then the way to get the output is pretty much the same `mypy example.py`.
+
+This is it.
