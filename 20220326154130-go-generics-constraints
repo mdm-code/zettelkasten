@@ -1,0 +1,17 @@
+# go generics constraints
+
+
++go +generics +interface +type +1.18
+
+
+/Users/michal/Documents/journal/zettel/20211222142409-primer-on-go-generics
+
+
+In order to use constraints in your Go code, you apparently need to
+pull the package off from the repo:
+
+```sh
+go get golang.org/x/exp/constraints
+```
+
+It's not a part of the standard library, apparently.
