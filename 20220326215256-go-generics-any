@@ -1,0 +1,28 @@
+# go generics any
+
+
++go +generics +interface +type +1.18
+
+
+/Users/michal/Documents/journal/zettel/20220326213356-go-generics-meaning-of-tilde
+/Users/michal/Documents/journal/zettel/20220326154130-go-generics-constraints
+/Users/michal/Documents/journal/zettel/20220326210616-go-generics-with-methods
+/Users/michal/Documents/journal/zettel/20211222142409-primer-on-go-generics
+
+
+Starting from version 1.18, `any` in Go langauge specification is the
+equivalent of `interface{}`. The two are basically the same:
+
+```go
+func x(val interface{}) {}
+
+func y(val any) {}
+```
+
+So is this:
+
+```go
+func x[S ~[]E, E any] (x S, y E) S { }
+
+func y[S ~[]E, E interface{}] (x S, y E) S { }
+```
