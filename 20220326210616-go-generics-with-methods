@@ -1,0 +1,48 @@
+# go generics with methods
+
+
++go +generics +method +interface +type +1.18
+
+
+/Users/michal/Documents/journal/zettel/20220326154130-go-generics-constraints
+/Users/michal/Documents/journal/zettel/20211222142409-primer-on-go-generics
+
+
+This is an interesting bit using interfaces as type constraint and method set
+declaration:
+
+```go
+package main
+
+import "fmt"
+
+type Tp interface {
+	~int | ~int32 | ~int64
+	t() string
+}
+
+type Ts int
+
+func (ts Ts) t() string {
+	return fmt.Sprintf("%d", ts)
+}
+
+func min[T Tp](x, y T) string {
+	if x < y {
+		return x.t()
+	}
+	return y.t()
+}
+
+func main() {
+	val := min[Ts](1, 12)
+	fmt.Println(val)
+}
+```
+
+This is really handy when you want to use a certain types, like orderable ints,
+floats and strings that can be compared with <, >, == etc. and throw a method
+into the mix.
+
+Although it might seem rather convoluted, you can declare an interface for
+types that are either int, int32 or int64 AND implements t() method.
