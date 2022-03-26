@@ -1,0 +1,28 @@
+# go generics meaning of tilde
+
+
++go +generics +interface +type +1.18 +tilde +~
+
+
+/Users/michal/Documents/journal/zettel/20220326154130-go-generics-constraints
+/Users/michal/Documents/journal/zettel/20220326210616-go-generics-with-methods
+/Users/michal/Documents/journal/zettel/20211222142409-primer-on-go-generics
+
+
+The meaning of `~T` tilde in Go generics means the set of all types with
+underlying type T.
+
+
+```go
+...
+
+type T interface {
+	~float32 | ~float64
+}
+
+type I float32
+```
+
+Here I meets the requirements of the T type constraint because it is derived
+from float32. How does that interact with explicit casting and interface-driven
+polimorphism?
