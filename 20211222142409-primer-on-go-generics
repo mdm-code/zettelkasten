@@ -4,8 +4,22 @@
 +go +generics +type +interface +type
 
 
+/Users/michal/Documents/journal/zettel/20220326154130-go-generics-constraints
+/Users/michal/Documents/journal/zettel/20220326210616-go-generics-with-methods
+/Users/michal/Documents/journal/zettel/20220326213356-go-generics-meaning-of-tilde
+
+
+NOTE: Not all of the things suggested in the proposal got implemented.
 https://go.googlesource.com/proposal/+/refs/heads/master/design/43651-type-parameters.md
 
+
+The general view of Go generics:
+
+1. There are now type parameters in brackets [] for functions and types
+2. Interfaces now not only define sets of methods but also sets of TYPES. These meta types
+   are refered to as constraints.
+3. And there's also type inference (meaning that the default type, say float64, are
+   not required to be specified in brackets, cool)
 
 This is a simple example of a function using Go generics for typing:
 
@@ -15,7 +29,7 @@ package main
 import "fmt"
 
 type Number interface {
-	int | int64 | float64
+	~int | ~int64 | ~float64
 }
 
 func main() {
@@ -32,6 +46,32 @@ Here we see that `interface` is used to declare what types are allowed to be
 passed to the function. The contract is specified in squared brackets and then
 in the function argument part of the function signature, and finally in the
 returned value.
+
+
+## Instantiation
+
+I.e., providing type argument to a generic function. The first step is the substitution
+of type arguments (actual type(s) passed) for type parameters. Then in the second step
+arguments are verified against the set of parameter constraints.
+
+
+## Inline constraints literal
+
+You can write up type constraint literals inline like this:
+
+```go
+[S interface{~[]E}, E interface{}]
+
+// OR with syntactic sugar:
+
+[S ~[]E, E interface{}]
+
+// OR
+
+[S ~[]E, E any]
+
+// Where `any` is an alias for interface{}
+```
 
 
 ## Highlights
