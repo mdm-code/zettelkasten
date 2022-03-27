@@ -6,6 +6,7 @@
 
 /Users/michal/Documents/journal/zettel/20211222142409-primer-on-go-generics
 /Users/michal/Documents/journal/zettel/20220326210616-go-generics-with-methods
+/Users/michal/Documents/journal/zettel/20220327183807-go-generics-default-generic-type-value
 
 
 In order to use constraints in your Go code, you apparently need to

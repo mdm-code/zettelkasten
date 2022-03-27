@@ -8,6 +8,7 @@
 /Users/michal/Documents/journal/zettel/20220326154130-go-generics-constraints
 /Users/michal/Documents/journal/zettel/20220326210616-go-generics-with-methods
 /Users/michal/Documents/journal/zettel/20211222142409-primer-on-go-generics
+/Users/michal/Documents/journal/zettel/20220327183807-go-generics-default-generic-type-value
 
 
 Starting from version 1.18, `any` in Go langauge specification is the

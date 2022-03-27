@@ -6,6 +6,7 @@
 
 /Users/michal/Documents/journal/zettel/20220326154130-go-generics-constraints
 /Users/michal/Documents/journal/zettel/20211222142409-primer-on-go-generics
+/Users/michal/Documents/journal/zettel/20220327183807-go-generics-default-generic-type-value
 
 
 This is an interesting bit using interfaces as type constraint and method set

@@ -9,6 +9,7 @@
 /Users/michal/Documents/journal/zettel/20220326210616-go-generics-with-methods
 /Users/michal/Documents/journal/zettel/20220326215256-go-generics-any
 /Users/michal/Documents/journal/zettel/20211222142409-primer-on-go-generics
+/Users/michal/Documents/journal/zettel/20220327183807-go-generics-default-generic-type-value
 
 
 Here is a basic implementation of a generic stack in Go (mind the trick with
@@ -17,57 +18,54 @@ the default node value of the node):
 ```go
 package main
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
 
-type stack[T any] struct {
+	"golang.org/x/exp/constraints"
+)
+
+var MissingVal = errors.New("there aren't any values on the stack")
+
+type Stack[T constraints.Ordered] struct {
 	head *node[T]
 }
 
-type node[T any] struct {
+type node[T constraints.Ordered] struct {
 	next *node[T]
 	val  T
 }
 
-func (s *stack[T]) push(v T) {
-	n := node[T]{val: v}
-	if s.head == nil {
-		s.head = &n
-		return
-	}
-	n.next = s.head
+func (s *Stack[T]) Push(v T) {
+	n := node[T]{next: s.head, val: v}
 	s.head = &n
 }
 
-func (s *stack[T]) peek() T {
+func (s *Stack[T]) Pop() (T, error) {
 	if s.head == nil {
-		n := node[T]{}
-		return n.val
-	}
-	return s.head.val
-}
-
-func (s *stack[T]) pop() T {
-	if s.head == nil {
-		n := node[T]{}
-		return n.val
+		return *new(T), MissingVal
 	}
 	v := s.head.val
 	s.head = s.head.next
-	return v
+	return v, nil
+}
+
+func (s *Stack[T]) Peek() (T, error) {
+	if s.head == nil {
+		return *new(T), MissingVal
+	}
+	return s.head.val, nil
 }
 
 func main() {
-	s := stack[int32]{}
-	s.peek()
-	s.push(12)
-	s.push(245)
-	s.push(1)
-	s.push(12)
-	fmt.Println(s.pop())
-	fmt.Println(s.pop())
-	fmt.Println(s.pop())
-	fmt.Println(s.pop())
-	fmt.Println(s.pop())
-	fmt.Println(s.pop())
+	ss := new(Stack[string])
+	ss.Push("hello")
+	ss.Push("world")
+	fmt.Println(ss)
+	si := Stack[int]{}
+	si.Push(1)
+	si.Push(2)
+	si.Push(3)
+	si.Push(4)
 }
 ```
