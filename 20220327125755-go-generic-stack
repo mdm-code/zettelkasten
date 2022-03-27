@@ -1,0 +1,73 @@
+# go generic stack
+
+
++go +generics +method +interface +type +1.18 +struct +T
+
+
+/Users/michal/Documents/journal/zettel/20220326213356-go-generics-meaning-of-tilde
+/Users/michal/Documents/journal/zettel/20220326154130-go-generics-constraints
+/Users/michal/Documents/journal/zettel/20220326210616-go-generics-with-methods
+/Users/michal/Documents/journal/zettel/20220326215256-go-generics-any
+/Users/michal/Documents/journal/zettel/20211222142409-primer-on-go-generics
+
+
+Here is a basic implementation of a generic stack in Go (mind the trick with
+the default node value of the node):
+
+```go
+package main
+
+import "fmt"
+
+type stack[T any] struct {
+	head *node[T]
+}
+
+type node[T any] struct {
+	next *node[T]
+	val  T
+}
+
+func (s *stack[T]) push(v T) {
+	n := node[T]{val: v}
+	if s.head == nil {
+		s.head = &n
+		return
+	}
+	n.next = s.head
+	s.head = &n
+}
+
+func (s *stack[T]) peek() T {
+	if s.head == nil {
+		n := node[T]{}
+		return n.val
+	}
+	return s.head.val
+}
+
+func (s *stack[T]) pop() T {
+	if s.head == nil {
+		n := node[T]{}
+		return n.val
+	}
+	v := s.head.val
+	s.head = s.head.next
+	return v
+}
+
+func main() {
+	s := stack[int32]{}
+	s.peek()
+	s.push(12)
+	s.push(245)
+	s.push(1)
+	s.push(12)
+	fmt.Println(s.pop())
+	fmt.Println(s.pop())
+	fmt.Println(s.pop())
+	fmt.Println(s.pop())
+	fmt.Println(s.pop())
+	fmt.Println(s.pop())
+}
+```
