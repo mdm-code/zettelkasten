@@ -1,0 +1,57 @@
+# go generics default generic type value
+
+
++go +generics +interface +type +1.18 +default +value +new
+
+
+/Users/michal/Documents/journal/zettel/20220326213356-go-generics-meaning-of-tilde
+/Users/michal/Documents/journal/zettel/20220327125755-go-generic-stack
+/Users/michal/Documents/journal/zettel/20220326154130-go-generics-constraints
+/Users/michal/Documents/journal/zettel/20220326210616-go-generics-with-methods
+/Users/michal/Documents/journal/zettel/20220326215256-go-generics-any
+/Users/michal/Documents/journal/zettel/20211222142409-primer-on-go-generics
+
+
+A simple way to return a default type T value from a generic function is to use
+this idiom:
+
+NOTE:  this works best when T is NOT constrained to anything that admits
+pointer types, otherwise what you get is a pointer-to-pointer type (**int) that
+might not be what you want.
+
+```go
+*new(T)
+```
+
+e.g., like this:
+
+```go
+func (s *Stack[T]) Pop() (T, error) {
+	if s.head == nil {
+		return *new(T), errors.New("value missing")
+	}
+	...
+}
+```
+
+Another way would be to use `var zero T` that takes the default value for T, an
+empty string, zero, etc.
+
+```go
+func (s *Stack[T]) Pop() (T, error) {
+	if s.head == nil {
+		var zero T
+		return zero, errors.New("value missing")
+	}
+	...
+}
+```
+
+The last one resorts to named return types:
+
+func (s *Stack[T]) Pop() (ret T, e error) {
+	if s.head == nil {
+		return ret, fmt.Error("value missing")
+	}
+	...
+}
