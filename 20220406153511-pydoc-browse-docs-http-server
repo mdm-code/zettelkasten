@@ -1,0 +1,19 @@
+# pydoc browse docs http server
+
+
++python +docs +pydoc +pydoc3 +documentation +http +server
+
+
+/Users/michal/Documents/journal/zettel/20220325142202-python-reveal-typ-hints
+/Users/michal/Documents/journal/zettel/20210726003029-magic-vim-wands
+
+
+I have to remember that Python comes with fully-fledged standard library
+documentation that can be browsed through a HTTP server by running this
+command:
+
+```sh
+pydoc3 -b
+```
+
+It starts up an HTTP server on an arbitrary port.
