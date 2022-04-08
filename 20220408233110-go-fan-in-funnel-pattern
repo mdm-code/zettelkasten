@@ -1,0 +1,72 @@
+# go fan in funnel pattern
+
+
++go +pattern +concurency +channel +goroutine +fan
+
+
+/Users/michal/Documents/journal/zettel/20211026201150-go-channels-recap
+/Users/michal/Documents/journal/zettel/20211214232334-go-sum-and-mod-files
+/Users/michal/Documents/journal/zettel/20220124203646-go-defer-runs-after-function
+
+
+The `fan-in` pattern in Go assumes that there are more two or more channels that
+are to be funnelled into a single channel. Here is the code example:
+
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+)
+
+func funnel(chans ...chan int) chan int {
+	out := make(chan int)
+
+	var wg sync.WaitGroup
+
+	send := func() {
+		for n := range c {
+			out <- n
+		}
+	}()
+
+	go func() {
+		gor _, c in range chans {
+			send(c)
+		}
+	}
+
+	go func() {
+		wg.Wait()
+		close(out)
+	}
+
+	return out
+}
+
+func main() {
+	chans := []chan int{}
+
+	for i := 0; i < 20; i++ {
+		c := make(chan int)
+
+		go func() {
+			var x int
+			for j := 0; ; j++ {
+				c <- x
+				x++
+			}
+		}()
+
+		chans = append(chans, c)
+	}
+
+	out := funnel(chans...)
+
+	for v := range out {
+		fmt.Println(v)
+	}
+}
+```
