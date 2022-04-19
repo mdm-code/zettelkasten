@@ -1,0 +1,29 @@
+# future annotation type checking flag
+
+
++python +hints +typing +checking +annotation +__future__ +error
+
+
+/Users/michal/Documents/journal/zettel/20220406153511-pydoc-browse-docs-http-server
+/Users/michal/Documents/journal/zettel/20211026124100-python-type-hints
+/Users/michal/Documents/journal/zettel/20210923201619-python-type-hints-generics
+/Users/michal/Documents/journal/zettel/20220325142202-python-reveal-typ-hints
+/Users/michal/Documents/journal/zettel/20211029152742-args-kwargs-type-hints
+
+
+In case you're wandering why you keep getting an error when using
+
+```python
+if TYPE_CHECKING:
+	...
+```
+
+flag to limit imports in Python 3.10 and later, this is most likely
+because you forgot to put the
+
+```python
+from __future__ import annotations
+```
+
+import up top. You skip it, and you get an error the moment you run
+your unit tests.
