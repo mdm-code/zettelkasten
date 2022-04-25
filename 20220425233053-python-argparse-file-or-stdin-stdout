@@ -1,0 +1,36 @@
+# python argparse file or stdin stdout
+
+
++python +stdin +stdout +argparse +parser +argument
+
+
+/Users/michal/Documents/journal/zettel/20220316143037-argparse-require-arg-when-other-present
+
+
+This Python `argparse` code picks `sys.stdout` by default when output file is not
+specified. It works with `|` pipes, redirects `>` and file names, of course.
+
+
+```python
+import argparse
+
+if __name__ == "__main__":
+	parser = argparse.ArgumentParser(desc="...")
+	parser.add_argument("-a", required=False)
+	parser.add_argument("-o", "--output", type=argparse.FileType("w"), default="-")
+	args = parser.parse_args()
+
+	args.output.write("Hello, world!")
+```
+
+
+The same can be done for input and `stdin`:
+
+
+```python
+...
+parser.add_argument("-i", "--intput", type=argparse.FileType("r"), default="-")
+...
+```
+
+It works with pipes and redirections, same as the one above.
