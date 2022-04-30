@@ -1,0 +1,44 @@
+# entr to rerun command when files change
+
+
++entr +file +change +unix
+
+
+/Users/michal/Documents/journal/zettel/20220108223602-opened-files-of-process-id
+/Users/michal/Documents/journal/zettel/20220107184947-watch-log-file-unix
+/Users/michal/Documents/journal/zettel/20210804194151-unix-file-fifo-pipes
+/Users/michal/Documents/journal/zettel/20211028122903-change-open-file-limit-unix
+/Users/michal/Documents/journal/zettel/20220219114323-four-layers-of-tcp-ip
+/Users/michal/Documents/journal/zettel/20220430123236-entr-to-rerun-command
+
+
+https://eradman.com/entrproject/
+
+
+`entr` is a fun little utility that lets you rebuild project if sources change.
+Here is how to do it in one command:
+
+
+```sh
+ls ./*/*.go | entr make
+```
+
+The `-r` flag lets you restart the server on each file change.
+
+```sh
+ls *.py | entr -r python main.py
+```
+
+The `-c` flag clears the screen before running, for instance, tests:
+
+```sh
+ls -d * | entr -c make test
+```
+
+Adding new files can be handled with a loop:
+
+```sh
+while true; do
+  ls -d src/*.py | entr -d ./setup.py
+done
+```
