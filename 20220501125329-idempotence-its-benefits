@@ -1,0 +1,40 @@
+# idempotence its benefits
+
+
++api +algebra +rest +idempotent +idempotence
+
+
+/Users/michal/Documents/journal/zettel/20220501124258-nullipotence-what-this-is
+
+
+Idempotence is an important concept from algebra that refers to a property of a
+mathematical operation. In programming,
+
+```
+a call is idempotent if it has the same side effect each time it is called.
+```
+
+```
+f(x) = f(f(x)) for every x
+
+abs(x) = abs(abs(x)) for every real number x
+```
+
+A good example here is an assignment operation `x=1`, because no matter how many
+times it is called, x will always be assigned 1. 
+
+```
+HTTP PUT, GET are also idempotent.
+```
+
+x += 1 is not idempotent because the state changes upon each new call.
+
+BENEFITS:
+- Idempotent operations are safer
+	+ Retrying would not cause any problems.
+- Idempotent operations are simpler 
+	+ while PUT is simple, CREATE reports an error when a key exists and
+	requires additional layer of error handling
+- Idempotent operations are more declarative
+	+ Idempotent API is focused on end-states or `what` needs to be done
+	instead of `how` it has to be done.
