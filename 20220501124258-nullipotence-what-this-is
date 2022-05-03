@@ -1,0 +1,14 @@
+# nullipotence and what this is
+
+
++api +rest +nullipotence +idempotence +function
+
+
+/Users/michal/Documents/journal/zettel/20220501125329-idempotence-its-benefits
+
+
+Nullipotence is a function property that says that a function has no side
+effects. For instance, `x=1` is idempotent, because its effect is always the
+same, but it changes the state. Assigning a value to itself, for instance,
+`x=x` is nullipotent because there is change of state being triggered. HTTP GET
+does not change the state, so it is nullipotent.
