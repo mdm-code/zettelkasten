@@ -1,0 +1,35 @@
+# stateless application
+
+
++application +state +stateless +resource +api +rest
+
+
+/Users/michal/Documents/journal/zettel/20220501124258-nullipotence-what-this-is
+/Users/michal/Documents/journal/zettel/20220501125329-idempotence-its-benefits
+
+
+It is generally assumed that cloud native apps should be "stateless", but it is
+difficult to figure out what it means not to maintain a state, and why it is so
+bad.
+
+A line can be drawn between "application state" and "resource state", which are
+not the same thing, but are often confused.
+
+I. Application state:
+Server-side data about the application or how it is being used by a client.
+A common example is client session tracking to keep them associated with their
+access credentials or some other application context.
+
+II. Resource state: The current state of a resource within a service at any
+point of time. It has nothing to do with the interaction between the server and
+the client.
+
+Application state is the problematic bit, although resource state can be
+annoying too, because it forces services to rely on `server affinity`, i.e.,
+each user has to interact with the same server where the session started. It is
+hard to get rid of replicas in cloud native environment.
+
+For example, there is a problem with bandwidth on one of the server. If
+application state is not tied to a client-server contract, the client can be
+detached and directed to a new replica. Otherwise a replica has (or should be)
+maintained for as long as one knows that the client is still hanging out there.
