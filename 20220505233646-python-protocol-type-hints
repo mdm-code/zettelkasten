@@ -1,0 +1,93 @@
+# python protocol type hints
+
+
++python +types +hints +mypy +type +typing
+
+
+/Users/michal/Documents/journal/zettel/20220419213109-future-annotation-type-checking-flag
+/Users/michal/Documents/journal/zettel/20211026124100-python-type-hints
+/Users/michal/Documents/journal/zettel/20220325142202-python-reveal-typ-hints
+/Users/michal/Documents/journal/zettel/20211029152742-args-kwargs-type-hints
+/Users/michal/Documents/journal/zettel/20211026220807-python3.10-new-features
+
+
+This is a primer on Protocol class introduced in Python 3.8 for structural and
+behavioral typing.
+
+```
+A protocol here is understood as an established code of behaviour.
+```
+
+A behavioural protocol defines a set of function signatures that a parameter
+has to implement in order to be accepted -- this is how it works in Go and
+Clojure, as far as I recon.
+
+This is how Protocol class is used in Python:
+
+```python
+from typing import Protocol
+
+
+class Closer(Protocol):
+    returing: int
+
+    def close(self) -> int:
+        raise NotImplementedError
+
+
+def open(f: Closer) -> None:
+    print("reading the file...")
+    print(f.close())
+
+
+class IOResource:
+    returning: int = 0
+
+    def close(self) -> int:
+        print("closing")
+        return self.returning
+
+
+open(IOResource())  # this works just fine
+```
+
+Python protocols are also structural meaning that all class attributes
+specified in the Protocol definition are enforced. The `returning` class
+attribute is enforced by `mypy`.
+
+Protocols can be bundled together or aggregated like in here:
+
+```python
+class SizedIOResource(IOResource, Sized, Protocol):
+  pass
+
+...
+```
+
+And of course protocols cannot be instantiated.
+
+One can force setonly attrbutes on a Protocol-derived class this way:
+
+```python
+from dataclasses import dataclass
+from typing import Protocol
+
+
+class Contents(Protocol):
+    def text(self) -> str:
+        raise NotImplementedError
+
+
+@dataclass(frozen=True)
+class WebContents:
+    text: str
+
+
+def write(c: Contents) -> None:
+    print(c.text)
+
+
+wc = WebContents(text="foo, bar, baz")
+
+write(wc)
+```
