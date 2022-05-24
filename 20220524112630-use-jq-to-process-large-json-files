@@ -1,0 +1,32 @@
+# use jq to process large json files
+
+
++json +jq +data +processing
+
+
+/Users/michal/Documents/journal/zettel/20210803133347-postgres-json-field-manipulation
+/Users/michal/Documents/journal/zettel/20220223180107-go-jsonrpc-usage
+/Users/michal/Documents/journal/zettel/20220316143654-postgres-left-join-json-agg-remove-null
+/Users/michal/Documents/journal/zettel/20220223171822-json-tags-in-go-structs
+
+
+Here is a quick way to split a large JSON file containing a long list of
+objects into separate records/files.
+
+```sh
+jq -c ".[]" INPUTFILE
+```
+
+This will put each record on a separate line.
+
+In order to extract only selected fields, you can use this syntax:
+
+```sh
+jq -c ".[] | .tier_id, .subcorpus" INPUTFILE
+```
+
+If you want these fields to be displayed as JSON:
+
+```sh
+jq -c ".[] | {tier_id, subcorpus}" INPUTFILE
+```
