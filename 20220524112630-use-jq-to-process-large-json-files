@@ -30,3 +30,9 @@ If you want these fields to be displayed as JSON:
 ```sh
 jq -c ".[] | {tier_id, subcorpus}" INPUTFILE
 ```
+
+Here is an example of jq iteration with herestrings:
+
+```sh
+for l in $(jq -c '.tiers' tmp.json); do jq -c ".[] | .tier_id" <<< "$l"; done
+```
