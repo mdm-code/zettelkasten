@@ -1,0 +1,28 @@
+# python os exit codes
+
++exit-code +exit +code +os +sys +python +posix +POSIX +shell
+
+
+/Users/michal/Documents/journal/zettel/20210726003029-posix-sh-default-vars
+/Users/michal/Documents/journal/zettel/20210804193519-posix-check-if-command-is-on-path
+/Users/michal/Documents/journal/zettel/20211103004028-favour-onliner-scripts-over-aliases-or-functions
+/Users/michal/Documents/journal/zettel/20210804140943-posix-shell-conditionals
+/Users/michal/Documents/journal/zettel/20210726003029-shell-cdpath
+
+
+Python `os` module from the standard library defines POSIX exit codes for programs.
+e.g., you have `os.EX_OK` for 0 etc.
+
+This can be used with `sys.exit` to get your status codes in shell scripts right.
+
+This is how you can test for exit codes in Python:
+```python
+from prog import console
+import os
+import pytest
+
+with pytest.raises(SystemExit) as err_wrapper:
+	console.main()
+assert err_wrapper.type == SystemExit
+assert err_wrapper.value.code == os.EX_OK
+```
