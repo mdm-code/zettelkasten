@@ -1,0 +1,49 @@
+# posix seq usage
+
+
++posix +shell +seq
+
+
+/Users/michal/Documents/journal/zettel/20210726003029-posix-sh-default-vars
+/Users/michal/Documents/journal/zettel/20210804193519-posix-check-if-command-is-on-path
+/Users/michal/Documents/journal/zettel/20220531140202-python-os-exit-codes
+/Users/michal/Documents/journal/zettel/20211103004028-favour-onliner-scripts-over-aliases-or-functions
+/Users/michal/Documents/journal/zettel/20210804140943-posix-shell-conditionals
+/Users/michal/Documents/journal/zettel/20210726003029-shell-cdpath
+
+
+Instead of using some crazy-ass hacks to iterate over a sequence, use this:
+
+```sh
+for n in $(seq 1 5); do echo "$n"; done
+```
+
+For integers from 1 to 5 included, echo the integer.
+
+This increments value by .5 on each iteration or prints the sequence backwards.
+
+```sh
+seq 1 0.5 10
+seq 10 -1 1
+```
+
+This will keep the same value width:
+
+```sh
+seq -w 1 10
+```
+
+This lets you specify output format:
+
+```sh
+seq -f '##%g##' 3 5
+```
+
+`%g` is used for default numbers. `%e` to display the number in exponential
+format and `%f` in floating-point format.
+
+This one prints string as separator:
+
+```sh
+seq -s : 4
+```
