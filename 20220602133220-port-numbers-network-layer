@@ -1,0 +1,27 @@
+# port numbers network layer
+
+
++port +network +transport +layer +osi
+
+
+/Users/michal/Documents/journal/zettel/20220219195751-restart-network-interface
+/Users/michal/Documents/journal/zettel/20220219193955-check-if-network-transmits-data
+/Users/michal/Documents/journal/zettel/20220219114323-four-layers-of-tcp-ip
+/Users/michal/Documents/journal/zettel/20220219225822-layer2-networking-on-linux
+/Users/michal/Documents/journal/zettel/20220219115445-osi-communication-model
+/Users/michal/Documents/journal/zettel/20220219231944-resolving-tcp-ip-addresses
+/Users/michal/Documents/journal/zettel/20211226221230-linux-networking-basics
+/Users/michal/Documents/journal/zettel/20220220000003-layer3-network-on-linux
+
+
+For and address `127.0.0.1:8000` the first element if the Internet layer IP
+address that identifies the Transport layer (TCP or UDP) host and the second
+one is the port for either host-to-host communication or accessing different
+services from the outside with sockets on the same host.
+
+Port is a 16-bit number, and numbers under 1024 are considered special and require
+special priviliges to use them.
+
+```
+The IP address is like a street number and the port is the number of the flat.
+```
