@@ -1,0 +1,22 @@
+# go in memory file io reader testing
+
++go +golang +unit +test +testing +io +reader +file +fs
+
+/Users/michal/Documents/journal/zettel/20220607115555-go-in-memory-file-io-reader-testing
+/Users/michal/Documents/journal/zettel/20211128202731-golag-string-to-io-reader
+/Users/michal/Documents/journal/zettel/20210831001831-go-turn-off-test-caching
+
+For the purpose of unit testing a file-reliant program, you might want to use
+`strings.NewReader` in Go.
+
+```go
+...
+import "strings"
+
+var fileIo io.Reader = strings.NewReader(`
+`)
+
+...
+```
+
+And that's it: you can skip loading static files to test your code.
