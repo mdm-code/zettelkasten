@@ -1,0 +1,20 @@
+# types of index
+
+
++index +inverted +forward +solr
+
+
+/Users/michal/Documents/journal/zettel/20220309130325-postgres-full-text-indices
+/Users/michal/Documents/journal/zettel/20220620101829-solr-configuration
+
+
+There are two types of indices:
+
+1. Forward index
+	-- it returns DOCUMENTS based on WORDS like
+	-- e.g., WORD -> DOC_1 DOC_2, ...
+	-- this is what SOLR uses
+
+2. Inverted index
+	-- it returns WORDS based on DOCUMENTS like
+	-- e.g., DOC_1 -> WORD_1, WORD_2, ...
