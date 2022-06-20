@@ -1,0 +1,135 @@
+# solr configuration basics
+
++solr +db +database
+
+
+## Install and launch a Solr server
+
+
+### Manual installation
+
+1. Solr requires Java version >= 8.0.0, but I would usually install Java OpenJDK
+11 or later. Use `java -version` to see which one you got.
+
+2. In order to install Solr, one has to pull the binary from the Apache website
+(https://solr.apache.org/downloads.html) with `wget` or curl`.
+
+3. Unpack the archive with `tar -zxvf ...`.
+
+4.Create `SOLR_HOME` environmental variable for the sake of completeness.
+
+5. Then run `./bin/solr start -p 8983`.
+
+
+### Docker installation
+
+This is a MUCH simpler way of installing Solr.
+
+1. This is the command that you gonna wanna run:
+
+```sh
+docker run -d -p 8983:8983 --name solr_test solr solr-precreate my_core
+```
+
+It will let you access Solr from your localhost and the port 8983 to
+verify if the installation goes all well and dandy.
+
+2. You might want to inspect a runnining container with:
+
+```sh
+docker exec -it solr_test /bin/bash
+```
+
+It will get right to the Solr installation directory.
+
+
+## Creating a Solr CORE / COLLECTION
+
+1. A single Solr CORE represents a single PHYSICAL INDEX. There is also the
+term COLLECTION, but this implies a single index being distributed accross
+multiple servers.
+
+2. There is one Solr home directory per Jetty server, and each directory can
+host multiple cores with each core in a separate directory.
+
+```
+.
+└── server
+    └── solr
+        ├── core1
+        │   ├── conf
+        │   └── data
+        └── core2
+            ├── data
+            └── conf
+			    ├── managed-schema
+			    └── solrconfig.xml
+```
+
+3. Each core contains a `conf` configuration directory and the one `data`.
+At least, the conf directory should contain two files: the `managed-schema`
+adn `solrconfig.xml`
+
+
+## Indexing an example document
+
+4. There are some examples stored at `server/solr/configsets` for you to use
+right away and adapt. Example data is stored at `example/exampledocs`. One
+can use `java -jar -Dc=tech_products post.jar *.wml` to post data over http
+into the Solr index.
+
+
+## Search basics
+
+There is the request header:
+
+/select -- this is the basic search query header
+
+Fields basics:
+
+	q (query): searches full query text for the matching string in this form:
+	*:* (field:contents) where the first star corresponds to the field name,
+	before the colon, the other one to its contents. The results affect the rank.
+
+	fq (filter query): filter queries has no effect on the ranking, relevancy
+	and are CACHED, e.g., inStock:true
+
+	sort: specify field and [asc|desc] like so `price asc`
+
+	start, rows: this is pagination, specify which page you want to display with
+	an offset
+
+	fl: fields specify which fields are to be displayed, e.g., `name,surname,...`
+	this reduces the size output size
+	
+	NB!: SCORE FIELD IS HIDDEN BY DEFAULT
+
+	df (data field): specify the fallback data field to search it through
+
+	wt (response format): it can be xml or json but also a format parseable
+	with python AST.eval().
+
+EXAMPLE QUERY: curl localhost:8983/solr/my_core/select\?q=\*:\*
+
+
+## Querying over HTTP
+
+URL breakdown:
+
+http://localhost:8983/solr/products/select?df=name&fl=name%2Cprice&fq=inStock%3Atrue
+&q=name%3Acanon&rows=1&sort=price%20asc&start=1&wt=xml
+
+%20 == space
+%2C == ,
+%3A == :
+
+CORE NAME: products
+REQUEST HANDLER: select
+DF: name
+FL: name%2Cprice
+FQ: inStock%3Atrue
+Q: name%3Acanon
+ROWS: 1
+SORT: price%20asc
+START: 1
+WT: xml
