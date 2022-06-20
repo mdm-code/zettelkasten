@@ -28,8 +28,12 @@ This is a MUCH simpler way of installing Solr.
 1. This is the command that you gonna wanna run:
 
 ```sh
-docker run -d -p 8983:8983 --name solr_test solr solr-precreate my_core
+docker run -d -p 8983:8983 --name solr_test solr solr-precreate my_core -t solr
 ```
+
+One can also add `-v /var/solr/data/xxx` where the cores are stored.
+
+The USER for Solr on Docker image is `solr`.
 
 It will let you access Solr from your localhost and the port 8983 to
 verify if the installation goes all well and dandy.
@@ -69,6 +73,19 @@ host multiple cores with each core in a separate directory.
 3. Each core contains a `conf` configuration directory and the one `data`.
 At least, the conf directory should contain two files: the `managed-schema`
 adn `solrconfig.xml`
+
+
+## Core configuration
+
+Config files are `solrconfig.xml` and `schema.xml` OR `managed-schema.xml` alone.
+The approach with two files seems better to some, for some reason.
+
+
+Configuration files can be copied from the default conf directory:
+
+```
+xxx/solr-x.x.x/server/solr/configsets/_default/conf
+```
 
 
 ## Indexing an example document
