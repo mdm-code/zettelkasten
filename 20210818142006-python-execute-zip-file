@@ -22,7 +22,7 @@ What would though is this:
 ```sh
 python3 -m zipfile -c mybin.zip app/*.py
 touch mybin
-mybin < echo "#!/usr/bin/env python3"
+echo "#\!/usr/bin/env python3" >> mybin
 cat mybin.zip >> mybin
 chmod +x mybin
 ./mybin
