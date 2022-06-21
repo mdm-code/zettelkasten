@@ -150,3 +150,31 @@ ROWS: 1
 SORT: price%20asc
 START: 1
 WT: xml
+
+
+## Working with vector data in Solr
+
+Each Solr core (=index) has the `./conf/schema.xml` file with the schema declaration.
+There is `<types></types>` section declaring types used in the schema.`
+
+Here is the KNN field type:
+
+```xml
+<fieldType name="knn_vector" class="solr.DenseVectorField"
+vectorDimension="1024" similarityFunction="cosine"
+codecFormat="Lucene90HnswVectorsFormat" hnswMaxConnections="10"
+hnswBeamWidth="40" indexed="true" stored="true"/>
+
+```
+
+And here is how to use it in fields:
+
+```xml
+<field name="vec_laser" type="knn_vector" indexed="true" stored="true"/>
+```
+ 
+## DocValues and inverted index
+
+DocValues make lookups, faceting, sorting and grouping much faster. It is a 
+document to value mapping that allows Solr not to create an in-memory index
+of terms for all documents each time when a facet in requested.
