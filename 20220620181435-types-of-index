@@ -18,3 +18,9 @@ There are two types of indices:
 2. Inverted index
 	-- it returns WORDS based on DOCUMENTS like
 	-- e.g., DOC_1 -> WORD_1, WORD_2, ...
+
+It can be a hash map like this:
+
+doc1_id, doc1_text = ["hello", "world"]
+hello_pos = 1
+hello = (hello_pos, doc1_id)
