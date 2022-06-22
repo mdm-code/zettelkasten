@@ -1,0 +1,28 @@
+# python noreturn vs none
+
+
++none +python +typing +hints +noreturn
+
+
+/Users/michal/Documents/journal/zettel/20220419213109-future-annotation-type-checking-flag
+/Users/michal/Documents/journal/zettel/20211026124100-python-type-hints
+/Users/michal/Documents/journal/zettel/20210923201619-python-type-hints-generics
+/Users/michal/Documents/journal/zettel/20220505233646-python-protocol-type-hints
+/Users/michal/Documents/journal/zettel/20211026220807-python3.10-new-features
+
+
+The general idea behind `typing.NoReturn` is that a function that has it in its
+signature should never return ANY value, not even None. In other words, it
+either never terminates or it raises an exception. Here is an example of a
+valid `func() -> NoReturn: ...`:
+
+
+```python
+from typing import NoReturn
+
+def start() -> NoReturn:
+    raise Exception("this function never returns anything")
+```
+
+This means that you cannot assign its output to a variable, while with `func()
+-> None` still can.
