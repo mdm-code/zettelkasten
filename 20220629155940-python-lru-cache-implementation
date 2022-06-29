@@ -1,0 +1,46 @@
+# python lru cache implementation
+
+
++python +cache +lru +caching +io +url
+
+
+/Users/michal/Documents/journal/zettel/20210831001831-go-turn-off-test-caching
+
+
+For short, LRU cache stands for the Least Recently Used cache that stores
+the last read item in memory. Whenever a directive is executed, it'll first
+check if the result is stored in cache before rerunning the whole process
+right from the start.
+
+THE WORD ***LEAST*** HERE MEANS THAT THE LEAST RECENTLY USED ITEM IS DROPPED
+OUT OF CACHE WHEN IT REACHES IT SIZE CAPACITY
+
+The takeaway here is that it can save time on expensive I/O operations like
+URL requests and the like at the expense of memory.
+
+Under the hood, it is a doubly-linked list, I guess.
+
+In Python, there is handly implementation of the LRU cache available through
+the `functools` package like so:
+
+```python
+from functools import lru_cache
+```
+
+Any function can then be decorated with it with the size of cache passed
+as a function argument:
+
+```python
+...
+
+@lru_cache(maxsize=2000)
+def get_expensive_resource(res):
+	...
+```
+
+Then, the following attributes are available on the function:
+
+hits:     number of cache hits
+misses:   number of cache misses (no. how many times sth was not found)
+maxsize:  the declared size (appears as it can be resized?)
+currsize: the current size of the cache
