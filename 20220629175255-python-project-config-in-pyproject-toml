@@ -1,0 +1,74 @@
+# python project config in pyproject toml
+
+
++python +setup +setuptools +pyproject +toml +editable
+
+
+/Users/michal/Documents/journal/zettel/20210726003029-python-setup-things-to-remember
+/Users/michal/Documents/journal/zettel/20210818142006-python-execute-zip-file
+
+
+Here is the link to documentation:
+
+https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+
+
+There is now a way to configure your project in pyproject.toml file directly.
+However, a lot of stuff can be moved from `setup.py` to keep it clean and simple
+and allow it to used to support editable installs.
+
+In order to install a package in an editable mode, you would keep a simple
+script around:
+
+```python
+from setuptools import setup
+
+setup()
+```
+
+And that's it; the rest is in `pyproject.toml`. The `project` table covers
+most of the metadata, and configuration specific to `setuptools` are stored in
+`tool.setuptools` table. Here is an example project config:
+
+```toml
+[project]
+name = "manx"
+version = "0.1.0"
+description = "A toolkit for early Middle English lemmatization."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+	{ name = "Michał Adamczyk" }
+]
+keywords = [
+	"lemmatization", "deep learning", "neural networks", "Middle English", "NLP",
+]
+dependencies = [
+	"httpx",
+	"tqdm",
+	"fasttext",
+	"beautifulsoup4",
+]
+requires-python = ">=3.10"
+
+[project.urls]
+Homepage = "https://github.com/mdm-code/manx"
+
+[project.optional-dependencies]
+dev = [
+	"pytest",
+	"pytest-mock",
+	"pytest-cov",
+	"mypy",
+	"black",
+]
+
+[tool.setuptools.packages.find]
+include = [
+	"manx",
+	"manx*",
+]
+
+[project.scripts]
+manx = "manx.console:main"
+```
