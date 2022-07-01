@@ -1,0 +1,66 @@
+# python data files pkg usage
+
+
++python +file +data +setuptools +setup +manifest +importlib +
+
+
+/Users/michal/Documents/journal/zettel/20210726003029-python-setup-things-to-remember
+/Users/michal/Documents/journal/zettel/20220629175255-python-project-config-in-pyproject-toml
+
+
+SOURCE:
+https://setuptools.pypa.io/en/latest/userguide/datafiles.html
+
+
+In this entry, I wanted to cover the usage of data files in the package 
+directory structure and how it should be done.
+
+Data files specific to a package generally should be placed somewhere in a
+platform-specific location like `/var/xxx` and the like, but it often the case
+that devs put data files directly inside the package directory. This brings
+some minior issues when it comes to reaching such files in code, because one
+has to figure out the path relative to the code *.py file to interpret the
+call.
+
+There is a way to specify `include_package_data` and setting it to `True` in
+order to get the data distributed alongside the Python code. In pyproject
+this will look like so:
+
+```toml
+[tool.setuptools.package-data]
+mypkg = [ "*.txt" ]
+"mypkg.data" = ["*.rst"]
+
+[tool.setuptools.exclude-package-data]
+mypkg = [".gitattributes"]
+```
+
+The other thing is accessing data files at runtime. The usual goto would be to
+use `__file__`, `os.path` functions and `pathlib.Path` methods to find the file.
+
+E.G.:
+
+```python
+from pathlib import Path
+
+data_file = Path(__file__).parent / "data" / "foo.txt"
+```
+
+However, this approach is incompatible with PEP 302-based import hooks like
+importing from zip files and Python eggs.
+
+It is instead recomended to use `importlib.resources` to access data files.
+
+THIS IS GOING TO WORK IN PYTHON 3.10 AND LATER!
+
+```python
+from importlib.resources import files
+
+data = files("data").joinpath("foo.txt").read_text()
+
+def main() -> None:
+    print(data)
+
+if __name__ == "__main__":
+    main()
+```
