@@ -1,0 +1,192 @@
+# How to implement heap in Go?
+
+
++heap +data +structure +array +go
+
+
+/Users/michal/Documents/journal/zettel/20211228202232-go-hash-table
+/Users/michal/Documents/journal/zettel/20211222142409-primer-on-go-generics
+
+
+Most of the basics about heaps like:
+
+	- the binary heap
+	- min and max heaps
+	- the fact that a heap is in fact an array
+
+This is no news.
+
+In a binary max heap, the newly inserted value is added to the heap at the
+bottom right node and then the value is verified against parent nodes. If it is
+bigger than its parent, the two nodes swap values. The process of rearanging
+the heap is called HEAPIFY.
+
+There are two things that I struggled to get my head around:
+
+	- the heapify up and down after insertion and extraction
+
+The heapify up works like this:
+	- insert the new element at the end of the heap
+	- get its index the last index in the array
+	- move your way up the heap for as long as the parent node
+	  is smaller than the newly inserted child
+	- on each step, swap them around
+	- and change the index to where the parent used to be
+	- stop when the parent is greater than the child
+
+
+The heapify down is slightly more complex:
+	```
+	idx = 0
+	last = len(heap.array) - 1
+	left, right = func_left(idx), func_right(idx)
+	child = idx
+
+	while left node <= last (in case the right one is not present) ::
+		if left == last ::
+			child = left
+		# Here we're selecting the child node to compare idx with
+		else if left->value > right->value ::
+			child = left
+		else:
+			child = right
+
+		if heap.array[idx] < heap.array[child] ::
+			swap(idx, child)
+			# Move one level down
+			idx = child
+			left, right = left(idx), right(idx)
+		else ::
+			break the while loop and return
+	```
+
+
+Here is a kind of add-on implementation of a max heap in Go:
+
+```go
+package main
+
+import "fmt"
+
+type number interface {
+	~int | ~float32
+}
+
+type procNum int
+
+type Heap[T number] struct {
+	arr []*node[T]
+}
+
+type node[T number] struct {
+	priority T
+	c        chan T
+}
+
+func newNode[T number](i T) *node[T] {
+	c := make(chan T)
+
+	go func() {
+		for i := 0; ; i++ {
+			c <- T(i)
+		}
+	}()
+
+	return &node[T]{
+		priority: i,
+		c:        c,
+	}
+}
+
+func (h *Heap[T]) Insert(n *node[T]) {
+	h.arr = append(h.arr, n)
+	h.heapifyUp(len(h.arr) - 1)
+}
+
+func (h *Heap[T]) Extract() *node[T] {
+	result := h.arr[0]
+	h.arr[0] = h.arr[len(h.arr)-1]
+	h.arr = h.arr[:len(h.arr)-1]
+	h.heapifyDown(0)
+	return result
+}
+
+func (h *Heap[T]) heapifyUp(idx int) {
+	for h.arr[parent(idx)].priority < h.arr[idx].priority {
+		h.swap(parent(idx), idx)
+		idx = parent(idx)
+	}
+}
+
+func (h *Heap[T]) heapifyDown(idx int) {
+	last := len(h.arr) - 1
+	l, r := left(idx), right(idx)
+	cmpChild := idx
+
+	for l <= last {
+		if l == last {
+			cmpChild = l
+		} else if h.arr[l].priority > h.arr[r].priority {
+			cmpChild = l
+		} else {
+			cmpChild = r
+		}
+
+		if h.arr[idx].priority < h.arr[cmpChild].priority {
+			h.swap(idx, cmpChild)
+			idx = cmpChild
+			l, r = left(idx), right(idx)
+		} else {
+			break
+		}
+	}
+}
+
+func (h *Heap[T]) swap(i, j int) {
+	h.arr[i], h.arr[j] = h.arr[j], h.arr[i]
+}
+
+func left(idx int) int {
+	return idx*2 + 1
+}
+
+func right(idx int) int {
+	return idx*2 + 2
+}
+
+func parent(idx int) int {
+	return (idx - 1) / 2
+}
+
+func funnelIn[T number](nodes ...*node[T]) chan T {
+	out := make(chan T)
+	for _, n := range nodes {
+		go func(n *node[T]) {
+			for v := range n.c {
+				out <- v
+			}
+		}(n)
+	}
+	return out
+}
+
+func main() {
+	h := Heap[procNum]{}
+
+	for _, i := range []procNum{10, 20, 22, 12, 8, 14} {
+		n := newNode(i)
+		h.Insert(n)
+	}
+
+	for i := 0; i < 5; i++ {
+		fmt.Println(h.arr)
+		fmt.Println(h.Extract().priority)
+	}
+
+	out := funnelIn(h.arr...)
+
+	for v := range out {
+		fmt.Printf("%d\r", v)
+	}
+}
+```
