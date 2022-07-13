@@ -1,0 +1,33 @@
+# truncate file unix
+
+
++unix +linux +posix +shell +truncate +trunc
+
+
+/Users/michal/Documents/journal/zettel/20220108223602-opened-files-of-process-id
+/Users/michal/Documents/journal/zettel/20220107184947-watch-log-file-unix
+/Users/michal/Documents/journal/zettel/20210804194151-unix-file-fifo-pipes
+/Users/michal/Documents/journal/zettel/20211028122903-change-open-file-limit-unix
+/Users/michal/Documents/journal/zettel/20220307221523-glob-usage-on-unix-based-systems
+/Users/michal/Documents/journal/zettel/20210921000238-use-awk-to-split-on-tabs
+/Users/michal/Documents/journal/zettel/20220430123236-entr-to-rerun-command
+
+
+This command will let you truncate a list of files to 0 bytes:
+
+
+```sh
+true | tee file1 file2 > dev/null
+```
+
+
+This can be, of course, turned into a shell utility available on the
+$PATH like so:
+
+```
+#!/bin/sh
+
+true | tee "$@" > /dev/null
+```
+
+And then "$@" passes all the files passed to tee.
