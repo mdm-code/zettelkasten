@@ -1,0 +1,39 @@
+# shell shift usage
+
+
++posix +shell +unix +linux +sh +bash +shift
+
+
+/Users/michal/Documents/journal/zettel/20210804140943-posix-shell-conditionals
+
+
+Here is how to use `shift` in a shell script.
+
+In general, `shift` is used to get rid of command-line arguments after they've
+been parsed, e.g.:
+
+```sh
+#!/bin/sh
+
+USER=$1
+PASSWD=$2
+```
+
+In this case when `$1 = john` and `$2 = foo bar`, the PASSWD would be set to
+`foo` and `bar` would be dropped, which might not be the desirable effect.
+
+The way to go about it is to use `shift` like so:
+
+```sh
+#!/bin/sh
+
+USER=$1
+shift
+PASSWD=$@
+```
+
+The first argument is passed to USER and all the rest goes into PASSWD.
+
+In case there is not enough arguments to shift, `shift` won't shift at all.
+It is better to call shift each time, and a single call of shift will always
+drop the first argument.
