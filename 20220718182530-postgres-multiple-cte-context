@@ -1,0 +1,28 @@
+# postgres multiple cte context
+
+
++postgres +psql +cte +context +recursive +multiple
+
+
+/Users/michal/Documents/journal/zettel/20220323093527-postgres-use-cte
+/Users/michal/Documents/journal/zettel/20211228130509-postgres-string-aggregate
+/Users/michal/Documents/journal/zettel/20210726003029-sql
+
+
+It is possible to declare multiple contexts in PostgreSQL to be used in a
+single expression by using the keyword `WITH` once at the start and then
+separating the contexts with commas. This is how to do it:
+
+```postgres
+WITH RECURSIVE
+	cte1 AS ( SELECT ... ),
+	cte2 AS ( SELECT ... ),
+	...
+SELECT ...
+```
+
+It is important to note the keyword `RECURSIVE` that allows a `SELECT` subquery
+to reference itself by name. Another benefit of using this keyword is that
+queries in RECURSIVE context do have to put in order. It is impossible to do
+any kind of mutual, circular recursion for obvious reasons. Without RECURSIVE,
+a CTE can only access sibling CTEs that come before it in a list.
