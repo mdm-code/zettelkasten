@@ -1,0 +1,37 @@
+# use command not which
+
+
++shell +linux +unix +which +cli +bash +zsh
+
+
+/Users/michal/Documents/journal/zettel/20220713093623-truncate-file-unix
+/Users/michal/Documents/journal/zettel/20210726003029-posix-sh-default-vars
+/Users/michal/Documents/journal/zettel/20220107184947-watch-log-file-unix
+/Users/michal/Documents/journal/zettel/20220601233924-posix-seq-usage
+/Users/michal/Documents/journal/zettel/20210804193519-posix-check-if-command-is-on-path
+/Users/michal/Documents/journal/zettel/20210804124544-tmux-move-panes
+/Users/michal/Documents/journal/zettel/20211103004028-favour-onliner-scripts-over-aliases-or-functions
+/Users/michal/Documents/journal/zettel/20211103005910-shell-subshell-childshell-childprocess
+/Users/michal/Documents/journal/zettel/20210804140943-posix-shell-conditionals
+/Users/michal/Documents/journal/zettel/20210726003029-shell-cdpath
+/Users/michal/Documents/journal/zettel/20220713114130-shell-shift-usage
+
+
+Instead of using `which` to check whether an executable exists on the system
+PATH, use `command -v` to avoid aliases and other unwanted side effects.
+
+```sh
+! command -v find > /dev/null && exit 1
+```
+
+
+Another way to control the bahaviour of scripts, to prevent outside system
+hacks, would be to (1) reference executables by their full paths, e.g.,
+`/usr/bin/find` or (2) export `PATH` directly in the script to limit the scope
+like so:
+
+```sh
+export PATH=/bin:/usr/bin:/usr/local/bin
+
+...
+```
