@@ -33,7 +33,7 @@ func funnel(chans ...chan int) chan int {
 	}()
 
 	go func() {
-		gor _, c in range chans {
+		for _, c := range chans {
 			send(c)
 		}
 	}
