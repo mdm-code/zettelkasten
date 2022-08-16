@@ -1,6 +1,10 @@
 # How to schedule a job in crontab?
 
-+cron +crontab +schedule +job
+
++cron +crontab +schedule +job +venv +python +pyenv
+
+
+## Basics
 
 In order to schedule a job in cron on Linux, one can edit the user file by
 typing in the following command:
@@ -22,4 +26,52 @@ To remove an existing file:
 
 ```sh
 crontab -r
+```
+
+There's also `-u` flag that lets you specify the user.
+
+
+## Format
+
+Stars stand for the following elements:
+1. minute (MIN)
+2. hour (HOUR) (24H format)
+3. day (DOM)
+4. month (MON)
+5. day of the month (DOW) (optional? because there's an error on Ubuntu)
+6. user (USR)
+
+To schedule a command to run every day at 14:30, you would type in somehting
+like this:
+
+```cron
+30 14 * * * CMD
+```
+
+## Python venv
+
+This can be done to run a program that depends on a virtual environment:
+
+```
+0 12 * * * /usr/bin/env bash -c ' cd /home/user/program && . bin/activate && python program.py *ARGS' > /dev/null 2>&1
+```
+
+This will tell cron to use `env` in order to find `bash` instead of whatever
+shell is set as default on the system, and then use the `-c` flag to specify
+the shell command. In this case, to change directory to where the Python
+program source code is, activate the virtual environment and then run the
+program with the specified arguments. The last thing is to redirect FD1 and FD2
+to the black hole /dev/null file.
+
+Or even simpler:
+
+```
+* * * * * cd /home/proj && . bin/activate && python prog.py > /dev/null 2>&1
+```
+
+** Another way that can possibly work in this case is to echo the command and
+pipe it to the `/bin/bash` interpreter like so
+
+```
+* * * * * usr echo 'foo bar' | /bin/bash
 ```
