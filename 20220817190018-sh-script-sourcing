@@ -1,0 +1,47 @@
+# sh script sourcing
+
+
++shell +posix +bash +dash +ash +sh +source +dot +execute +login
+
+
+/Users/michal/Documents/journal/zettel/20210728133328-shell-create-empty-files
+/Users/michal/Documents/journal/zettel/20211103005910-shell-subshell-childshell-childprocess
+/Users/michal/Documents/journal/zettel/20210804140943-posix-shell-conditionals
+/Users/michal/Documents/journal/zettel/20210726003029-shell-cdpath
+/Users/michal/Documents/journal/zettel/20220713114130-shell-shift-usage
+
+
+There is a difference between executing the SCRIPT and SOURCING it.
+
+In the first case the shebang or the interpreter called directly creates a new
+instance of `sh`. It the latter the existing LOGIN SHELL reads and executes the
+contents of the file.
+
+
+Say there is a script `greeter` that looks something like this:
+
+```sh
+#!/usr/sh
+
+export PAGER=more
+
+echo "${PAGER}"
+```
+
+
+```sh
+chmod u+x greeter
+
+# Case (1) does not change the pager on the login shell
+sh greeter
+./greeter
+
+# Case (2) however this one does
+. ./greeter
+source greeter
+```
+
+That said script sourcing should be avoided when the script alters, e.g.,
+environmental variables as a side effect in this case.
+
+Sourcing a file can be useful for configuring the current shell if needed.
