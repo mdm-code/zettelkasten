@@ -1,0 +1,28 @@
+# shell in scipt redirect
+
+
++shell +posix +redirect +stdin +fd0 +exec
+
+
+/Users/michal/Documents/journal/zettel/20220713093623-truncate-file-unix
+/Users/michal/Documents/journal/zettel/20210726003029-posix-sh-default-vars
+/Users/michal/Documents/journal/zettel/20220817190018-sh-script-sourcing
+/Users/michal/Documents/journal/zettel/20220601233924-posix-seq-usage
+/Users/michal/Documents/journal/zettel/20210804193519-posix-check-if-command-is-on-path
+/Users/michal/Documents/journal/zettel/20211103005910-shell-subshell-childshell-childprocess
+/Users/michal/Documents/journal/zettel/20210726003029-shell-cdpath
+
+
+In order to redirect the file input from a file passed as an argument to a
+script do the following:
+
+```sh
+
+exec 0<$1
+
+...
+
+```
+
+Then calling the script like so `script one.txt` is going to take FD0 input
+from `$1` which is the `one.txt` file.
