@@ -1,0 +1,46 @@
+# script read for while loops from stdin
+
+
+/Users/michal/Documents/journal/zettel/20220817190018-sh-script-sourcing
+/Users/michal/Documents/journal/zettel/20220601233924-posix-seq-usage
+/Users/michal/Documents/journal/zettel/20220817194225-shell-using-while-loop-inline
+/Users/michal/Documents/journal/zettel/20211103005910-shell-subshell-childshell-childprocess
+/Users/michal/Documents/journal/zettel/20220818223143-shell-in-scipt-redirect
+
+
+For a for-loop or while-loop to read from STDIN without having to pass
+`dev/stdin` like so
+
+```sh
+while read line; do echo line; done </dev/stdin
+```
+
+one can put them at the top (i.e., right after shebang and variables) and
+(1) run the while-loop with `read`:
+
+or while-loop with `read`:
+
+```sh
+while read line; do
+	echo $line
+done
+```
+
+NOTE: Here you can also use while-loop to read from file passed as a script
+argument.
+/Users/michal/Documents/journal/zettel/20220818223143-shell-in-scipt-redirect
+
+or if you want to iterate over the arguments passed to the script, (2) use a
+for-loop without `in`.
+
+```sh
+for line; do
+	echo "${line}"
+done
+```
+
+This is not needed then:
+
+`for arg in $@; do echo $arg; done`
+
+Or maybe `$*`?
