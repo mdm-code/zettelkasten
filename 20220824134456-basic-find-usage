@@ -1,0 +1,34 @@
+# basic find usage
+
+
++find +shell +bash +zsh +exec
+
+
+/Users/michal/Documents/journal/zettel/20220713093623-truncate-file-unix
+/Users/michal/Documents/journal/zettel/20210726003029-posix-sh-default-vars
+/Users/michal/Documents/journal/zettel/20220107184947-watch-log-file-unix
+/Users/michal/Documents/journal/zettel/20220817190018-sh-script-sourcing
+/Users/michal/Documents/journal/zettel/20220601233924-posix-seq-usage
+/Users/michal/Documents/journal/zettel/20210804193519-posix-check-if-command-is-on-path
+/Users/michal/Documents/journal/zettel/20210804124544-tmux-move-panes
+/Users/michal/Documents/journal/zettel/20220531140202-python-os-exit-codes
+/Users/michal/Documents/journal/zettel/20210804122432-nested-tmux-session
+/Users/michal/Documents/journal/zettel/20211103004028-favour-onliner-scripts-over-aliases-or-functions
+/Users/michal/Documents/journal/zettel/20220817194225-shell-using-while-loop-inline
+/Users/michal/Documents/journal/zettel/20220818223143-shell-in-script-redirect
+/Users/michal/Documents/journal/zettel/20211103005910-shell-subshell-childshell-childprocess
+/Users/michal/Documents/journal/zettel/20220731215349-use-command-not-which
+/Users/michal/Documents/journal/zettel/20210804140943-posix-shell-conditionals
+/Users/michal/Documents/journal/zettel/20210726003029-shell-cdpath
+/Users/michal/Documents/journal/zettel/20220713114130-shell-shift-usage
+
+
+The simplest way to use `find` on the shell boils down to this:
+
+```sh
+find / -type f -name *.txt -exec basename {} \; -exec echo {} \;
+```
+
+This command will search for all files with the `.txt` extension and
+upon each success, it will run `basename` on the record. The result
+of the basename are passed to `echo`, so execs can be chained.
