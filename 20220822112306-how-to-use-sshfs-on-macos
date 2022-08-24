@@ -1,0 +1,23 @@
+# how to use sshfs on macos
+
+
++ssh +sshfs +fs +file +system +macos
+
+
+NOTE: on MacOS, use macFUSE: https://osxfuse.github.io/, brew packages
+are disabled unfortunately.
+
+
+Sshfs needs a local directory mount point so `mkdir -p /mnt/external` first.
+
+This is how you would mount it:
+
+```sh
+ sshfs username@remote:/remote/directory /mnt/external
+ ```
+
+And then, in order to unmount it run:
+
+```
+sudo umount /mnt/external
+```
