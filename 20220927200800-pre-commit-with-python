@@ -1,0 +1,25 @@
+# pre commit with Python
+
+
++pre +commit +pre-commit +ci +dev +test
+
+
+/Users/michal/Documents/journal/zettel/20220531140202-python-os-exit-codes
+/Users/michal/Documents/journal/zettel/20220629175255-python-project-config-in-pyproject-toml
+
+
+Pre-commit can be annoying to install as a single callable on the system.
+For me the best solution is to install it as a part of the standard development
+environment alongside black, mypy and pytest. So in pyproject.toml I would
+suggest writing it up like so:
+
+```text
+[project.optional-dependencies]
+dev = [
+	"pytest",
+	"pytest-cov",
+	"mypy",
+	"black",
+	"pre-commit",
+]
+```
