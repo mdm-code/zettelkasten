@@ -36,3 +36,9 @@ Here is an example of jq iteration with herestrings:
 ```sh
 for l in $(jq -c '.tiers' tmp.json); do jq -c ".[] | .tier_id" <<< "$l"; done
 ```
+
+Here is an example of jq counting the length of an array:
+
+./xml2json.py < input.xml | jq -c ".[].eaf.speakers|length"
+
+The length `attribute` after the array name gives you the length.
