@@ -1,0 +1,18 @@
+# divmod relation
+
++div +mod +modulo +relation +euclid +gcd
+
+Here is the relation:
+
+```
+a = b x q + r
+	q : quotient  = a div b
+	r : remainder = a mod b
+```
+
+Meaning that
+
+```
+a = b x q + r   |   a % b = r
+5 = 3 x 1 + 2   |   5 % 3 = 2
+```
