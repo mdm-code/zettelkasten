@@ -1,0 +1,37 @@
+# python write interactive shell cmds to file
+
+
++python +readline +interactive +shell +script +py
+
+
+/Users/michal/Documents/journal/zettel/20220325142202-python-reveal-typ-hints
+/Users/michal/Documents/journal/zettel/20220425233053-python-argparse-file-or-stdin-stdout
+/Users/michal/Documents/journal/zettel/20220531140202-python-os-exit-codes
+/Users/michal/Documents/journal/zettel/20210923160325-python-stringio-in-memory-text-stream
+/Users/michal/Documents/journal/zettel/20220701093147-python-data-files-pkg-usage
+/Users/michal/Documents/journal/zettel/20210726003029-capture-stdin-stdout-python
+
+
+In order to capture the output from the Python interactive shell right down
+to a file of your choice, use `readline` module from the standard library.
+
+It is possible to execute the following code in the interactive shell to clear
+the history first, write some code, and then write the history to the specified
+file (`>>>` is supposed to mimick the interactive shell).
+
+```python
+>>> import readline
+>>> 
+>>> readline.clear_history()
+>>> 
+>>> class A:
+>>>     def __init__(self, a: int, b: int) -> None:
+>>>         self.a = a
+>>>         self.b = b
+>>> 
+>>> a = A(1, 2)
+>>> 
+>>> readline.write_history_file("out.py")
+```
+
+This is the best I could come up with.
