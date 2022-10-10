@@ -19,6 +19,9 @@ jq -c ".[]" INPUTFILE
 
 This will put each record on a separate line.
 
+
+## Field selection
+
 In order to extract only selected fields, you can use this syntax:
 
 ```sh
@@ -31,14 +34,32 @@ If you want these fields to be displayed as JSON:
 jq -c ".[] | {tier_id, subcorpus}" INPUTFILE
 ```
 
+
+# Loop with herestrings
+
 Here is an example of jq iteration with herestrings:
 
 ```sh
 for l in $(jq -c '.tiers' tmp.json); do jq -c ".[] | .tier_id" <<< "$l"; done
 ```
 
+
+# Length
+
 Here is an example of jq counting the length of an array:
 
 ./xml2json.py < input.xml | jq -c ".[].eaf.speakers|length"
 
 The length `attribute` after the array name gives you the length.
+
+
+## Query
+
+Here is an example of `jq` querying JSON file data based on some parameters:
+
+```sh
+jq -c '.[].intents[] | select(.start=null)' > nulls.jsonl
+```
+
+It takes intent objects and selects all those that have a `null` value in the
+filed `start`.
