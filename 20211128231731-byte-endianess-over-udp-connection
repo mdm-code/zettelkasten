@@ -1,6 +1,14 @@
 # Endianess over udp connection
 
-+udp +endianness +endian +socket
++udp +endianness +endian +socket +python
+
+NB: The most obvious case when you need to worry about endianness is when
+you are sending binary data between machines or processes (using a network or
+file). If the machines may have different byte order or the protocol used
+specifies a particular byte order (which it should), you'll need to deal with
+endianess.
+
+NB: utf-8 is endianness-independent because it operates on single bytes.
 
 Data is sent and received over UDP in the exact same byte order given to the
 socket. Arrays of bytes are not reordered with the diagram.
@@ -21,3 +29,38 @@ each field:
 Some data structures are not affected by endianness at all, for example
 UTF-8-encoded text. Others are defined as complex data structures and have
 fields of varying size.
+
+## Python
+
+In Python, most of the byte packing and unpacking can be handled with the
+standard library package `struct`. It allows to specify the format and the
+size of elements being sent over the wire.
+
+It is clear that the same endianness has to be used on both ends. You get
+rubish when you unpack the struct below as little endian, i.e., really
+big numbers, for obvious reasons.
+
+Here is a good and short explanation of how it works:
+https://docs.python.org/3/library/struct.html
+
+```python
+from dataclasses import dataclass
+import struct
+from collections import namedtuple
+
+v = struct.pack("!iii", 1, 2, 3)
+
+
+@dataclass
+class vals:
+	one: int
+	two: int
+	three: int
+
+
+print(vals(*struct.unpack("!iii", v)))
+```
+
+It is possible to unpack a struct directly into a namedtuple or even better
+into a dataclass as shown above. Or else, into a typed dictionary. Or even a
+class since we're unpacking the tuple either way.
