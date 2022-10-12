@@ -1,0 +1,52 @@
+# go slice type conversion
+
+
++go +golang +slice +unsafe +pointer +arithmetics
+
+
+/Users/michal/Documents/journal/zettel/20220104001100-go-panic-recover
+/Users/michal/Documents/journal/zettel/20211129221040-bitwise-in-go
+/Users/michal/Documents/journal/zettel/20211222123928-sorting-slices-in-go
+/Users/michal/Documents/journal/zettel/20220104005426-go-clear-slice
+/Users/michal/Documents/journal/zettel/20220122171358-go-slice-variadic-append
+/Users/michal/Documents/journal/zettel/20220122172013-go-slice-overlapping-storage
+/Users/michal/Documents/journal/zettel/20220122125842-go-sparse-array-and-slice
+
+
+This entry covers converting a slice of one type into the slice of a
+different/derived type.
+
+Say you have a derived string type like so that you want to use to specify
+how to interact with some of your package API:
+
+```go
+type Color string
+```
+
+Then, there's a function that accepts a slice, or has a variadic argument
+that works pretty much like a slice, and this function has to convert the
+type `Color` back into `string` so that it can do some concatentation.
+
+```go
+package main
+
+import (
+	"fmt"
+	"unsafe"
+	"strings"
+)
+
+func Colorize(s string, cols ...Color) {
+	if len(cols) == 0 {
+		fmt.Println(s)
+	}
+	prefx := *(*[]string)(unsafe.Pointer(&cols))
+	fmt.Println(strings.Join(prefix, "") + s + RESET)
+}
+```
+
+Go won't let you do it using normal type casting - it will not compile. So in
+this case, my solution would be to use `unsafe.Pointer`, although it can be
+frawned upon in some cases. The other solution would be slice interation with
+an append to the output silce, but this would require two slices being actively
+used at the same time and linear execution speed.
