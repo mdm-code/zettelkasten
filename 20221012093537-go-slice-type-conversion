@@ -50,3 +50,36 @@ this case, my solution would be to use `unsafe.Pointer`, although it can be
 frawned upon in some cases. The other solution would be slice interation with
 an append to the output silce, but this would require two slices being actively
 used at the same time and linear execution speed.
+
+Here is what you could do otherwise to keep type safety intact:
+
+```go
+...
+# cols is []Color{...}
+prefix := []string{}
+for _, c := range cols {
+	prefix = append(prefix, string(c))
+}
+...
+```
+
+
+## Benchmarks
+
+In my testing, using `unsafe.Pointer(&x)` conversion is about three times
+faster than looping over the source slice, converting the type of each element
+one by one and appending it target slice. Here are some benchmarks:
+
+```
+goos: darwin
+goarch: amd64
+pkg: github.com/mdm-code/termcols
+cpu: Intel(R) Core(TM) i5-6360U CPU @ 2.00GHz
+BenchmarkColorize-4     39110109                30.03 ns/op
+BenchmarkColorize2-4    10938067               105.3 ns/op
+PASS
+ok      github.com/mdm-code/termcols    2.480s
+```
+
+For Go, you would usually invoke benchmark testing with the following command:
+`go test -bench=.`.
