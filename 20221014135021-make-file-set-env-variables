@@ -1,0 +1,18 @@
+# make file set env variables
+
+
++make +makefile +gnu +gnumake
+
+
+/Users/michal/Documents/journal/zettel/20220824135819-makefile-usage-guide
+
+
+The basic way to do this is through this kind of directive towards the top of
+the Makefile file.
+
+```makefile
+export CGO_ENABLED = 1
+```
+
+Each recipe in make is invoked in a separate subshell unless .ONESHELL target
+is in effect (it works with GNU make >= 3.82)
