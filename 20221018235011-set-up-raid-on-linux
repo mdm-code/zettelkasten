@@ -1,0 +1,72 @@
+# set up raid on linux
+
+
++raid +linux +mdadm +fstab +lsblk +fdisk +setup
+
+
+This entry shows how to set up raid on Linux:
+
+# This is a list of command needed to set up RAID 5 on this machine
+
+# Check if fdisk, parted, sfdisk and lsblk are available on the system $PATH
+command -v fdisk lsblk parted sfdisk
+
+# Install mdadm if it's not installed already to manage RAID on Linux
+command -v mdadm 1>/dev/null || sudo apt-get update && sudo apt-get install mdadm
+
+# Use lsblk to view available disks
+lsblk
+
+# Repeat the following steps for as many disks as you want
+# ========================================================
+
+# Initialize disks with parted
+# Use gpt partition tables for disks larger than 2TB
+sudo parted -s /dev/sda mklabel gpt
+
+# Create partition with parted that takes all the available space
+sudo parted -s /dev/sda mkpart 1MiB 100%
+
+# Add RAID flag to the partition
+# It sets the partition table to fd (Linux raid autodetect)
+sudo parted -s /dev/sda set 1 raid on
+
+# ========================================================
+
+# Setup RAID5
+# ===========
+
+# NOTE: To set up RAID1, change --level=1 and --raid-devices=2 and add two
+# devices instead of four
+
+sudo mdadm \
+	--verbose \
+	--create /dev/md0 \
+	--level=5 \
+	--raid-devices=4 \
+	/dev/sda1 /dev/sdb1/ /dev/sdc1 /dev/sdd1
+
+# Inspect the RAID setup with the --detail flag
+sudo mdadm --detail /dev/md0
+
+# Inspect individual drives with the --examine flag
+sudo mdadm --examine /dev/sda1 /dev/sdb1 /dev/sdc1 /dev/sdd1
+
+# Create a filesystem on the RAID device
+sudo mkfs.ext4 /dev/md0
+
+# Replace a disk in the RAID array
+# ================================
+
+# Mark the failed hard disk (e.g. /dev/sdc) as faulty
+sudo mdadm --manage /dev/md0 --fail /dev/sdc1
+
+# Remove the disk from the array
+sudo mdadm --manage /dev/md0 --remove /dev/sdc1
+
+# Use sfdisk to dump information on the partition from a healthy disk
+# onto a new hard disk and replicate it
+sudo sfdisk -d /dev/sdb | sudo sfdisk /dev/sde
+
+# Add the new disk to the RAID array
+sudo mdadm --manage /dev/md0 --add /dev/sde1
