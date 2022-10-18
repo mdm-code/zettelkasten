@@ -1,0 +1,19 @@
+# go regex capturing groups
+
++go +golang +re +regex +capture +capturing +group +re2
+
+
+/Users/michal/Documents/journal/zettel/20220307221523-glob-usage-on-unix-based-systems
+/Users/michal/Documents/journal/zettel/20210726003029-git-useful-commands-that-i-forget-about
+/Users/michal/Documents/journal/zettel/.git/index
+
+
+Regular expressions in Go adhere to RE2 syntax described here:
+https://github.com/google/re2/wiki/Syntax.
+
+**Thie file linked here is generally a good point of reference.**
+
+Notice the following elements:
+- The flag `U` sets the regex to be `ungreedy` meaning that that the
+  semantics of x* and x*? and x+ with x+? are swapped.
+- Lookaheads and lookbehinds are not supported.
