@@ -1,0 +1,85 @@
+# setup ufw on ubuntu linux
+
+
++linux +ubuntu +ufw +firewall +tcp +ip
+
+
+/Users/michal/Documents/journal/zettel/20211208131744-open-a-port-on-linux
+/Users/michal/Documents/journal/zettel/20220219195751-restart-network-interface
+/Users/michal/Documents/journal/zettel/20220219231944-resolving-tcp-ip-addresses
+/Users/michal/Documents/journal/zettel/20211226221230-linux-networking-basics
+
+
+This is a quick guide on how to set up ufw (Ubuntu Firewall) for external
+machine to the subject computer.
+
+
+Do use `man ufw`.
+
+
+# Basic commands
+
+```sh
+sudo ufw [enable|disable]  # turn Ubuntu Firewall on and off
+sudo ufw status  # Get the status of ufw
+```
+
+
+# Block and Allow an IP address
+
+```sh
+sudo ufw deny from 191.0.113.200  # Deny specific IP
+sudo ufw allow from 191.0.113.200  # Allow specific IP
+
+sudo ufw deny from 191.0.113.0/24  # Deny whole subnet
+sudo ufw allow from 191.0.113.0/24  # Allow whole subnet
+
+# Deny incoming connections on a specific interface
+# `in` == incoming
+sudo ufw deny in on eth0 from 191.0.113.0/24
+sudo ufw allow in on eth0 from 191.0.113.0/24
+```
+
+
+# Allow access to a specific port
+
+```sh
+sudo ufw allow from 203.0.113.0/24 to any port 873
+```
+
+
+# Delete rules
+
+```sh
+sudo ufw delete allow from 203.0.113.101
+```
+
+```sh
+sudo ufw status numbered  # use the ID number to delete a rule
+sudo ufw delete 1
+```
+
+
+# Allow applications
+
+```sh
+sudo ufw app list  # list available apps
+
+sudo ufw allow "OpenSSH"
+sudo ufw delete allow "OpenSSH"
+
+# OR
+
+sudo ufw allow 22  # Specify the exact port a given service uses
+```
+
+
+# Allow all incoming connections HTTP and HTTPS
+
+```sh
+sudo ufw allow http
+sudo ufw allow 80
+
+sudo ufw allow https
+sudo ufw allow 443
+```
