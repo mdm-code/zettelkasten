@@ -1,0 +1,40 @@
+# go regexp flag options
+
+
++regex +go +golang +group +flag +flags +opts +options +multiline
+
+
+/Users/michal/Documents/journal/zettel/20220307221523-glob-usage-on-unix-based-systems
+/Users/michal/Documents/journal/zettel/20221017235450-go-regex-capturing-groups
+
+
+Here is a list of regular expression modifiers allowed in Go:
+
+1. U --- Ungreedy, swap meaning of x* and x*?, x+ and x+?
+2. m --- multi line, makes ^ and $ to match the begin/end of each line 
+3. i --- case insensitive, ignores case of [a-zA-Z]
+4. s --- single line, Dot (.) matches newline characters
+
+Here is how flags can be used:
+
+```
+(re)           numbered capturing group (submatch)
+(?P<name>re)   named & numbered capturing group (submatch)
+(?:re)         non-capturing group
+(?flags)       set flags within current group; non-capturing
+(?flags:re)    set flags during re; non-capturing
+```
+
+It means that flags/options can be assigned on per-grouping basis.
+
+Here is an example of how flags can be used:
+
+```
+(?mi)^rgb(?:8|24)=(?i:fg|bg)(?::\d{1,3}){1,3}$
+```
+
+Flags/options are prepended to a regular expression.
+
+The first grouping sets variables for the entire regular expression, but
+the `(?i:fg|bg)` is also valid when there is a need to turn off case
+sensitivity for just one grouping.
