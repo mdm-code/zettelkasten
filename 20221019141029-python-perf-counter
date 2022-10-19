@@ -1,0 +1,24 @@
+# python perf counter
+
+
++python +time +perf-counter +perf +counter +performance +test +unit
+
+
+/Users/michal/Documents/journal/zettel/20220527150013-convert-milliseconds-to-HH:MM:SS.MS
+
+
+This is a short snippet showing how to use `per_counter` for performance
+testing in Python.
+
+```python3
+from time import perf_counter
+
+start = perf_counter()
+
+for _ in range(1_000_000):
+	pass
+
+end = perf_counter() - start
+
+print(end)
+```
