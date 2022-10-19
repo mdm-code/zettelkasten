@@ -1,0 +1,59 @@
+# unix check terminal size
+
+
++tty +stty +tput +ioctl +unix
+
+
+NOTE: Ioctl stands for Intput/Output Control 
+
+NOTE: check https://en.wikipedia.org/wiki/Ioctl for information on Ioctl
+NOTE: check https://en.wikipedia.org/wiki/Ioctl#Implementations to see how its
+	  implemented on Unix.
+
+NOTE: TIOCTLGWINSZ stands for (T)erminal (I)nput/(O)utput (C)o(N)tro(L) (G)et
+      (WIN)dow (S)i(Z)e. Most languages have some sort of POSIX ioctl() call.
+	  For Go, this is `unix.IoctlGetWinsize` and `unix.TIOCGWINSZ` from the
+	  stdlib `"golang.org/x/sys/unix` package.
+
+```go
+// GetSize returns the dimensions of the given terminal.
+func GetSize(fd int) (width, height int, err error) {
+	ws, err := unix.IoctlGetWinsize(fd, unix.TIOCGWINSZ)
+	if err != nil {
+		return -1, -1, err
+	}
+	return int(ws.Col), int(ws.Row), nil
+}
+```
+
+There is a couple of ways to get the size of the terminal (at least, as far as
+my needs are concerned.).
+
+```sh
+# Option 1
+# ========
+
+# This prints out the size of the terminal with tcols
+# COLS X LINES
+tput cols
+tput lines
+
+
+# Option 2
+# ========
+
+# Bash has $LINES and $COLUMNS environmental variables set
+
+echo $LINES $COLUMNS
+
+
+# Option 3
+# ========
+
+# Use stty (NOTE: It's always better than tput, because it is
+# POSIX and tput is not).
+
+stty size 
+read -r rows cols < <(stty size)
+echo $lines $cols
+```
