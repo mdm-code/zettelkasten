@@ -1,0 +1,73 @@
+# cyclomatic complexity
+
+
++cyclomatic +go +complexity +golang +func +function +control +flow +graph +node +edge
+
+
+NOTE: The other would be the Halstead metrics. Check it out if curious.
+
+
+This entry shows how to compute the cyclomatic complexity number.
+
+The basic assumption is that every program can be seen as a graph (likely a
+directed one) that comprises of nodes and edges, as this is what graphs tend to
+do. For the sake of calculation, an edgde represents the control flow code in
+the program and a node corresponds to to a consecutive block of code.
+
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+)
+
+//------------------------------------------------------
+func main() {
+//------------------------------------------------------
+// NODE 1
+// EDGE 1
+	fmt.Println("Starting the program...")
+	var usrName string
+	fmt.Scanln(&usrName)
+//------------------------------------------------------
+	if v := strings.Trim(usrName); v == "michal" {
+//------------------------------------------------------
+// NODE 2
+// EDGE 2
+		fmt.Printf("Hello, %s", v)
+		os.Exit(0)
+	}
+//------------------------------------------------------
+// NODE 3
+// EDGE 3
+	fmt.Println("Program terminated with unknown user.")
+	os.Exit(0)
+}
+//------------------------------------------------------
+```
+
+The main() function in the snippet has 3 NODES and 3 EDGES. The first edge has
+no conditional statement; then there are two edges to either Node 3 or Node 4.
+
+The formula for the cyclomatic number denoted V(G) for a function goes as follows:
+
+```
+V(G) = E - N + 2
+```
+
+Where the number of Nodes (N) is subtracted from the number of edges (E) plus 2.
+So for the main() function above it equals 2 like so:
+
+```
+main V(G) = 3 - 3 + 2 = 2
+```
+
+
+## Some considerations from https://www.practical-go-lessons.com/chap-41-design-recommendations.
+
+1. This number depends only on the "decision structure of the graph".
+
+2. It is not affected when you add a functional statement to your code.
+
+3. If you insert a new edge in the graph, then you will increase the cyclomatic number by 1.
