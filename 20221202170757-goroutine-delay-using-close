@@ -1,0 +1,62 @@
+# goroutine delay using close
+
+
+/Users/michal/Documents/journal/zettel/20220408233110-go-fan-in-funnel-pattern
+/Users/michal/Documents/journal/zettel/20211026201150-go-channels-recap
+
+
++go +goroutine +channel +concurrency +thread +threading
+
+
+This entry covers a rather straighforward snippet that show how one can use
+a Go channel to delay the execution of a bunch of goroutines. This is done
+with an unbuffered channel that gets closed after some random amount of time
+passes.
+
+This is a fully functional example that you can put into a main.go file and
+run it.
+
+```go
+package main
+
+import (
+	"fmt"
+	"math/rand"
+	"runtime"
+	"time"
+)
+
+func main() {
+	start := make(chan struct{})
+
+	procs := runtime.GOMAXPROCS(0)
+	for i := 0; i < procs; i++ {
+		go func(i int) {
+			for {
+				select {
+				case <-start:
+					var j int
+					for {
+						fmt.Printf("printing %d form thread %d
+", j, i)
+						j++
+					}
+				}
+			}
+		}(i)
+	}
+
+	time.Sleep(time.Duration(rand.Intn(1000)) * time.Millisecond)
+	close(start)
+
+	finish := time.Tick(time.Duration(rand.Intn(5)) * time.Second)
+outer:
+	for {
+		select {
+		case <-finish:
+			break outer
+		default:
+		}
+	}
+}
+```
