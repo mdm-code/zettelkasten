@@ -1,0 +1,37 @@
+# git cherry pick
+
+
++git +cherry-pick +cherry +pick
+
+
+/Users/michal/Documents/journal/zettel/20220107180907-delete-push-tags-git-remote
+/Users/michal/Documents/journal/zettel/20210726003029-gitlab-create-repo-remotely
+/Users/michal/Documents/journal/zettel/20210726003029-git-caret-and-tilde
+/Users/michal/Documents/journal/zettel/20210726003029-reset-git-remote-origin-to-commit
+/Users/michal/Documents/journal/zettel/20221205235205-git-cherry-pick
+/Users/michal/Documents/journal/zettel/20210726003029-squash-commits
+/Users/michal/Documents/journal/zettel/20211011184918-git-bare-repository
+/Users/michal/Documents/journal/zettel/20211011184348-git-worktree
+/Users/michal/Documents/journal/zettel/20221205214830-git-interactive-rebase
+/Users/michal/Documents/journal/zettel/20210726003029-git-useful-commands-that-i-forget-about
+
+
+Git cherry-pick is a great way to pick arbitrary commits and prepend them to the
+current HEAD. It is not always the best tool out there; merges are preferred 
+because they're unlikely to cause duplicate commits, which is a possibility with
+cherry-pick.
+
+The tool might come in handy when, say, there are two branches: one for the
+frontend and one for the backend; and let's assume that there this one feature,
+a data table, that the backend folks might want to use to test their
+implementation. Then, it is possible to cherry-pick just this one commit instead
+of moving on with a wholesale merging operation.
+
+The second scenarion, a down-to-earth one, would be that some commit simply gets
+lost in the process and has to be recovered and put back onto main.
+
+`git cherry-pick` can be used with a hash of a particular commit like so:
+
+```sh
+git cherry-pick c86ea9b
+```
