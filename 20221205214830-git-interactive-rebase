@@ -30,3 +30,25 @@ for the interactive rebase.
 ```sh
 git rebase -i HEAD^5
 ```
+
+Here is a great example from the link up top on how to make a reabase onto master
+so that the history commited or staged for a merge request stays linear without any
+additional merge commits.
+
+```sh
+# Point our `upstream` remote to the original fork
+git remote add upstream https://github.com/thoughtbot/factory_bot.git
+
+# Fetch latest commits from `upstream` (the original fork)
+git fetch upstream
+
+# Checkout our feature branch
+git checkout feature
+
+# Reapply it onto upstream's master
+git rebase upstream/master
+
+# Fix conflicts, then `git rebase --continue`, repeat until done
+# Push to our fork
+git push --force origin feature
+```
