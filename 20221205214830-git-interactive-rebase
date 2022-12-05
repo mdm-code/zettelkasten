@@ -1,0 +1,32 @@
+# git interactive rebase
+
+
++git +interactive +rebase +squash +reword +edit
+
+
+/Users/michal/Documents/journal/zettel/20220107180907-delete-push-tags-git-remote
+/Users/michal/Documents/journal/zettel/20221012093537-go-slice-type-conversion
+/Users/michal/Documents/journal/zettel/20210726003029-git-caret-and-tilde
+/Users/michal/Documents/journal/zettel/20210726003029-reset-git-remote-origin-to-commit
+/Users/michal/Documents/journal/zettel/20210726003029-squash-commits
+/Users/michal/Documents/journal/zettel/20211011184918-git-bare-repository
+/Users/michal/Documents/journal/zettel/20211011184348-git-worktree
+/Users/michal/Documents/journal/zettel/20221205214830-git-interactive-rebase
+/Users/michal/Documents/journal/zettel/20210726003029-git-useful-commands-that-i-forget-about
+
+Here is a useful link on how to use `git rebase` to change/amend your local history:
+
+[LINK](https://thoughtbot.com/blog/git-interactive-rebase-squash-amend-rewriting-history)
+
+The basic idea is to use the interactive `git rebase` to pick and choose what to 
+do with the commits that were commited to the local branch at some point in time
+but later had to be reordered or their commit messages had to be changed to some
+degree.
+
+The following command is going to start rebasing five commits below the current one in a
+straight line. Then one can choose whether to pick, reword, squash etc. the commits picked
+for the interactive rebase.
+
+```sh
+git rebase -i HEAD^5
+```
