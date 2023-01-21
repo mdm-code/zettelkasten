@@ -1,0 +1,64 @@
+# subshell function and local variables
+
+
++shell +sh +subshell +childshell +childprocess +function +bash +zsh +posix
+
+
+/Users/michal/Documents/journal/zettel/20211103005910-shell-subshell-childshell-childprocess
+/Users/michal/Documents/journal/zettel/20210726003029-posix-sh-default-vars
+/Users/michal/Documents/journal/zettel/20220817190018-sh-script-sourcing
+/Users/michal/Documents/journal/zettel/20220818223143-shell-in-script-redirect
+/Users/michal/Documents/journal/zettel/20220731215349-use-command-not-which
+/Users/michal/Documents/journal/zettel/20210804140943-posix-shell-conditionals
+/Users/michal/Documents/journal/zettel/20210726003029-shell-cdpath
+/Users/michal/Documents/journal/zettel/20220818223702-script-read-for-while-loops-from-stdin
+/Users/michal/Documents/journal/zettel/20220713114130-shell-shift-usage
+
+
+This entry covers the usage subshell functions as opposed to regular functions.
+
+It's a good practice to make sure that all variables set inside the function
+stay local within the scope of the function in question. Also, make sure that
+the function doesn't alter global variables, say IFS, creating rather nasty
+side effects.
+
+One way to do make sure that changes done to variables possibly used, declared
+ouside of the scope of the function is to use sub-shell functions instead of
+the regular ones. Sub-shell functions use different body delimiters, the same
+ones used to execute a sequence of commands, i.e., `( ... )`. Here is an example
+of how to do this:
+
+```sh
+name="Bob"
+
+hi() (
+	name="Mikey";
+	echo "$name"
+)
+
+hi
+
+echo $name
+```
+
+Notice that the second echo still prints out the name `Bob` and not `Mikey`,
+but if one replaces `( ... )` with regular `{ ... }`, the name variable
+declared in the enclosing scope of the function will be changed from inside of
+the function hi.
+
+One caveat when using sub-shell functions is that there's no way to exit the
+program because any call to exit will exit the sub-shell process instead of the
+parent process. So, it is recommended to check for the exit status of the
+sub-shell function right from the parent shell to determine whether to exit the
+program or not. This is how it might look like:
+
+```sh
+hi() (
+	exit 1
+)
+
+hi || exit $?
+```
+
+Or you might want to set `set -e` in Bash to exit from inside of sub-shell
+processes.
