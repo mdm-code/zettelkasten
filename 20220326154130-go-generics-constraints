@@ -16,4 +16,12 @@ pull the package off from the repo:
 go get golang.org/x/exp/constraints
 ```
 
+Here is a direct link to the package documentation:
+
+```
+https://pkg.go.dev/golang.org/x/exp/constraints
+```
+
 It's not a part of the standard library, apparently.
+
+Here is a quick reference list of types declared in the `constraints` Go library.
