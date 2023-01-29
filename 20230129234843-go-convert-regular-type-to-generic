@@ -1,0 +1,24 @@
+# go convert regular type to generic
+
+
+/Users/michal/Documents/journal/zettel/20230129234843-go-convert-regular-type-to-generic
+/Users/michal/Documents/journal/zettel/20220327183807-go-generics-default-generic-type-value
+/Users/michal/Documents/journal/zettel/20220326213356-go-generics-meaning-of-tilde
+/Users/michal/Documents/journal/zettel/20220327125755-go-generic-stack
+/Users/michal/Documents/journal/zettel/20210923201619-python-type-hints-generics
+/Users/michal/Documents/journal/zettel/20220326154130-go-generics-constraints
+/Users/michal/Documents/journal/zettel/20220326210616-go-generics-with-methods
+/Users/michal/Documents/journal/zettel/20220326215256-go-generics-any
+/Users/michal/Documents/journal/zettel/20211222142409-primer-on-go-generics
+
+
++go +generics +interface +type +1.18 +receiver +type +conversion
+
+
+This isn't so much about type conversion, rather is about converting a variable
+of a regular type, say, `map` into a `GenericMap` declaring a set of useful
+methods.
+
+
+```go
+```
