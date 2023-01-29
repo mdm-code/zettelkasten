@@ -17,8 +17,41 @@
 
 This isn't so much about type conversion, rather is about converting a variable
 of a regular type, say, `map` into a `GenericMap` declaring a set of useful
-methods.
+methods. It is worth noting that the types declared on the original map variable
+have to be redeclared when converting it to the generic type.
 
 
 ```go
+package main
+
+import "fmt"
+
+type Integer interface {
+	~int | ~int8 | ~int32 | int64
+}
+
+type Key interface {
+	~string
+}
+
+type GenericMap[K Key, V Integer] map[K]V
+
+func (m GenericMap[K, V]) sum() V {
+	var result V
+	for _, v := range m {
+		result += v
+	}
+	return result
+}
+
+func main() {
+	m1 := make(map[string]int)
+	m1["foo"] = 1
+	m1["bar"] = 2
+	m1["baz"] = 4
+
+	// NOTE: One has to provide the types of the original map.
+	m2 := GenericMap[string, int](m1)
+	fmt.Println(m2.sum())
+}
 ```
