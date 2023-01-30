@@ -1,0 +1,56 @@
+# go context programming
+
+
++go +context +middleware
+
+
+/Users/michal/Documents/journal/zettel/20220718182530-postgres-multiple-cte-context
+
+
+The main takeaway when working with context is that it carries some information
+that may affect the way a given routine inside of the program behaves. A
+context can be anything that can be used to describe an entity and alter its
+behaviour at runtime.
+
+There are three main points on why to use context in the program:
+
+* To propagate cancellation downward, say, when a connection gets dropped and
+  all the underlying routines running separately should be cancelled out.
+* To transmit scoped information down the call stack. For instance, a program
+  may register information on the type of the device used to establish the
+  connection. It may serve a template with a smaller/adjusted data footprint
+  to account for the fact that the connection's been made over a cell phone.
+  Other options include:
+    - Generating a request ID to be passed around
+    - Passing an IP address to the authenticating service to block certain
+      connections
+    - Reducing the size of the payload returned to the User
+* Setting deadlines and timeouts. It means that all subroutines should not
+continue to process data after a certain amount of time has passed.
+
+
+## The gory details:
+
+At the start of the program, one would start it with a `context.Background()`
+to create an entity that later context can be derived from. The Background
+context is implemented as `context.emptyCtx` of type int under the hood.
+
+There are four basic methods that this context implements:
+
+```go
+func (*emptyCtx) Deadline() (deadline time.Time, ok bool) {
+    return
+}
+
+func (*emptyCtx) Done() <-chan struct{} {
+    return nil
+}
+
+func (*emptyCtx) Err() error {
+    return nil
+}
+
+func (*emptyCtx) Value(key interface{}) interface{} {
+    return nil
+}
+```
