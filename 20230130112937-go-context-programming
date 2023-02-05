@@ -134,5 +134,29 @@ ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 func context.WithValue(parent context.Context, key any, val any) context.Context
 ```
 
-There is a 
 
+## Usage in http client-server communication
+
+```go
+ctx, cancel := context.WithTimeout(rootCtx, 50*time.Millisecond)
+defer cancel()
+// attach context to our request
+req = req.WithContext(ctx)
+resp, err := http.DefaultClient.Do(req)
+if err != nil {
+	panic(err)
+}
+...
+```
+
+The context cancellation on the client side is-in a way-propagated to the sever
+and can be accessed using the `Context()` method on the http request. There is
+no information about the timeout in the header of the request sent over to the
+server. The context on the request on the server side is cancelled when the
+connection to the client is closed, so this means that one has to listen to the
+`ctx.Done()` channel to gather the information about the closure. 
+
+Context cancellation is propagated downwards, so when a context with
+cancellation is derived from another one with cancellation, calling the cancel
+function on the parent context will propagate cancellation to children contexts
+downward. THE CANCELLATION WILL BE PROPAGATED FROM PARENT TO CHILDREN.
