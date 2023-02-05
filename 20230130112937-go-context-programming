@@ -160,3 +160,26 @@ Context cancellation is propagated downwards, so when a context with
 cancellation is derived from another one with cancellation, calling the cancel
 function on the parent context will propagate cancellation to children contexts
 downward. THE CANCELLATION WILL BE PROPAGATED FROM PARENT TO CHILDREN.
+
+It IDIOMATIC to defer context cancellation as soon as it is created. This way
+you're sure that the parent context and all its children will be cancelled out
+even when somebody using your library does not do that. It will happen when
+the function returns or the goroutine panics out.
+
+```go
+ctx, cancel = context.WithCancel(ctx)
+defer cancel()
+```
+
+The WithValue context may carry things like credentials (e.g. a JSON web
+token), request id, the IP of the request, user agent and other header-specific
+values, maybe rate limits, rate limit timeout etc. You can use it to check if
+the token of the requestor is registered in the database, or in some other
+place, for instance.
+
+```go
+...
+// Here I'm casting it to string, hence the `ok` variable.
+v, ok := ctx.Value("foo").(string)
+...
+```
