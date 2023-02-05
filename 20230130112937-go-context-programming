@@ -32,8 +32,9 @@ continue to process data after a certain amount of time has passed.
 ## The gory details:
 
 At the start of the program, one would start it with a `context.Background()`
-to create an entity that later context can be derived from. The Background
-context is implemented as `context.emptyCtx` of type int under the hood.
+to create an entity that later context can be derived from. A ROOT context in
+other words The Background context is implemented as `context.emptyCtx` of type
+int under the hood.
 
 There are four basic methods that this context implements:
 
@@ -54,3 +55,84 @@ func (*emptyCtx) Value(key interface{}) interface{} {
     return nil
 }
 ```
+
+
+## Four types of context
+
+There are four types of context (these are functions that take the parent
+context) that can be derived from the empty or background context:
+
+* WithCancel
+```go
+// This context gives you the way to cancel an operation using a cancel function.
+//
+// You can imagine that there is a particular condition that might trigger
+cancellation, like a particular value, maybe a 404 response code.
+ctx, cancel := context.WithCancel(context.Background())
+```
+
+```go
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+	"os"
+)
+
+var counter int
+
+func main() {
+	b := context.Background()
+	c, fn := context.WithCancel(b)
+
+	go func() {
+		for {
+			select {
+			case <-c.Done():
+				log.Println("Done")
+				os.Exit(0)
+			default:
+			}
+		}
+	}()
+
+	inner(c, fn)
+
+}
+
+func inner(c context.Context, f func()) {
+	if counter == 10 {
+		f()
+		return
+	} else {
+		fmt.Println(counter)
+	}
+	counter++
+	inner(c, f)
+}
+```
+
+* WithTimeout & WithDeadline
+```go
+// DEADLINE: Here is a timeout with a specific date that will not be exceeded:
+deadline := time.Date(2021, 12, 12, 3, 30, 30, 30, time.UTC)
+ctx, cancel := context.WithDeadline(context.Background(), deadline)
+
+// TIMEOUT: And here is a context with timeout:
+ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+
+// The deadline is a particular date and the timeout is just some time, like, say,
+5 seconds, 10 minutes, a hundred days, etc.
+```
+
+* WithValue
+```
+// The WithValue context allows you to associate a key-value pair with the 
+// parent context.
+func context.WithValue(parent context.Context, key any, val any) context.Context
+```
+
+There is a 
+
