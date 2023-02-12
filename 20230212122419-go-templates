@@ -1,0 +1,20 @@
+# go templates
+
+
++go +template +dynamic +data
+
+
+This bit here is about the usage of templates in Go. The basic elements of
+templating in a programming languge covers topics such as creating a template,
+injecting dynamic date into it (in Go it likely uses reflection under the
+hood), utilizing complex data structures such as arrays, sliices or maps,
+embedding templates in binaries.
+
+There are two main packages in Go that handle templating:
+
+1. One is text/template
+2. There other is html/template
+
+THE FIRST ONE (1!) CAN BE USED WHEN THERE IS NO INJECTION RISK. The second one
+can be usd to format HTML pages. It includes a protection mechanism against malicious
+code injected into the user input.
