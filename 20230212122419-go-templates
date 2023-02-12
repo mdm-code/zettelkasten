@@ -16,5 +16,63 @@ There are two main packages in Go that handle templating:
 2. There other is html/template
 
 THE FIRST ONE (1!) CAN BE USED WHEN THERE IS NO INJECTION RISK. The second one
-can be usd to format HTML pages. It includes a protection mechanism against malicious
-code injected into the user input.
+can be usd to format HTML pages. It includes a protection mechanism against
+malicious code injected into the user input. If the goal is to generate HTML,
+do use the `html/template` package instead of the text one.
+
+DATA ENTERED BY THE USER SHOULD ALWAYS BE VALIDATED. USERS SHOULD NOT BE TRUSTED.
+
+
+## Template actions
+
+The action indicates that the system has to do something. It can either be
+about data evaluation or control structures. Actions are delimited by double
+curly bracers like so:
+
+```html
+<l1> The title is {{ . }} </h1>
+```
+
+In short, here the engine is asked to insert the value of the 2nd argument
+passed to `template.Execute` method. ` {{ . }} `  is a template DIRECTIVE - a
+part of the pseudo-scripting language.
+
+
+In order to access a property on an object, one has to write a dot and the name 
+of the property, e.g.:
+
+```html
+<h2> The subtitle is {{ .Subtitle }} <h2>
+```
+
+
+## Dot notation
+
+INSIDE OF AN ITERATION, the dot represents the local context, and no the global one.
+
+`.Subtitle` and `$.Subtitle` are equivalent.
+
+Inside of an iteration the `.` dot represents the iteration local context like so:
+
+```html
+// iterate over a list of articles:
+{{ range .ShoppingList }}
+	<li>{{ $.Name }} {{ . }}</li>
+{{ end }}
+```
+
+And then `$` is used to access the name variable existing in the global context.
+
+
+## Whitespace removal
+
+Here is the syntax for whitespace removal:
+
+```html
+// Name = "Tom"
+// Gen = "'s"
+<p>{{ .Name - }} {{ - .Gen }}</p>
+```
+
+The `-` minus notation removes whitespace from the left and right depending on where
+its placed.
