@@ -74,5 +74,24 @@ Here is the syntax for whitespace removal:
 <p>{{ .Name - }} {{ - .Gen }}</p>
 ```
 
-The `-` minus notation removes whitespace from the left and right depending on where
-its placed.
+The `-` minus notation removes whitespace from the left and right depending on
+where its placed. It will not affect whitespace stored as a part of the
+variable string value.
+
+
+## Printing out dates
+
+Let's assume that the date object stored in a database (for instance, as a full
+timezone aware sql timestamp), and we want to represent it using a template.
+Here is how to print out dates:
+
+Instead of using just the dot notation, that would print out the whole timestamp
+to the microsecond with the timezone, one can use the `.Format` "method" on the
+date to give it a predefined format to adhere to.
+
+```html
+<p> {{ The initial date is .Date.Format "2023-02-12" }}</p>
+```
+
+The date above will get rendered as expected according to the layout.
+
