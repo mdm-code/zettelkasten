@@ -5,7 +5,7 @@
 
 
 https://godocs.io/text/template
-https://godocs.io/html/template
+https://godocs.io/text/template
 
 
 This bit here is about the usage of templates in Go. The basic elements of
@@ -99,3 +99,22 @@ date to give it a predefined format to adhere to.
 
 The date above will get rendered as expected according to the layout.
 
+
+## Nested templates
+
+Templates can be embedded inside one another to reduce duplication and
+repetition. One has to DEFINE a template before importing it and then
+call it with the TEMPLATE keyword:
+
+```html
+// derived.html
+{{ define "derived" }}
+    <!--Content of the template named X -->
+{{ end }}
+...
+
+
+// index.html/base.html
+{{ template "derived" . }}
+...
+```
