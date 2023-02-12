@@ -4,6 +4,10 @@
 +go +template +dynamic +data
 
 
+https://godocs.io/text/template
+https://godocs.io/html/template
+
+
 This bit here is about the usage of templates in Go. The basic elements of
 templating in a programming languge covers topics such as creating a template,
 injecting dynamic date into it (in Go it likely uses reflection under the
