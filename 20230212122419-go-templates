@@ -145,6 +145,8 @@ backend.
 
 ## Method calls
 
+Here is a good recapitulation of all built-in functions: https://pkg.go.dev/text/template#hdr-Functions.
+
 There aren't any issues with calling methods when using templates however there are few prerequisites,
 namely,
 
@@ -164,4 +166,171 @@ func (S) bar() string { return "BAR" }
 
 <p>{{ .bar }}</p>
 <p>{{ .foo "value" }}</p>
+// or
+<p>{{ call .foo "value" }}</p>
+```
+
+
+## Predefined global functions (and the definition of truth)
+
+
+1. AND (a variadic function)
+
+It checks the boolean value of each argument, (1) when it encounters false, it
+RETURNS FALSE directly, when it evaluates to true (2) it RETURNS its last
+ARGUMENT.
+
+
+2. What is false?
+
+	a) EMPTY slice, array, map and a string
+	b) complext number != 0
+	c) a function, channel, pointer and interface that IS NIL
+	d) an integer (both signed and unsigned) == 0
+	e) a float == 0
+	f) STRUCTS ARE ALWAYS TRUE
+
+
+3. Example
+
+```
+{{ if .Foo .Bar }}
+	... // do some stuff with .Bar here
+{{ end }}
+```
+
+
+## Custom template functions
+
+
+We will create a template.FuncMap. The type behind FuncMap is
+`map[string]interface{}`. It’s a map of strings to empty interface. Then we can
+add to our map the functions we want to add to the template:
+
+
+```go
+var capitalizeFirstLetter = func(text string)string{return strings.Title(text)}
+funcs := template.FuncMap{"capitalizeFirstLetter": capitalizeFirstLetter}
+tmpl, err := template.New("product-dynamic.html").Funcs(funcs).ParseFiles("./views/product-dynamic.html")
+
+...
+
+<p>{{capitalizeFirstLetter "test"}}</p>  // this output a capitalized word `Test`
+```
+
+
+## Conditionals
+
+There is if/then/elseif/else block of conditionals, nothing else:
+
+If can be used to evaluate the truth value of the argument. 
+
+```
+{{ if .Sale }}
+    //...
+{{ elseif .ExtraDiscount }}
+    //...
+{{ else }}
+    //...
+{{ end }}
+```
+
+## Iteration
+
+Here is how range works:
+
+```
+// template
+<ul>
+    {{range $index, $element := .ShippingOptions}}
+       <li>{{ $element }}</li>
+    {{end}}
+</ul>
+```
+
+Or like this for the sake of brevity:
+
+```
+{{range .ShippingOptions}}
+    <li>{{ . }}</li>
+{{end}}
+```
+
+Here is how to use INDEX to access a particular item in range:
+
+```
+//template
+{{ $firstDelOpt := index .ShippingOptions 0}}
+<p>First delivery option is {{ $firstDelOpt }}</p>
+
+// 2D array
+{{ $note := index .Notes 0 1}}
+<p>First note, second criterion : {{$note}}</p>
+```
+
+##  Embed template files into the Go Binary
+
+Go 1.16 introduce a new standard package named embed. With this package, you
+can include in your program binary your template files (or other files).
+
+Let’s say that your template files are located in a views dir. You can embed
+all files located into the views directory with the //go:embed views/*
+directive.
+
+When the program is compiled, Go will populate views with all files located
+into the views directory.
+
+
+```go
+// template/basic-embed/main.go 
+package main
+
+import (
+    "embed"
+    "html/template"
+    "net/http"
+    "time"
+)
+
+//go:embed views/*
+var views embed.FS
+
+func main {
+    tmpl, err := template.ParseFS(views, "views/product.html")
+    if err != nil {
+        http.Error(w, "Something went wrong", http.StatusInternalServerError)
+        return
+    }
+    // use the template
+}
+```
+
+Then you can use the function template.ParseFS to load and parse your template
+files.
+
+
+## Debugging a template
+
+During the development phase, you can use this technique to improve your
+productivity:
+
+Inside the template, add this line:
+
+```
+{{ printf "%#v" . }}
+```
+
+This will output (in a human-readable mode) the properties keys and values
+passed to the template engine. Here is an example:
+
+```
+main.Product{
+	Name:"Red Tea Pot 250ml",
+	Price:"19.99",
+	Description:"Test",
+	ShippingDate:time.Time{wall:0xbeffc6aedb25e3e0, ext:18903963863,
+	loc:(*time.Location)(0x164dd40)},
+	Sale:true,
+	SaleImagePath:[]string{"img.jpg"},
+}
 ```
