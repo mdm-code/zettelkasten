@@ -1,7 +1,7 @@
 # go templates
 
 
-+go +template +dynamic +data
++go +template +dynamic +data +text +html +nest +nested
 
 
 https://godocs.io/text/template
@@ -103,8 +103,8 @@ The date above will get rendered as expected according to the layout.
 ## Nested templates
 
 Templates can be embedded inside one another to reduce duplication and
-repetition. One has to DEFINE a template before importing it and then
-call it with the TEMPLATE keyword:
+repetition. One has to DEFINE a template before importing it and then call it
+with the TEMPLATE keyword:
 
 ```html
 // derived.html
@@ -117,4 +117,51 @@ call it with the TEMPLATE keyword:
 // index.html/base.html
 {{ template "derived" . }}
 ...
+```
+
+The dot notation gives access to all variables inside of the enclosing scope to
+the nested template `derived`.
+
+!NOTE: All files used here have to be parsed with `template.ParseFiles` on the
+backend.
+
+
+## Variables
+
+(1) Variable assignment syntax is given below.
+(2) Variables are scoped meaning that variables defined in complex flow control, say
+    an if statement, lives only inside of that scope and it cannot be used outside of
+    {{end}} block delimiter.
+
+```html
+{{ $MyVar := .Date }}
+
+
+// ... and it can be reassigned the same way with `=` instead of `:=`
+
+{{ $MyVar = .NewDate }}
+```
+
+
+## Method calls
+
+There aren't any issues with calling methods when using templates however there are few prerequisites,
+namely,
+
+	* The method should return either ONE or TWO vales at most
+	* Provided it returns two values, the second one implements the `error` interface.
+
+```go
+type S struct {}
+
+func (S) foo(v string) string { return v }
+
+func (S) bar() string { return "BAR" }
+
+// ... then inside the template:
+// the first one without the parameter and
+// the other one with the parameter.
+
+<p>{{ .bar }}</p>
+<p>{{ .foo "value" }}</p>
 ```
