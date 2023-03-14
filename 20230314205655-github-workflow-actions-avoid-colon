@@ -1,0 +1,30 @@
+# github workflow actions avoid colon
+
+
+/Users/michal/Documents/journal/zettel/20220107180907-delete-push-tags-git-remote
+/Users/michal/Documents/journal/zettel/20230314205655-github-workflow-actions-avoid-colon
+/Users/michal/Documents/journal/zettel/20210726003029-gitlab-create-repo-remotely
+/Users/michal/Documents/journal/zettel/20210726003029-git-caret-and-tilde
+/Users/michal/Documents/journal/zettel/20210726003029-reset-git-remote-origin-to-commit
+/Users/michal/Documents/journal/zettel/20221205235205-git-cherry-pick
+/Users/michal/Documents/journal/zettel/20211011184918-git-bare-repository
+/Users/michal/Documents/journal/zettel/20211011184348-git-worktree
+/Users/michal/Documents/journal/zettel/20221205214830-git-interactive-rebase
+/Users/michal/Documents/journal/zettel/20210726003029-git-useful-commands-that-i-forget-about
+
+
++git +actions +github +gh +workflow +colon
+
+
+There is an annoying bug (or is it really a bug?) in the Github workflow
+file parser that does not let you use literal or even escaped, with a
+slash, colon `:` outside of it default syntactic functions. In all other
+places, it has to put inside quotation marks or inverted commas like so:
+
+```yml
+  name: Test formatter
+  run: |
+    go build -o duct cmd/duct/main.go && echo -n class A':' pass | ./duct black -l 79
+```
+
+Have a look at how it's handled in the input of the `echo` command.
