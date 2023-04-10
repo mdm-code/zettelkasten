@@ -1,0 +1,29 @@
+# docker swarm load balancing
+
+
++docker +swram +ingress +mesh +routing +network +overlay +nginx +load +balancer
+
+
+I got most of the docker swarm mode figured out and practiced. One thing that I
+couldn't get straight right off the bat was the routing of requests comming
+over from an external client to a docker service with multiple replicas, say
+five, with the same -- well obviously -- the port.
+
+There is no need to set up a load balancer out right. The Docker default
+traffic is routed using an ingress routing mesh and internal load balancer to
+handle incoming requests. By default, it uses the ROUND ROBIN approach using
+the container DNS records, e.g., app.1, app.2, ... , app.N
+
+The other bit is the overlay network that spans containers-and their launched
+services-across multiple nodes so that they can talk to each other. Here is how
+it works on a diagram:
+
+```txt
+             swarm manager
+------------------------------------
+           overlay network
+------------------------------------
+   node1        node2         node3
+------------------------------------
+app db app | app app app | app db db
+```
