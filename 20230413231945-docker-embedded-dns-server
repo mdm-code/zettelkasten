@@ -1,0 +1,22 @@
+# docker embedded dns server
+
++docker +container +swarm +nginx +dns +server +resolver
+
+By default, the embedded Docker DNS server is available at 127.0.0.11.
+
+For nginx, for instance, configured as reverse proxy, the configu might look
+like this:
+
+```
+http {
+	resolver 127.0.0.11 ipv6=off;
+}
+```
+
+The IPv6 is disallowed here should nginx stir up troubles with using IPv6 for
+DNS queries that has been known not to be forwarded to external services as of
+Docker version 1.11.
+
+Make sure the resover configuration does not get overwritten somewhere else in
+the config file, like in the ones generated from the Mozilla SSL Config
+Generator available here: `https://ssl-config.mozilla.org`.
