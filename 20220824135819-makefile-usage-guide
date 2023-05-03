@@ -55,3 +55,28 @@ file2:
 
 
 ## Targets
+
+It's easy to make an ALL target and place it as the first rule in the makefile.
+this way, the ALL target will run as default when there's no target given passed
+to the make command.
+
+```make
+
+all: one.c two.c three.c
+
+...
+```
+
+Multiple targets means that the command runs for each and every one of them. There
+is an automatic variable $@ that stores the target name so that it can be used for
+invocation.
+
+
+```make
+f1.o f2.o:
+	echo $@
+...
+```
+
+This make runs for both targets separately. It equals placing them in separate
+targets, but this would make it more verbose.
