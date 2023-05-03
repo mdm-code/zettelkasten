@@ -110,3 +110,25 @@ The % wildcard is used in wider context:
 called the stem.
 2. In replacing mode, it takes whatever's matched in the stem and replaces it
 with something else.
+
+It is usually used in rule definitions and in some specific functions
+
+
+## Automatic variables
+
+Here is a complete list of all automatic variables used by the GNU make:
+
+https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
+
+Ninety-nine percent of the time, only the most common ones are used.
+
+```make
+foo: bar.c baz.c
+	# Output the name of the rule
+	echo $@
+
+	# Output all prerequisites newer than the target
+	echo $?
+
+	# Output all prerequisites
+	echo $^
