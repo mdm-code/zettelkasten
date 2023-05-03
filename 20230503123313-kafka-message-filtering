@@ -1,0 +1,23 @@
+# Kafka message filtering
+
+
++kafka +broker +producer +consumer +partition +stream +filter +topic
+
+
+Here are three options that can be used to route/filter messages across
+different service Kafka consumers:
+
+1. Kafka Streaming:
+With kafka streaming you can filter data as per your need and write it to the
+new topics. Consumers can consume messages from those new topics.
+
+2. Filter Data on the Consumer Side:
+You consume the data and filter the data as per required criteria on the
+consumer side.
+
+3. Use Separate partitions for separate country code:
+You define total partitions of this topic as per the number of country codes
+and make country code as key. Now make your consumers direct to right partition
+for consuming country specific messages.
+
+The drawback here is that you have to use a specific partition.
