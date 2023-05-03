@@ -1,0 +1,57 @@
+# makefile usage guide
+
+
++make +makefile +gnu +linux +unix +compile
+
+
+/Users/michal/Documents/journal/zettel/20221014135021-make-file-set-env-variables
+
+
+Here is the guide that I based this entry on: https://makefiletutorial.com/
+
+NOTE: The `GNU Make` is what this guide covers. Other systems should also work
+just fine.
+
+
+## Syntax
+
+The syntax for a single rule (Makefile usually has more than rule) goes as 
+follows:
+
+```make
+targets: requirements
+	command
+	command
+	command
+```
+
+TARGETS are separated with spaces, so are REQUIREMENTS, but the latter have to
+exist for the rule to run. COMMANDs need to start with a TAB, not spaces.
+
+Targets are usually file names, if they exist, the rule would not be run.
+
+
+## Variables
+
+Only strings are allowed as variables, and you set them with `:=` (default),
+but `=` also works well in most cases.
+
+Variables can then be referenced using either `${x}` or `$(x)` (also $x, but
+this is considered bad practice.)
+
+E.g.:
+```make
+files := file1 file2
+
+file3: ${files}
+	echo "depends on: " $(files)
+
+file1:
+	touch file1
+
+file2:
+	touch file2
+```
+
+
+## Targets
