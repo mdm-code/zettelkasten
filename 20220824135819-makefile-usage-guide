@@ -80,3 +80,33 @@ f1.o f2.o:
 
 This make runs for both targets separately. It equals placing them in separate
 targets, but this would make it more verbose.
+
+
+## Wildcards
+
+There are two wildcards used in a makefile: % and *.
+
+The latter * searches the file system, however, unless wrapped inside of a
+wildcard function, it will no expand when there's no match found. Remeber to
+use it like this:
+
+```make
+files = $(wildcard *.c)
+
+one: files
+```
+
+The unexpanded variable assignments left as they are when the wildcard function
+is not used mean that `file = *.c` will have exactly this literal assigned.
+
+Make sure * is not used directly in the variable definition: this is another
+common pitfall.
+
+MAKE SURE YOU USE THE WILDCARD FUNCTION with the Kleene star.
+
+The % wildcard is used in wider context:
+
+1. In matching mode, it matches one or more characters of a string. This is
+called the stem.
+2. In replacing mode, it takes whatever's matched in the stem and replaces it
+with something else.
