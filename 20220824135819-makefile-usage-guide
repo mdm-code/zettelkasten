@@ -132,3 +132,105 @@ foo: bar.c baz.c
 
 	# Output all prerequisites
 	echo $^
+
+
+## Implicit rules
+
+It is generally advisied not to use them, yet, I will have them listed here
+just in case. Here is a list:
+
+1. C program compilation is done implicitly and automatically from n.c with
+this default command: $(CC) -c $(CPPFLAGS) $(CFLAGS) $^ -o $@
+
+2. C++ program compilation is done automatically from n.cpp or n.cc with this
+command: $(CXX) -c $(CPPFLAGS) $(CXXFLAGS) $^ -o $@
+
+3. Linking a single object file: n is made automatically from n.o with this
+command: $(CC) $(LDFLAGS) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+Here are some variables used by these implicit rules:
+
+1. CC: Program for compiling C programs; default cc
+2. CXX: Program for compiling C++ programs; default g++
+3. CFLAGS: Extra flags to give to the C compiler
+4. CXXFLAGS: Extra flags to give to the C++ compiler
+5. CPPFLAGS: Extra flags to give to the C preprocessor
+6. LDFLAGS: Extra flags to give to compilers when they are supposed to invoke
+the linker
+
+
+```make
+CC = gcc # Flag for implicit rules
+CFLAGS = -g # Flag for implicit rules. Turn on debug info
+
+# Implicit rule #1: blah is built via the C linker implicit rule
+# Implicit rule #2: blah.o is built via the C compilation implicit rule,
+# because blah.c exists
+blah: blah.o
+
+blah.c:
+	echo "int main() { return 0; }" > blah.c
+
+clean:
+	rm -f blah*
+```
+
+## Static pattern rules
+
+This is one way to write less in a makefile and here is the syntax of static pattern
+rules:
+
+```make
+targets...: target-pattern: prereq-patterns ...
+   commands
+```
+
+The target in targets... is matched against target-pattern with the % wildcard
+as a stem. Then the stem is used to replace the prereq-pattern. This way, static
+pattern rules can be used to compile .c files into .o files. This goes in hand
+with implicit rules.
+
+```make
+objects := foo.o bar.o baz.o
+
+$(objects): %.o: %.c
+```
+
+
+## Pattern rules (say, dynamic as opposed to static)
+
+Pattern rules are often used but quite confusing. You can look at them as two
+ways:
+
+    1. A way to define your own implicit rules
+    2. A simpler form of static pattern rules
+
+Let's start with an example first:
+
+```make
+# Define a pattern rule that compiles every .c file into a .o file
+%.o : %.c
+	$(CC) -c $(CFLAGS) $(CPPFLAGS) $< -o $@
+```
+
+Pattern rules contain a '%' in the target. This '%' matches any nonempty
+string, and the other characters match themselves. ‘%’ in a prerequisite of a
+pattern rule stands for the same stem that was matched by the '%' in the
+target.
+
+
+# Double-Colon Rules
+
+Double-Colon Rules are rarely used, but allow multiple rules to be defined for
+the same target. If these were single colons, a warning would be printed and
+only the second set of commands would run.
+
+```make
+all: blah
+
+blah::
+	echo "hello"
+
+blah::
+	echo "hello again"
+```
