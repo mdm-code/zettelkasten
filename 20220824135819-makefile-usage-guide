@@ -234,3 +234,52 @@ blah::
 blah::
 	echo "hello again"
 ```
+
+
+# Commands and execution
+
+ONE) By default, each command in the make file gets printed, and here I don't mean
+it's output gets printed, its the command as defined in the Makefile getting
+printed out to STDOUT. So, The output of this sort of target results in the
+output as follows:
+
+```make
+all:
+	@echo "spam ham"  # This command is not printed; what does get printed is its output
+	echo "foo bar"  # However, this one does - so you get two lines
+
+# spam ham
+# echo "foo bar"
+# foo bar
+```
+
+TWO) Each command is run in a separate shell when they're on separate lines
+meaning that they do not affect each other in the usual fashion. When they're on
+the same line, they act as expected.
+
+THREE) The default shell is set to /bin/sh, and you can change it by reassiging
+the DEFAULT_SHELL variable in the Makefile.
+
+FOUR) Using the dolar sign - double the dolar sign $$ and this is how to use
+shell variables in sh or bash or zsh and others.
+
+
+```make
+DEFAULT_SHELL=/bin/bash
+all: vars
+	cd ..
+	echo $(pwd)
+# What gets printed here is the directory of the Makefile. The `cd` has no effect.
+	
+	cd ..; echo `pwd`  # This cd does affect the following echo command.
+
+	cd ..; \
+	echo $(pwd)  # This one as well - there's a line continuation sign.
+
+mk_var = 'makefile'
+
+vars:
+	@sh_var="Hello, from shell"; echo $$sh_var
+
+	@echo $(mk_var)
+```
