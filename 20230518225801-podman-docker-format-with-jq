@@ -1,0 +1,23 @@
+# podman docker format with jq
+
+
++jq +json +podman +docker +container +orchestration
+
+
+/Users/michal/Documents/journal/zettel/20230413231945-docker-embedded-dns-server
+/Users/michal/Documents/journal/zettel/20230410113839-docker-swarm-load-balancing
+/Users/michal/Documents/journal/zettel/20230518191306-podman-basics
+
+
+Instead of trying to fiddle with the annoying `--format` flag in both podman and
+docker, it appears to be easier to use `jq` to format the JSON output whatever
+way one finds it appropriate.
+
+Here I am giving a basic example, but sky is the limit. Podman seems to give you
+a default output in a form of Go struct default printf output, but JSON is way
+more readable, because Go struct representation in this form does not include
+field names of the struct.
+
+```sh
+podman container ls -a --format "{{json .}}" | jq ".Id"
+```
