@@ -1,0 +1,13 @@
+# podman basics
+
+# VM in Podman Desktop
+
+When running Podman Desktop, you want to create a Podman Machine, a VM, first with these commands:
+
+```sh
+podman machine init  # Initialize the VM
+podman machine start
+podman machine stop  # Stop the VM
+```
+
+This will get your Podman machine up and running with default configuration.
