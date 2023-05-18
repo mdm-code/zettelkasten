@@ -12,6 +12,12 @@ podman machine stop  # Stop the VM
 
 This will get your Podman machine up and running with default configuration.
 
+
+# Most commonly used commands
+
+Seems like the most commonly used commands work pretty much like their Docker 
+equivalents. At least at the very basic level.
+
 ```sh
 podman image pull ...
 podman run
