@@ -23,3 +23,10 @@ podman image pull ...
 podman run
 podman container  # etc. These appear to work pretty much like docker in the shell
 ```
+
+
+# Containerfile & Dockerfile
+
+Both Containerfile and Dockerfile names are interpreted by podman so no worries,
+there's no need to rename the container blueprint in case you have strong opinion
+about it.
