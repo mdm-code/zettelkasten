@@ -11,3 +11,9 @@ podman machine stop  # Stop the VM
 ```
 
 This will get your Podman machine up and running with default configuration.
+
+```sh
+podman image pull ...
+podman run
+podman container  # etc. These appear to work pretty much like docker in the shell
+```
