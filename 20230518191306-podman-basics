@@ -34,3 +34,21 @@ podman container  # etc. These appear to work pretty much like docker in the she
 Both Containerfile and Dockerfile names are interpreted by podman so no worries,
 there's no need to rename the container blueprint in case you have strong opinion
 about it.
+
+
+# Pods?
+
+Podman let's you create pods from containers and get it up and running with
+Podman container engine. Use this command to see what's up:
+
+```sh
+podman pod --help
+```
+
+
+# Importing existing containers from docker
+
+There's not much to do here. You can either go like `podman save <container>
+container.tar` or `docker export <container> container.tar` to get the
+container saved, and then use `podman import xxx.tar` to import it to podman.
+It's fairly simple and straightforward.
