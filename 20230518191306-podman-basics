@@ -17,6 +17,23 @@ podman machine inspect --format '{{json . }}'  | jq '.ConfigPath.Path'
 This will get your Podman machine up and running with default configuration.
 
 
+# Migrate from Docker to Podman
+
+Easy. Get the path to Podman socket file:
+
+```sh
+# Linux
+$ podman info --format '{{.Host.RemoteSocket.Path}}'
+
+# MacOS
+$ podman machine inspect --format '{{.ConnectionInfo.PodmanSocket.Path}}'
+```
+
+And then export it `export DOCKER_HOST=<your_podman_socket_location>` and then
+all tools using this environmental variable will start talking to Podman
+instead of Docker.
+
+
 # Most commonly used commands
 
 Seems like the most commonly used commands work pretty much like their Docker 
