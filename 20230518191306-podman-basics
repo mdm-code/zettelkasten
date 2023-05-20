@@ -69,3 +69,18 @@ There's not much to do here. You can either go like `podman save <container>
 container.tar` or `docker export <container> container.tar` to get the
 container saved, and then use `podman import xxx.tar` to import it to podman.
 It's fairly simple and straightforward.
+
+
+# Podman and K8s
+
+Podman can help you run local K8s clusters using Kind on its container engine.
+
+(1) First thing is to install `kind` -- it can be done in the Podman Desktop.
+There's a prompt at the bottom of the GUI. (2) And then go to Settings > Resources
+has the Kind tile that's going to let you create new clusters.
+
+You can likewise use the Kind CLI:
+
+```sh
+kind get clusters
+```
