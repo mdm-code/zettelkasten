@@ -8,6 +8,10 @@ When running Podman Desktop, you want to create a Podman Machine, a VM, first wi
 podman machine init  # Initialize the VM
 podman machine start
 podman machine stop  # Stop the VM
+
+# Cool one (here are two examples):
+podman machine inspect --format '{{json .}}'
+podman machine inspect --format '{{json . }}'  | jq '.ConfigPath.Path'
 ```
 
 This will get your Podman machine up and running with default configuration.
