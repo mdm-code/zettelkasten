@@ -84,3 +84,18 @@ You can likewise use the Kind CLI:
 ```sh
 kind get clusters
 ```
+
+
+# Podman system command
+
+This is a very interestring command exposed by Podman.
+
+```sh
+podman system -h
+
+# connection ... - manages system connections
+# info - regular system information
+# df - disk usage information
+# events - podman system events monitoring
+# prune - remove unused data
+```
