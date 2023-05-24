@@ -138,3 +138,33 @@ to load an image from a TAR file. Here is an example:
 podman save image:latest image.tar
 kind load image-archive image.tar --name kind-cluster
 ```
+
+And then in `kubectl`:
+
+```sh
+# to add
+kubectl apply -f - < config.yaml
+
+# to remove
+kubectl delete -f - < config.yaml
+```
+
+Here is the basic config:
+
+```yaml
+apiVersion: v1
+ kind: Pod
+ metadata:
+   name: sleeper
+ spec:
+   containers:
+     - name: sleeper
+       image: localhost/sleeper:0.1.0
+       imagePullPolicy: Never
+```
+
+Make sure to do two things:
+(1) put the localhost in front of the image name, it appears
+to be considered its part, and
+(2) set inagePullPolicy to Never or IfNotPresent if you want
+to stick to the `latest` tag in the config file for k8s.
