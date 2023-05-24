@@ -108,6 +108,9 @@ podman system -h
 
 # Creating kind-powered k8s cluster
 
+See here for a quickstart:
+https://kind.sigs.k8s.io/docs/user/quick-start/#loading-an-image-into-your-cluster
+
 There's a way to do in the Podman GUI, but go for CLI `kind` command and use
 it directly like so to create a fresh cluster.
 
