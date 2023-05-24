@@ -12,6 +12,9 @@ podman machine stop  # Stop the VM
 # Cool one (here are two examples):
 podman machine inspect --format '{{json .}}'
 podman machine inspect --format '{{json . }}'  | jq '.ConfigPath.Path'
+
+# OR skip json
+podman container ls --format '{{ .ID }}'
 ```
 
 This will get your Podman machine up and running with default configuration.
