@@ -116,4 +116,22 @@ kind create cluster --name kind-cluster
 
 # kind get clusters -- ls clusters
 # kind delete kind-cluster
+
+# # There's no native restart in the CLI Kind command.
+```
+
+Then use `kubectl` to check the current context with `kubectl config
+kind-cluster`.
+
+
+# Loading Podman images to Kind locally
+
+At least on MacOS, there seems to be a bug with `kind load docker-image ...`
+causing kind not to be able to find the right image even when the right
+tag is provided. A working workaround uses `image-archive` and `podman save`
+to load an image from a TAR file. Here is an example:
+
+```sh
+podman save image:latest image.tar
+kind load image-archive image.tar --name kind-cluster
 ```
