@@ -85,6 +85,11 @@ You can likewise use the Kind CLI:
 kind get clusters
 ```
 
+For Kind configuration, you might want to set the rootful connection as default
+(the one with the `*-root` suffix) with `podman connection default
+podman-machine-default-root`. It is hard for me to tell if the rootful connection
+is required for Kind to work properly on Linux and MacOS.
+
 
 # Podman system command
 
@@ -98,4 +103,17 @@ podman system -h
 # df - disk usage information
 # events - podman system events monitoring
 # prune - remove unused data
+```
+
+
+# Creating kind-powered k8s cluster
+
+There's a way to do in the Podman GUI, but go for CLI `kind` command and use
+it directly like so to create a fresh cluster.
+
+```sh
+kind create cluster --name kind-cluster
+
+# kind get clusters -- ls clusters
+# kind delete kind-cluster
 ```
