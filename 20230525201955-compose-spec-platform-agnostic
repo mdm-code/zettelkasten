@@ -1,0 +1,14 @@
+# compose spec platform agnostic
+
++docker +podman +compose +stack +k8s +kubernetes +kind
+
+
+Here is a platform agnostic compose specifiction use, among other tools,
+by Podman. This spec works just fine with Helm charts and Kubernetes yaml
+what makes it really portable and user-friendly.
+
+Here is the spec:
+https://github.com/compose-spec/compose-spec/blob/master/spec.md
+
+And here is the website of the compose specifiction:
+https://compose-spec.io/
