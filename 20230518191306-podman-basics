@@ -1,5 +1,12 @@
 # podman basics
 
+
++podman +docker +pod +compose +container +kuberentes +kind +helm
+
+
+/Users/michal/Documents/journal/zettel/20230525201955-compose-spec-platform-agnostic
+
+
 # VM in Podman Desktop
 
 When running Podman Desktop, you want to create a Podman Machine, a VM, first with these commands:
@@ -171,3 +178,21 @@ Make sure to do two things:
 to be considered its part, and
 (2) set inagePullPolicy to Never or IfNotPresent if you want
 to stick to the `latest` tag in the config file for k8s.
+
+
+# Compose spec for podman
+
+Here is a link to the specification in zettel:
+/Users/michal/Documents/journal/zettel/20230525201955-compose-spec-platform-agnostic
+
+Once `podman-compose` is installed (both apt and brew have it), it is used the
+same way as the docker one - at least on the surface. Both docker and Podman
+composes adhere to the same open standard.
+
+Here is how to get it spinning:
+
+```sh
+podman-compose -f compose.yaml up -d
+```
+
+By and large, Podman's quite cool.
