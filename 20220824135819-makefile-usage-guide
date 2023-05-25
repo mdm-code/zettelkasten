@@ -261,7 +261,8 @@ THREE) The default shell is set to /bin/sh, and you can change it by reassiging
 the DEFAULT_SHELL variable in the Makefile.
 
 FOUR) Using the dolar sign - double the dolar sign $$ and this is how to use
-shell variables in sh or bash or zsh and others.
+shell variables in sh or bash or zsh and others. The single dolar refers to
+the make file variable.
 
 
 ```make
@@ -283,3 +284,8 @@ vars:
 
 	@echo $(mk_var)
 ```
+
+FIVE) ERROR HANDLING: add `-k` to continue running make even when errors occur.
+This will print out all the errors at once; `-` in front of the command
+suppresses the error and `-i` passed as an argument does this for every command
+in the makefile.
