@@ -303,3 +303,29 @@ one:
 ...
 
 ```
+
+
+## Exporting and using environmental variables
+
+Make create variables for all environmental variables that are set when it's
+executed, like `export make-var='foo'; make`. And then it can be accessed
+either as make or shell variable.
+
+Make variables can also be exported in the make file so that it's available
+for all shell commands in all recipes.
+
+Exporting also makes sure that variables are available to child make processes.
+
+```make
+.EXPORT_ALL_VARIABLES:  # This one exports all variables for default
+make-var-2="bar"
+export make-var-2
+all:
+    # Make var
+	echo $(make-var)
+    # Shell var
+	echo $$make-var
+	# shell var exported in make
+	echo $$make-var-2
+	cd dir && $(MAKE)
+```
