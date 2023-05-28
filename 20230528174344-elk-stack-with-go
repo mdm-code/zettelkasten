@@ -16,3 +16,88 @@ search and retrieval (maybe some faceting like in Solr?)
 - Logstash, unsuprisingly, is used for data pipelines and data integration
 from multiple sources (logs, DBs, etc.)
 - Kibana is used for visualization
+
+Here is a Go client for Elasticsearch:
+
+```
+https://pkg.go.dev/github.com/elastic/go-elasticsearch
+```
+
+
+Let's say all the data for the application of some sort is kept in a Postresql
+database, but the goal is to make it searchable at scale with Elasticsearch. So
+Logstash is going to get configured so that it takes data from Postresql DB as
+input and passes it over to Elasticsearch as otput.
+
+This means that there has to be some sort of `pipelines.yml` file with a pipeline like this,
+for example:
+
+```
+- pipeline.id: sync-tests-pipeline
+  path.config: "/usr/share/logstash/pipeline/sync-tests.conf"  # This is the config file
+```
+
+And then inside of the config file...
+
+```sync-tests.conf
+
+# Here is the whole input song and dance:
+input {
+    jdbc {
+        jdbc_connection_string => "jdbc:postgresql://${POSTGRES_HOST}:5432/${POSTGRES_DB}"
+        jdbc_user => "${POSTGRES_USER}"
+        jdbc_password => "${POSTGRES_PASSWORD}"
+		# Make sure logstash has a driver available inside of the container
+        jdbc_driver_library => "/opt/logstash/vendor/jdbc/postgresql-42.2.18.jar"
+        jdbc_driver_class => "org.postgresql.Driver"
+		# Logstash has to have an SQL query available for use (see snippet below):
+        statement_filepath => "/usr/share/logstash/config/queries/sync-posts.sql"
+        use_column_value => true
+        # Gonna wanna fetch only those operations that appeared since the last run of
+        # the pipeline, old ids are skipped?
+        tracking_column => "id"
+        tracking_column_type => "numeric"
+        schedule => "*/5 * * * * *" # cron-like, see?
+    }
+}
+
+# Gonna delete some useless crap using a filter:
+filter {
+    mutate {
+        remove_field => ["@version", "@timestamp"]
+    }
+}
+
+# And some of the output goodness:
+output {
+    if [operation] == "delete" {
+        elasticsearch {
+            hosts => ["http://elasticsearch:9200"] # URL of the ES docker container - docker would resolve it for us.
+            action => "delete"
+            index => "tests"
+            document_id => "%{test_id}"
+        }
+    } else if [operation] in ["insert", "update"] {
+        elasticsearch {
+            hosts => ["http://elasticsearch:9200"]
+            action => "index"
+            index => "tests"
+            document_id => "%{test_id}"
+        }
+    }
+}
+```
+
+
+```sync-posts.sql
+SELECT l.id,
+       l.operation,
+       l.test_id,
+       t.id,
+       t.name,
+       t.body
+FROM test_logs l
+         LEFT JOIN tests t
+                   ON t.id = l.test_id
+WHERE l.id > :sql_last_value ORDER BY l.id;
+```
