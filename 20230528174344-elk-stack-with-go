@@ -1,0 +1,18 @@
+# elk stack with go
+
+
++elk +elasticsearch +kibana +logstash +go +golang +microservices
+
+
+/Users/michal/Documents/journal/zettel/20220503155300-stateless-application
+/Users/michal/Documents/journal/zettel/20220303133642-cloud-native-application-characteristics
+
+
+The ELK stack (from Elasticsearch, Logstash and Kibana) is no news, but let's put
+some basic characteristics in one place for reference.
+
+- Elasticsearch here is used here to keep data indexed for blazingly fast
+search and retrieval (maybe some faceting like in Solr?)
+- Logstash, unsuprisingly, is used for data pipelines and data integration
+from multiple sources (logs, DBs, etc.)
+- Kibana is used for visualization
