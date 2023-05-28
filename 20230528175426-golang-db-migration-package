@@ -1,0 +1,21 @@
+# golang db migration package
+
+
++go +golang +database +db +postgres +postgresql +migration +migrations
+
+
+/Users/michal/Documents/journal/zettel/20210830193833-postgres-drop-user-or-db
+/Users/michal/Documents/journal/zettel/20220309130325-postgres-full-text-indices
+/Users/michal/Documents/journal/zettel/20210830190710-postgres-cli-psql
+/Users/michal/Documents/journal/zettel/20210830190822-postgres-createdb
+/Users/michal/Documents/journal/zettel/20210726003029-sql
+/Users/michal/Documents/journal/zettel/20210830183753-postgres-db-in-go
+
+
+Here is a Go package that let's you create and apply database migration like you would
+do in Python Alembic.
+
+
+```
+https://github.com/golang-migrate/migrate
+```
