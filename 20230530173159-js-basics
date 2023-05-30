@@ -1,0 +1,46 @@
+# js basics
+
+# Declaring variables and comments
+
+```js
+
+/*
+This is a
+multiline comment.
+*/
+
+var x = 1;  // older syntax
+
+let y = 2;
+
+// constant; raises TypeError when assigning new value to constant variable.
+const z = 3.17;
+```
+
+
+# Typing
+
+```js
+let b = 5;
+typeof b;  // returns a STRING 'number'
+```
+
+
+# Table notation in JS
+
+When calling methods or accessing properties on a Javascript object, it's
+possible to use a rather awkward table notation. Have a look at the example:
+
+```js
+l = ['one', 'two']
+
+l.join("+")
+
+# The former equals the latter
+
+l["join"]("+")
+```
+
+It applies to anything that can be accessed with the regular dot notation.
+It seems like Javascript objects are maps/dictionaries underneeth the hood,
+and nobody even tries to hide it.
