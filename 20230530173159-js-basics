@@ -13,7 +13,7 @@ var x = 1;  // older syntax
 
 let y = 2;
 
-// constant; raises TypeError when assigning new value to constant variable.
+// constant; raises TypeError when asigning new value to constant variable.
 const z = 3.17;
 ```
 
@@ -41,6 +41,25 @@ l.join("+")
 l["join"]("+")
 ```
 
-It applies to anything that can be accessed with the regular dot notation.
-It seems like Javascript objects are maps/dictionaries underneeth the hood,
-and nobody even tries to hide it.
+- It applies to anything that can be accessed with the regular dot notation.
+
+- It seems like Javascript objects are maps/dictionaries underneeth the hood,
+  and nobody even tries to hide it.
+
+- Strings, integers, floats, bools, undefined, symbol and other primitive types
+  appear to be immutable in the regular, expected way.
+
+- Primitive types are stored directly in variables they're passed `by-value`
+  and not `by-reference`, so asigning one variable to another basically passes
+  the value, copies it, and not the reference to it.
+
+```js
+a = "foo"
+b = a  // a == b evaluates to false
+
+c = []
+d = c
+d[0] = "bar"
+console.log(d)  // [ 'bar' ] and c == d evaluates to true
+
+- Symbol (apparently a new thing since ES6) 
