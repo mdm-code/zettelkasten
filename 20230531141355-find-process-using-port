@@ -1,0 +1,20 @@
+# find process using port
+
+
++port +ip +host +network +linux +unix +lsof
+
+
+/Users/michal/Documents/journal/zettel/20220219195751-restart-network-interface
+/Users/michal/Documents/journal/zettel/20220219193955-check-if-network-transmits-data
+/Users/michal/Documents/journal/zettel/20221019001709-setup-ufw-on-ubuntu-linux
+/Users/michal/Documents/journal/zettel/20220602133220-port-numbers-network-layer
+/Users/michal/Documents/journal/zettel/20220219231944-resolving-tcp-ip-addresses
+
+
+Here is how to find the PID number of the process haging onto a particular port:
+
+```sh
+sudo lsof -i:8000
+```
+
+And then copy + kill -9 the process to release the port.
