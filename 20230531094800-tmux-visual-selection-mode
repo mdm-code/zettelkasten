@@ -1,0 +1,13 @@
+# tmux visual selection mode
+
+
++tmux +shell +visual
+
+
+/Users/michal/Documents/journal/zettel/20210804124544-tmux-move-panes
+/Users/michal/Documents/journal/zettel/20210804122432-nested-tmux-session
+
+
+In order to do that, use the usual `C-a [`, or whatever it is mapped to in your
+config, but instead of hitting space right away, press `C-v` and then space.
+This will let you select text like in Vim visual mode with hjkl.
