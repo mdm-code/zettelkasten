@@ -1,0 +1,19 @@
+# kafka poll or overflow internal queue
+
+
++kafka +message +broker +queue
+
+
+/Users/michal/Documents/journal/zettel/20230503123313-kafka-message-filtering
+
+
+When producing messages using Kafka client, remember that `Queue` is something
+implemented in the `librdkafka` library (confluent_kafka has bindings to it.).
+There is an inner `Queue` in memory that can fill itself up and error out if
+the number of messages > 100k (or so -- this is the limit I hit recently.).
+
+Call `producer.poll(0)` every call or every couple of produce calls so that
+queue cleaning mechanism is triggered or else you're going to error out.
+
+`poll()` is cheap and does not affect performance a great deal according to the
+author of the library.
