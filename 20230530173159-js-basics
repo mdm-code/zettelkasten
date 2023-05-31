@@ -63,3 +63,19 @@ d[0] = "bar"
 console.log(d)  // [ 'bar' ] and c == d evaluates to true
 
 - Symbol (apparently a new thing since ES6) 
+
+
+# Var, let, const and variable scope
+
+```js
+
+var x = 0;
+
+{
+	console log.(x); // this is ok -- x comes from an eclosing scope
+	let b = 1;
+}
+
+console.log(b); // raises ReferenceError
+```
+
