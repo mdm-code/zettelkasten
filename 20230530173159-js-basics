@@ -79,3 +79,41 @@ var x = 0;
 console.log(b); // raises ReferenceError
 ```
 
+
+
+# Functions
+
+Use `function name() { }` to syntax to declare a function.
+
+
+```js
+function print(i) {
+  console.log(i);
+  return i
+}
+
+fn = (i) => { console.log(i); }
+```
+
+Here is a random Fibonacci sequence in js:
+
+```js
+function fib(n) {
+	if (n in [ 1, 2 ]) {
+		return n
+	} else {
+		return fib(n-1) + fib(n-2)
+	}
+}
+
+for (let i = 0; i < 10; i++) {
+	console.log(fib(i));
+}
+```
+
+
+# Hoisting
+
+JavaScript Hoisting refers to the process whereby the interpreter appears to
+move the declaration of functions, variables or classes to the top of their
+scope, prior to execution of the code.
