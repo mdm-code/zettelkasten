@@ -93,6 +93,9 @@ function print(i) {
 }
 
 fn = (i) => { console.log(i); }
+
+// single var can skip paranthesis and brackets
+fn = str => console.log(str);
 ```
 
 Here is a random Fibonacci sequence in js:
@@ -111,9 +114,18 @@ for (let i = 0; i < 10; i++) {
 }
 ```
 
+## F-strings / template strings
+
+It seems like these works pretty well:
+
+```js
+console.log(`Name ${person.Name}`);
+```
+
 
 # Hoisting
 
 JavaScript Hoisting refers to the process whereby the interpreter appears to
 move the declaration of functions, variables or classes to the top of their
-scope, prior to execution of the code.
+scope, prior to execution of the code. This applies to declarations and not
+assignments (or initializations).
