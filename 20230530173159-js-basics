@@ -156,7 +156,20 @@ do {
    time a function is called, so it's different from what you would expect in Python, for
    instance.
 
+3. Make a class callable with extends:
 
+```js
+class Car extends Function {
+	constructor(brand, speed) {
+		super( ' console.log("wrooom...") ')
+		this.brand = brand
+		this.speed = speed
+	}
+}
+
+let bmw = new Car("bmw", 80)
+bmw()  // prins out `wrooom...` to stdout
+```
 
 
 # Hoisting
