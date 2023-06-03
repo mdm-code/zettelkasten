@@ -172,6 +172,17 @@ bmw()  // prins out `wrooom...` to stdout
 ```
 
 
+# Function additional arguments
+
+It can be used as *args in Python or ...args in Go. It is a regular list, like in other
+mentioned languages (Go has slices).
+
+```js
+// prints out length of 2, and the table with args
+function foo(a, b, c) {
+	console.log(arguments.length, arguments)
+}
+
 # Hoisting
 
 JavaScript Hoisting refers to the process whereby the interpreter appears to
