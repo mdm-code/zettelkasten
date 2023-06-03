@@ -43,7 +43,7 @@ l["join"]("+")
 
 - It applies to anything that can be accessed with the regular dot notation.
 
-- It seems like Javascript objects are maps/dictionaries underneeth the hood,
+- It seems like Javascript objects are maps/dictionaries underneath the hood,
   and nobody even tries to hide it.
 
 - Strings, integers, floats, bools, undefined, symbol and other primitive types
@@ -121,6 +121,42 @@ It seems like these works pretty well:
 ```js
 console.log(`Name ${person.Name}`);
 ```
+
+
+# Conditional expressions
+
+```
+if (x > 2) {
+	...
+} else if (x < 2) {
+	...
+}else {
+	...
+}
+
+// For single instruction it is possible to use without brackets:
+if (false) console.log(false);
+
+while (true) { ... };
+
+for (let i = 0; i < 5; i++) {
+	...
+}
+
+do {
+	...
+} while (true);
+
+
+# Functions
+
+1. You can create function with `new Function` with an object constructor, but just don't.
+
+2. It seems default parameters with reference types (e.g. a list []) are evaluated each
+   time a function is called, so it's different from what you would expect in Python, for
+   instance.
+
+
 
 
 # Hoisting
