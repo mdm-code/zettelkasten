@@ -1,5 +1,11 @@
 # js basics
 
+
+# Print out to screen
+
+Aside from `console.log` there also `console.dir` that prints out navigable JSON-like
+object given the object passed to the function.
+
 # Declaring variables and comments
 
 ```js
@@ -182,6 +188,19 @@ mentioned languages (Go has slices).
 function foo(a, b, c) {
 	console.log(arguments.length, arguments)
 }
+
+# Closures
+
+In JS functions are first-class citizens, so they can be passed around freely, meaning
+that they can be used in closures to share context across function calls.
+
+
+# Callback
+
+This is a function that's passed to another function making it, unsuprisingly, a
+higer-order function.
+
+
 
 # Hoisting
 
