@@ -223,3 +223,28 @@ In order to append something to an array, use [].Push(1).
 # instanceof
 
 Checks if an object is an `instanceof` anther one.
+
+
+# For loop
+
+## For-in
+
+```js
+const person = {fname:"John", lname:"Doe", age:25};
+
+let text = "";
+for (let x in person) {
+  text += person[x];
+}
+```
+
+## For-of
+
+```js
+const cars = ["BMW", "Volvo", "Mini"];
+
+let text = "";
+for (let x of cars) {
+  text += x;
+}
+```
