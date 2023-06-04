@@ -194,6 +194,9 @@ function foo(a, b, c) {
 In JS functions are first-class citizens, so they can be passed around freely, meaning
 that they can be used in closures to share context across function calls.
 
+Context of enclosing functions is preserved after they return so that returned
+functions can access it freely.
+
 
 # Callback
 
@@ -208,3 +211,11 @@ JavaScript Hoisting refers to the process whereby the interpreter appears to
 move the declaration of functions, variables or classes to the top of their
 scope, prior to execution of the code. This applies to declarations and not
 assignments (or initializations).
+
+
+# Array object
+
+`var a = new Array()` is equal to a literal `var a = []`.
+
+In order to append something to an array, use [].Push(1).
+
