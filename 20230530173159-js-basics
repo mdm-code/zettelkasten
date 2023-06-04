@@ -219,3 +219,7 @@ assignments (or initializations).
 
 In order to append something to an array, use [].Push(1).
 
+
+# instanceof
+
+Checks if an object is an `instanceof` anther one.
