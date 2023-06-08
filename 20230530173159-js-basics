@@ -248,3 +248,32 @@ for (let x of cars) {
   text += x;
 }
 ```
+
+
+# Get & set on the class
+
+```js
+class Person {
+	constructor(name, age) {
+		this._name = name
+		this._age = age
+	}
+
+	get name() {
+		return "The name is " + this._name
+	}
+
+	set name(val) {
+		if (val != "Bob") {
+			this._name = val
+		} else {
+			throw ReferenceError
+		}
+	}
+}
+```
+
+# Inheritance
+
+It appears there is a single parent allowed in JS, and you inherit after some super
+class using `extends` keyword after the class name.
