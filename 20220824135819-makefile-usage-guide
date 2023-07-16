@@ -33,6 +33,8 @@ Targets are usually file names, if they exist, the rule would not be run.
 
 ## Variables
 
+=, :=, ?=, +=
+
 Only strings are allowed as variables, and you set them with `:=` (default),
 but `=` also works well in most cases.
 
@@ -51,6 +53,81 @@ file1:
 
 file2:
 	touch file2
+```
+
+The difference between = and := is that the first one looks only for variables
+when the command is used and not when it's defined. So this means that when
+you declare a variable with = later on after you've used it in a command, it
+will be searched for and used. However, when using := walrus operator only
+the ones defined at the point of command execution will be printed. If the 
+variable shows up later in the file, it won't be printed out or set. Most of
+the time, it doesn't really change much.
+
+
+```make
+all:
+	@echo "foo" $(var)
+
+var = bar
+```
+
+?= is used to set a variable only if it's unset the moment it gets evaluated.
+
+Undefined variables are empty strings.
+
++= is used to append to a variable.
+
+There are also pattern and target-specific variables that can be declared like
+so:
+
+```make
+all: var = foo
+
+all:
+	@echo ${var}
+
+%.c: var2 = bar
+	...
+```
+
+If they're referenced by a different pattern, they will be empty.
+
+
+# Command line arguments
+
+For short, you pass them on the command line like so:
+
+```sh
+make one=foo
+```
+
+and reference them in the make file the regular way as if they were normal
+variables defined inside of the make file.
+
+In case you want to OVERRIDE them in the file, do it like this:
+
+```make
+override one=bar
+
+all:
+	@echo $(two)
+```
+
+
+# Canned recipes with define
+
+It's rarely used, but it allows you to define a recipe and assign it a single
+callable. It is not a function. Each line is run in a separate shell, so it's
+not like putting all commands one line separated with semicolons.
+
+```
+define setup
+export msg = Setting up all the stuff...
+@echo $(msg)
+endef
+
+all:
+	@echo ${setup}
 ```
 
 
