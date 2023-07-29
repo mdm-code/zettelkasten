@@ -1,0 +1,24 @@
+# docker set container entrypoint
+
+
++docker +linux +cmd +entrypoint +run
+
+
+/Users/michal/Documents/journal/zettel/20230413231945-docker-embedded-dns-server
+/Users/michal/Documents/journal/zettel/20230518225801-podman-docker-format-with-jq
+/Users/michal/Documents/journal/zettel/20230410113839-docker-swarm-load-balancing
+/Users/michal/Documents/journal/zettel/20230729135224-docker-set-container-entrypoint
+
+
+There is a way to set a default entrypoint for a container with an `ENTRYPOINT`
+instruction. You have to specify entrypoint first, and then all subsequent
+`CMD` calls will be treated as arguments to the entrypoint command. Here is an
+example of that.
+
+
+```dockerfile
+...
+ENTRYPOINT [ "echo" ]
+CMD [ "foo", "bar" ]
+...
+```
