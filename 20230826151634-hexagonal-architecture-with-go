@@ -16,3 +16,50 @@ elements plugged to the ports.
 
 What is the difference between a port and an adapter in a hexagonal architecture? How does
 that map onto the implementation artifacts?
+
+The port is the outermost element followed by an in-between adapter translation layer sitting right before
+the core application logic.
+
+So what you'd do, is that you would plug the adapter to the port, so that when there some 
+traffic on the port, the adapter takes care of the message translation.
+
+Adapters are communication interfaces that ports employ to communicate with the core application.
+
+Ports not necessarily have to exist as classes, only the adapters and their defined interfaces.
+
+Is the port and interface for the adapter? Not really, the Port is what the core app interacts with
+in both directions, but it has the adapter injected to translate the port interface calls to the 
+concrete implementation in the outside world.
+
+So say I want to persist a record. The core would reach out to the port saying - here's a record 
+I want to persist. And the message would be passed to the adapter that then would reach out to
+the running database process.
+
+In case of persistence port, there could be a MySQL adapter, a MongoDB adapter, a file adapter etc.
+The port would be the interface contract.
+
+The port defines the functionality for a given app feature -- say CLI, persistence.
+
+The port takes an adapter and calls methods on the adapter as defined in the interface to make
+its functionality work.
+
+Adapters can be swapped out.
+
+The adapter can be replaced for the unit testing purposes. Integration tests would still
+employ the actual technology used in the production environment.
+
+The only reason for the core to change is when the problem domain changes. It has a very specific interface
+that does not rely on concrete HTTP frameworks, database drivers and so on.
+
+core/domain/model <- models are a part of the core business domain
+so are:
+	core/ports
+	core/services
+
+This is how adapters can be laid out in the project structure:
+adapters/
+	-- handler
+		-- http
+	-- repository
+		-- postgres
+		-- elasticsearch
