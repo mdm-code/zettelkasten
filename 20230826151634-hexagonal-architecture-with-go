@@ -1,0 +1,18 @@
+# hexagonal architecture with go
+
+
++go +hexagonal +architecture +ddd
+
+
+My main concern with this architecture: What is the core logic and where it should be placed?
+
+I kind of get the the ports and adapters bit of the design, but let's dwell on it a bit more.
+
+The core business logic is in the center, and it is sorrounded by adapters that let it talk
+to the outside world.
+
+The core should never be affected by changes happening to concrete implementation of external
+elements plugged to the ports.
+
+What is the difference between a port and an adapter in a hexagonal architecture? How does
+that map onto the implementation artifacts?
