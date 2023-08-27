@@ -63,3 +63,17 @@ adapters/
 	-- repository
 		-- postgres
 		-- elasticsearch
+
+
+The service can define the communication between the core logic and the outside world.
+It can be used by an application layer protocol handler to talk to the core.
+
+The basic flow for a CLI app might such that there's a CLI ingoing adapter, a handler of
+sorts, that accepts the business logic service; and there is a service that takes
+a file repository and an API repository that are kind invoked by the service.
+
+When an adapter takes the service as an argument it means it's going act upon it.
+It dictates the flow of information. When a service takes some repository adapters
+it means it's going to make some outgoing requests to these services.
+
+Ports are simply interfaces in this case.
