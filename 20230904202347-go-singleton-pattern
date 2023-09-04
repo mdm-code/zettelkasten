@@ -1,0 +1,46 @@
+# go singleton pattern
+
+
++go +golang +singleton +design +pattern
+
+
+/Users/michal/Documents/journal/zettel/20220607115555-go-in-memory-file-io-reader-testing
+/Users/michal/Documents/journal/zettel/20230904202347-go-singleton-pattern
+/Users/michal/Documents/journal/zettel/20221012093537-go-slice-type-conversion
+/Users/michal/Documents/journal/zettel/20230528174344-elk-stack-with-go
+/Users/michal/Documents/journal/zettel/20221027141735-cyclomatic-complexity
+/Users/michal/Documents/journal/zettel/20221017235450-go-regex-capturing-groups
+/Users/michal/Documents/journal/zettel/20211128202731-golag-string-to-io-reader
+/Users/michal/Documents/journal/zettel/20211117140416-remeber-to-switch-go-version-in-goroot
+/Users/michal/Documents/journal/zettel/20221019213003-go-regexp-flag-options
+/Users/michal/Documents/journal/zettel/20230528175426-golang-db-migration-package
+
+
+Here is an example of how a singleton pattern can be implemented in Go:
+
+```go
+package main
+
+import (
+	"sync"
+)
+
+var (
+	// This is the key element.
+	once sync.Once
+
+	instance map[string]string
+)
+
+func New() map[string]string {
+	once.Do(func() {
+		instance = make(map[string]string)
+	})
+	return instance
+}
+
+func main() {
+	single = New()
+	fmt.Println(single)
+}
+```
