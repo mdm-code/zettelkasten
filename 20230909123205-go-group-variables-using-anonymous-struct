@@ -1,0 +1,32 @@
+# go group variables using anonymous struct
+
+
++go +var +struct +anonymous +setting +settings
+
+
+/Users/michal/Documents/journal/zettel/20230909123205-go-group-variables-using-anonymous-struct
+/Users/michal/Documents/journal/zettel/20220327125755-go-generic-stack
+/Users/michal/Documents/journal/zettel/20211228202232-go-hash-table
+/Users/michal/Documents/journal/zettel/20211024094045-go-interface-usage
+/Users/michal/Documents/journal/zettel/20221027141735-cyclomatic-complexity
+
+
+In Go, anonymous structs can be used to group variables into a single
+"namespace" to keep them in one place.
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	var apiSettings struct {
+		port int
+		host string
+	}
+	apiSettings.port = 8000
+	fmt.Println(settings)
+}
+```
