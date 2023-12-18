@@ -1,0 +1,42 @@
+# errors package in go
+
+
++go +errors +is +as +unwrap +err +interface
+
+
+/Users/michal/Documents/journal/zettel/20211024094045-go-interface-usage
+/Users/michal/Documents/journal/zettel/20220107185239-go-look-for-eof-error
+/Users/michal/Documents/journal/zettel/20211223001016-error-handling-in-go
+
+
+I recently run onto an issue with using `errors.Is()` function when I declared
+a custom error type wrapping the concrete error value. I wanted to check if the
+custom error type instance matches the the concrete error it wraps. I tried this
+
+```go
+import "errors"
+
+var wrappedErr := errors.New("wrapped")
+
+type CustomError struct {
+	err error
+}
+
+e := CustomError{err: wrappedErr}
+
+if !errors.Is(e, wrappedErr) {
+	panic()
+}
+```
+
+But there was obviously no way of knowing for the Go compiler that it's
+supposed to check the field of the custom error.
+
+The way do go about it is to add a public `Is()` method on the custom error
+struct that is then called whenever the `errors.Is()` is invoked in the code.
+
+This is how you would write this method:
+
+```go
+func (c *CustomError) Is(target error) bool { return c.err == target }
+```
