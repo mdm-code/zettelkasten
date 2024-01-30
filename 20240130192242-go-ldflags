@@ -1,0 +1,38 @@
+# Go ldflags
+
+
++go +build +ldflags +trimpath
+
+
+/Users/michal/Documents/journal/zettel/20240130191021-useful-go-build-tooling
+
+
+This is one cool thing that surely comes in handy when shipping go binaries to
+the external repository, and you want to add some metadata to the binary, or 
+maybe you want to overwrite some variables in code itself.
+
+To do that, you can use `-ldflags` to dynamically insert data to your program
+binary. Here is an example:
+
+```go
+// main.go
+package main
+
+var Version = ""
+
+func main() {
+	fmt.Println(Version)
+}
+```
+
+And then, if you build it with `go build` like so:
+
+```sh
+$ go build -ldflags "-X 'main.Version=v1.0.0'" -o program
+
+$ ./program
+# Prints out: v1.0.0
+```
+
+You can inject any sort of information into your binaries with this at the build
+time.
