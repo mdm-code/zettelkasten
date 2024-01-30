@@ -1,0 +1,40 @@
+# Useful go build tooling
+
+
++go +build +nm +tool +objdump +trimpath
+
+
+/Users/michal/Documents/journal/zettel/20221027141735-cyclomatic-complexity
+/Users/michal/Documents/journal/zettel/20220211095325-go-semantic-module-version-numbering
+/Users/michal/Documents/journal/zettel/20211117140416-remeber-to-switch-go-version-in-goroot
+/Users/michal/Documents/journal/zettel/20211216141024-go-lang-os-environ
+
+
+To list out all Go tools that might come in handy, type `go tool` without any
+arguments, and this will give you a list like this:
+
+addr2line
+asm
+buildid
+cgo
+compile
+covdata
+cover
+doc
+fix
+link
+nm
+objdump
+pack
+pprof
+test2json
+trace
+vet
+
+Here is a list of useful tools that ship with Go but weren't all that known to me:
+
+1. Nm - prints out symbols in Go binary 
+2. Objdump - prints out assembly for Go code in Go binary
+3. Asm - Go assembler
+
+The rest, I kind of know about.
