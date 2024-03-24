@@ -13,6 +13,11 @@
 /Users/michal/zettel/20240324105351-git-rerere
 
 
+Docs:
+1. https://git-scm.com/book/en/v2/Git-Tools-Rerere
+2. `man git-rerere`
+
+
 Git rerere stands for "reuse recorded resolutions". It let's reuse previously
 resolved conflicting hunks automatically. The docs say that the feature might
 come in handy when you have a long-going branch that you don't want to clutter
