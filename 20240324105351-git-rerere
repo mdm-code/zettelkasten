@@ -32,3 +32,15 @@ And here is an example from a config:
 [rerere]
 	enabled = true
 ```
+
+Whenever there's a conflict, on top of the usual conflict message, you will see
+that rerere "Recorded preimage for FILE". You can run `git rerere status` to
+check what's pre-recoded in rerere cache up front. Or you can run `git rerere
+diff` to see the current state of the resolution.
+
+When `rerere` detects that a resolution for the change has been recorded before,
+a message "Resolved FILE using previous resolution." will be printed out. It
+does not mean the commit will be pushed for you automatically, but there won't
+be any confict markers in the file, and when you run `git diff` it will say it
+was automatically re-resolved. You can then `git add`, `git rebase --continue`
+as usual. The rerere will help a bit.
