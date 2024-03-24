@@ -1,0 +1,27 @@
+# What is theirs and ours in Git?
+
+
+/Users/michal/zettel/20220107180907-delete-push-tags-git-remote
+/Users/michal/zettel/20230314205655-github-workflow-actions-avoid-colon
+/Users/michal/zettel/20221205235205-git-cherry-pick
+/Users/michal/zettel/20211011184918-git-bare-repository
+/Users/michal/zettel/20211011184348-git-worktree
+/Users/michal/zettel/20221205214830-git-interactive-rebase
+/Users/michal/zettel/20240324105351-git-rerere
+/Users/michal/zettel/20210726003029-python-setup-things-to-remember
+
+
++git +checkout +merge +rebase +theirs +ours
+
+
+The first and most important thing to get your head around is what is THEIRS
+and what is OURS when you merge and when you rebase. The thing is the two are
+going to have reverse meaning in the two cases. Ours is the branch the HEAD
+is currenty pointing at. The whole confusion comes from the fact that when doing
+a rebase, the HEAD is pointing at the branch you are rebasing yourself onto.
+In other words, the meaning of ours gets reversed.
+
+In case of merge, ...
+
+When it comes to rebase, ...
+
