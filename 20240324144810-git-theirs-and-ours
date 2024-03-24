@@ -14,6 +14,10 @@
 +git +checkout +merge +rebase +theirs +ours
 
 
+Quick reference:
+https://nitaym.github.io/ourstheirs
+
+
 The first and most important thing to get your head around is what is THEIRS
 and what is OURS when you merge and when you rebase. The thing is the two are
 going to have reverse meaning in the two cases. Ours is the branch the HEAD is
