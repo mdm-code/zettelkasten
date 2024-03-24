@@ -23,7 +23,7 @@ each time you rebase.
 Here is how you'd enable `rerere` on the command line:
 
 ```sh
-git config --local rerere.enabled true
+git config --global rerere.enabled true
 ```
 
 And here is an example from a config:
