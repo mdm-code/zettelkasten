@@ -1,0 +1,17 @@
+# How to use Git rerere and what it does?
+
+
++git +rerere +rebase
+
+
+/Users/michal/zettel/20220107180907-delete-push-tags-git-remote
+/Users/michal/zettel/20230314205655-github-workflow-actions-avoid-colon
+/Users/michal/zettel/20221205235205-git-cherry-pick
+/Users/michal/zettel/20211011184918-git-bare-repository
+/Users/michal/zettel/20211011184348-git-worktree
+/Users/michal/zettel/20221205214830-git-interactive-rebase
+/Users/michal/zettel/20240324105351-git-rerere
+
+
+Git rerere stands for "reuse recorded resolutions". It let's reuse previously
+resolved conflicting hunks automatically.
