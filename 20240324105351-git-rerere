@@ -14,4 +14,21 @@
 
 
 Git rerere stands for "reuse recorded resolutions". It let's reuse previously
-resolved conflicting hunks automatically.
+resolved conflicting hunks automatically. The docs say that the feature might
+come in handy when you have a long-going branch that you don't want to clutter
+with intermittent merge commits from the target, and yet you want the final
+merge to go smooth. And it should, given that your resolutions are recorded
+each time you rebase.
+
+Here is how you'd enable `rerere` on the command line:
+
+```sh
+git config --local rerere.enabled true
+```
+
+And here is an example from a config:
+
+```sh
+[rerere]
+	enabled = true
+```
