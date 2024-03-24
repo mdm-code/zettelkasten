@@ -1,0 +1,51 @@
+# How to use Git rerere and what it does?
+
+
++git +rerere +rebase
+
+
+/Users/michal/zettel/20220107180907-delete-push-tags-git-remote
+/Users/michal/zettel/20230314205655-github-workflow-actions-avoid-colon
+/Users/michal/zettel/20221205235205-git-cherry-pick
+/Users/michal/zettel/20211011184918-git-bare-repository
+/Users/michal/zettel/20211011184348-git-worktree
+/Users/michal/zettel/20221205214830-git-interactive-rebase
+/Users/michal/zettel/20240324105351-git-rerere
+
+
+Docs:
+1. https://git-scm.com/book/en/v2/Git-Tools-Rerere
+2. `man git-rerere`
+
+
+Git rerere stands for "reuse recorded resolutions". It let's reuse previously
+resolved conflicting hunks automatically. The docs say that the feature might
+come in handy when you have a long-going branch that you don't want to clutter
+with intermittent merge commits from the target, and yet you want the final
+merge to go smooth. And it should, given that your resolutions are recorded
+each time you rebase.
+
+Here is how you'd enable `rerere` on the command line:
+
+```sh
+git config --global rerere.enabled true
+```
+
+And here is an example from a config:
+
+```sh
+[rerere]
+	enabled = true
+```
+
+Whenever there's a conflict, on top of the usual conflict message, you will see
+that rerere "Recorded preimage for FILE". You can run `git rerere status` to
+check what's pre-recoded in rerere cache up front. Or you can run `git rerere
+diff` to see the current state of the resolution.
+
+When `rerere` detects that a resolution for the change has been recorded before,
+a message "Resolved FILE using previous resolution." will be printed out. It
+does not mean the commit will be pushed for you automatically, but there won't
+be any confict markers in the file, and when you run `git diff` it will say it
+was automatically re-resolved. You can then `git add`, `git rebase --continue`
+as usual. The rerere will help a bit.
