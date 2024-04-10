@@ -1,0 +1,37 @@
+# go io pipe
+
+
++go +golang +io +writer +reader +pipe
+
+
+/Users/michal/zettel/20220607115555-go-in-memory-file-io-reader-testing
+/Users/michal/zettel/20220107185239-go-look-for-eof-error
+/Users/michal/zettel/20211128202731-golag-string-to-io-reader
+
+
+I didn't know about the existance of the io.Pipe in Go. Seems like a cool thing
+that can be used for testing write/read operations on interfaces. Here is an
+example of how to use it:
+
+```go
+package main
+
+func main() {
+	// Create a pipe
+	r, w := io.Pipe()
+
+	// Write to the pipe
+	go func() {
+		w.Write([]byte("Hello, World!"))
+		w.Close()
+	}()
+
+	// Read from the pipe
+	buf := make([]byte, 100)
+	n, err := r.Read(buf)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(string(buf[:n]))
+}
+```
