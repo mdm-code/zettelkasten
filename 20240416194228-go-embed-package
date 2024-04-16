@@ -1,0 +1,37 @@
+# How to use Go embed package
+
+
++go +golang +embed +string +byte +fs +file +docs
+
+
+/Users/michal/zettel/20220607115555-go-in-memory-file-io-reader-testing
+
+
+In Go, it is possible to use the embed package to declutter your code if
+you need to literally embed files into your Go codebase. In order to do
+it, you have to import the embed package and then use the //go:embed
+comment right above the variable you want to have the file contents to be
+embedded into.
+
+Here a short snippet showing how to use the package in code:
+
+```go
+package main
+
+import (
+	_ "embed"
+	"fmt"
+)
+
+//go:embed hello.txt
+var s string
+
+func main() {
+	fmt.Println(s)
+}
+```
+
+You have to make sure that the file you want to embed is in the same
+directory as the Go file you are working on. If you want to embed a file
+from a different directory, you have to use the full path to the file,
+which I would not recommmend as it makes the code less portable.
