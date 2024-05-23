@@ -1,1 +1,21 @@
-# go monorepo workspace
+# Go monorepo workspace
+
+
++go +work +workspace +mod +monorepo
+
+
+These are some thoughts on how to set up a Go project as a monorepo. The first
+thing is that in the past Go had no facilities to manage multiple modules that
+carry reference to each other. It had the module from, I don't know, say, Go
+1.14 or something, but there was no way to have them work in a single project
+as if they were packages. The Go workspace appears to do exactly that. That
+said, you should in theory be able to have multiple packages in the same
+directory.
+
+You can have a single `go.work` file at the root of the project. Go is going
+to complain if you try to create another one.
+.
+├── go.work
+├── libs
+├── module1
+└── module2
