@@ -26,3 +26,18 @@ each library and app can be a separate Go module. Then with go workspace, it's
 possible to have imports and dependencies sorted out by adding modules to the
 workspace. This way modules can get required deps without pulling them from 
 remote repositories, say Github or Artifactory at your company.
+
+With the combination of `go work` and `go mod` you'd be able to get your
+monorepo up and running. If you have a Go module already at the root directory
+of the project, you can very well call `go work init` there and keep both at
+this level. There is nothing that would stop you from creating nested modules.
+As long as they're added to the workspace, you can use them pretty much like Go
+packages with their public interface.
+
+You work with modules in the workspace the same you'd work with them in a 
+regular single-module Go project. To get the workspace up and running, you'd
+first call `go work init` at the root of the project. Then you'd add modules
+either starting from the root or in separate directories. Inside of each
+of the directories, you can call `go mod init` to create a new module whether
+its an app or a library. Then you'd add the module to the workspace with
+`go mod init github.com/mdm-code/workspace/mod1 or something like that.
