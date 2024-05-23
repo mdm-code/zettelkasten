@@ -40,4 +40,10 @@ first call `go work init` at the root of the project. Then you'd add modules
 either starting from the root or in separate directories. Inside of each
 of the directories, you can call `go mod init` to create a new module whether
 its an app or a library. Then you'd add the module to the workspace with
-`go mod init github.com/mdm-code/workspace/mod1 or something like that.
+`go mod init github.com/mdm-code/workspace/mod1 or something like that. After
+you've installed additional packages call `go mod tidy` to get the dependencies
+sorted out.
+
+In order to add a newly created module to the workspace, you'd call `go work
+use `go work use -r .` to recursively add all modules in the project to the
+workspace.
