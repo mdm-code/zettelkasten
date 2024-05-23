@@ -19,3 +19,10 @@ to complain if you try to create another one.
 ├── libs
 ├── module1
 └── module2
+
+One way to structure monorepo is to divide your code into reusable libraries
+and apps that put libs together into concrete functionalities. In this case,
+each library and app can be a separate Go module. Then with go workspace, it's
+possible to have imports and dependencies sorted out by adding modules to the
+workspace. This way modules can get required deps without pulling them from 
+remote repositories, say Github or Artifactory at your company.
