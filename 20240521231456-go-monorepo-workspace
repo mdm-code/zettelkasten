@@ -38,12 +38,37 @@ said, you should in theory be able to have multiple packages in the same
 directory.
 
 You can have a single `go.work` file at the root of the project. Go is going
-to complain if you try to create another one.
+to complain if you try to create another one. Here is an example a basic Go
+repo with a workspace, vendored dependencies, some libs and some modules that
+can be build separately.
+
 .
 ├── go.work
+├── vendor
+│   └── ...
 ├── libs
+│   └── hello
+│       ├── go.mod
+│       └── main.go
 ├── module1
+│   ├── go.mod
+│   ├── go.sum
+│   ├── main.go
+│   ├── module1
+│   └── srv
+│       ├── go.mod
+│       ├── go.sum
+│       └── srv.go
 └── module2
+    ├── go.mod
+    ├── go.sum
+    ├── logs
+    │   ├── go.mod
+    │   └── log.go
+    ├── main.go
+    └── module2
+
+7 directories, 16 files
 
 One way to structure monorepo is to divide your code into reusable libraries
 and apps that put libs together into concrete functionalities. In this case,
