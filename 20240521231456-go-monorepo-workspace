@@ -72,3 +72,10 @@ sorted out.
 In order to add a newly created module to the workspace, you'd call `go work
 use `go work use -r .` to recursively add all modules in the project to the
 workspace.
+
+The last thing you might want to use is `go work vendor` to keep all the
+dependencies locally in the vendor directory. Mind you though that this will
+not make it possible to use vendoring at the module level, only at the level
+of the workspace. And this seems find from the point of view of mononrepo.
+
+And this is literally it.
