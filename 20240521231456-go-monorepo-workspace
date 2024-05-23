@@ -4,6 +4,31 @@
 +go +work +workspace +mod +monorepo
 
 
+Here is a quick list of the most useful commands:
+```sh
+go work init
+go work use -r .
+go work vendor
+
+go mod init github.com/user/project
+go mod init -C ./pkg github.com/user/project/pkg
+go mod tidy -C ./pkg
+
+go get github.com/user/project@version
+```
+
+Here is a rough script for the monorepo that lets you sync all the shit up and
+put it in the right order.
+
+```bash
+#!/bin/bash
+
+go list -f '{{.Dir}}' -m | xargs -L1 go mod tidy -C
+go list -f '{{.Dir}}' -m | xargs -L1 go work sync -C
+go list -f '{{.Dir}}' -m | xargs -L1 go test -C
+```
+
+
 These are some thoughts on how to set up a Go project as a monorepo. The first
 thing is that in the past Go had no facilities to manage multiple modules that
 carry reference to each other. It had the module from, I don't know, say, Go
