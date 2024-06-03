@@ -4,6 +4,9 @@
 +go +work +workspace +mod +monorepo
 
 
+/Users/michal/zettel/20240603221222-go-vet-workspace-issue
+
+
 Here is a quick list of the most useful commands:
 ```sh
 go work init
