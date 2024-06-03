@@ -1,0 +1,16 @@
+# go vet workspace issue
+
+
++go +work +workspace +mod +monorepo +vet
+
+
+/Users/michal/zettel/20240521231456-go-monorepo-workspace
+
+
+Go vet command seems not to work well with new Go workspaces enabled for the
+project. It throws some nasty errors when you try to invoke it. It works fine
+with regular modules though.
+
+The way to go about it is to slap `go work use -r .` right after you set up
+your project. It will add the root directory to the go.work file, and then
+everything appears to work fine.
