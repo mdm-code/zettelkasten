@@ -1,0 +1,25 @@
+# go for loop with int
+
+
++for +go +loop +int +integer +range
+
+
+Starting from Go 1.22, we can now range over integers. Here is how it works:
+
+
+```go
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	for i := range 42 {
+		fmt.Printf("The value is: %d\n", i)
+	}
+}
+
+Another important thing is that loop variables are no longer shared between iterations.
+Finally, I can rest in peace not worrying about passing the single variable reference
+to all my goroutines.
