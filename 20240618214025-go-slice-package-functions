@@ -1,0 +1,21 @@
+# go slice package functions
+
+
++slice +go +golang +delete +slices +package
+
+
+/Users/michal/zettel/20210816121532-go-unpack-slice-to-variables
+/Users/michal/zettel/20221012093537-go-slice-type-conversion
+/Users/michal/zettel/20211222123928-sorting-slices-in-go
+/Users/michal/zettel/20240618214025-go-slice-package-functions
+/Users/michal/zettel/20220122171358-go-slice-variadic-append
+/Users/michal/zettel/20220122172013-go-slice-overlapping-storage
+/Users/michal/zettel/20220122125842-go-sparse-array-and-slice
+
+
+Here is the link to the documentation of the Go slices package that offers
+a lot of functionality when it comes to searching, cliping, deduplication,
+comparing, concatenation, element deletion, equality testing, max, min,
+inserting, growing and reversing:
+
+https://pkg.go.dev/slices
