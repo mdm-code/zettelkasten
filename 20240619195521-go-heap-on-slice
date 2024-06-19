@@ -1,0 +1,76 @@
+# go heap on slice
+
+
++go +golang +data +structure +heap +slice +generics
+
+
+/Users/michal/zettel/20220109121052-implement-heap-in-go
+
+Here is quick implementation of a generic heap based on a slice derived
+type.
+
+
+```go
+package main
+
+import "golang.org/x/exp/constraints"
+
+type MaxHeap[T constraints.Ordered] []T
+
+func NewMaxHeap[T constraints.Ordered]() MaxHeap[T] {
+	return make(MaxHeap[T], 0)
+}
+
+func (h *MaxHeap[T]) Push(value T) {
+	(*h) = append((*h), value)
+	h.heapifyUp(len(*h) - 1)
+}
+
+func (h *MaxHeap[T]) heapifyUp(index int) {
+	for (*h)[parent(index)] < (*h)[index] {
+		h.swap(parent(index), index)
+		index = parent(index)
+	}
+}
+
+func (h *MaxHeap[T]) Pop() (T, bool) {
+	if len(*h) == 0 {
+		return *new(T), false
+	}
+	result := (*h)[0]
+	(*h)[0] = (*h)[len(*h)-1]
+	*h = (*h)[:len(*h)-1]
+	h.heapifyDown(0)
+	return result, true
+}
+
+func (h *MaxHeap[T]) heapifyDown(index int) {
+	lastIdx := len(*h) - 1
+	l, r := left(index), right(index)
+	var comp int
+	for l <= lastIdx {
+		if l == lastIdx {
+			comp = l
+		} else if (*h)[l] > (*h)[r] {
+			comp = l
+		} else {
+			comp = r
+		}
+		if (*h)[index] < (*h)[comp] {
+			h.swap(index, comp)
+			index = comp
+			l, r = left(index), right(index)
+		} else {
+			return
+		}
+	}
+}
+
+func (h *MaxHeap[T]) swap(i, j int) { (*h)[i], (*h)[j] = (*h)[j], (*h)[i] }
+
+func right(parentIdx int) int { return parentIdx*2 + 2 }
+
+func left(parentIdx int) int { return parentIdx*2 + 1 }
+
+func parent(childIdx int) int { return (childIdx - 1) / 2 }
+```
