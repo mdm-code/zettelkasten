@@ -1,0 +1,20 @@
+# ansible create dir
+
+
++ansible
+
+
+In case you want to create a directory inside of a directory that does not
+exist yet, there's no need to specify that it should recurse: Ansible is going
+to create it either way. I mean this kind of task:
+
+```yml
+- name: Ensure that Gh configuration directory is present
+  file:
+	path: "{{ gh_config_dir }}"
+	state: directory
+	mode: u=+rwx,g=+r-wx,o=+r-wx
+```
+
+Setting `recurse` to yes here would imply that all the files inside the dir
+are going to have this exact file mode.
