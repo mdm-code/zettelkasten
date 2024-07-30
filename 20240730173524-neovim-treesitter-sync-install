@@ -1,0 +1,28 @@
+# neovim treesitter sync install
+
+
++neovim +nvim +treesitter +parser +sync +install
+
+
+/Users/michal/zettel/20210828183001-vim-registers
+
+
+By default, Treesitter command in Neovim runs asynchronously. That said, if, for instance,
+you'd want to install Treesitter parsers in the Neovim headless mode with Ansible, you would
+be better off using the synchronous version of the install command. Instead of doing it like
+this, which is going to terminate immediately since it's async:
+
+```sh
+neovim --headless '+TSInstall all' +qa
+```
+
+You want to do the following instead:
+
+```sh
+neovim --headless '+TSInstallSync all' +qa
+```
+
+The second version is not going to terminate, and it's going to run until completion.
+
+Another thing to remember is that arguments to Neovim commands in the command mode have to
+be quoted with the command you want to run, just like in the example above.
