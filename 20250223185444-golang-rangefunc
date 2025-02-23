@@ -1,0 +1,61 @@
+# golang rangefunc
+
+
++golang +rangefunc +range +iter +iterator +function
+
+
+/Users/michal/zettel/20220607115555-go-in-memory-file-io-reader-testing
+/Users/michal/zettel/20221012093537-go-slice-type-conversion
+/Users/michal/zettel/20240618214025-go-slice-package-functions
+/Users/michal/zettel/20240619195521-go-heap-on-slice
+/Users/michal/zettel/20221017235450-go-regex-capturing-groups
+/Users/michal/zettel/20250223185444-golang-rangefunc
+/Users/michal/zettel/20211128202731-golag-string-to-io-reader
+/Users/michal/zettel/20240410222255-go-io-pipe
+
+
+One thing to keep in mind is that the `iter` package in the Go stdlib provides
+basic definitions and operations related to operations over sequences. Make
+sure to skim over the docs to stay in touch with what's already there. The
+package contains two types Seq (for value sequence iterators) and Seq2 (for
+key-value, index-value sequence iterators). It contains Pull and Pull2 functions
+to convert standard `push` iterators to `pull` iterators accessed by two next()
+and stop() functions. Stop can be called multiple times but not from different
+goroutines at the same time. Typically callers shoud `defer stop()`.
+
+Here is an example of an incomplete slice-based stack that returns a function
+iterator All() that can be used with the range keyword:
+
+```go
+// Define a stack type with a pointer receiver function that returns values
+// stored on the stack through an iterator.
+package main
+
+import (
+	"fmt"
+	"iter"
+)
+
+type stack[V any] []V
+
+// All returns an iterator of values that are currently on the stack.
+func (s *stack[V]) All() iter.Seq[V] {
+	return func(yield func(V) bool) {
+		for _, v := range *s {
+			if !yield(v) {
+				return
+			}
+		}
+	}
+}
+
+func main() {
+	var s stack[int]
+	for _, x := range []int{1, 2, 3} {
+		s = append(s, x)
+	}
+	for v := range s.All() {
+		fmt.Println(v)
+	}
+}
+```
