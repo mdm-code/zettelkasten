@@ -1,0 +1,25 @@
+# golang generic type alias
+
+
++golang +go +type +alias +generic
+
+
+/Users/michal/zettel/20230129234843-go-convert-regular-type-to-generic
+/Users/michal/zettel/20220327183807-go-generics-default-generic-type-value
+/Users/michal/zettel/20230909123205-go-group-variables-using-anonymous-struct
+/Users/michal/zettel/20220326213356-go-generics-meaning-of-tilde
+/Users/michal/zettel/20211024094045-go-interface-usage
+/Users/michal/zettel/20220124210031-go-use-iota-with-named-types
+/Users/michal/zettel/20220326210616-go-generics-with-methods
+/Users/michal/zettel/20240130191021-useful-go-build-tooling
+/Users/michal/zettel/20211222142409-primer-on-go-generics
+
+
+On top of type aliases introduced in Go 1.9, the Go
+version 1.24 added generic type aliases that you'd define
+the same way you'd with generics.
+
+
+```go
+type User[T any] = OldUser[T]
+```
