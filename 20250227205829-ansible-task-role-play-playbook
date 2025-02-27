@@ -1,0 +1,188 @@
+# ansible task role play playbook
+
+
++ansible +task +role +play +playbook +python +automation
+
+
+/Users/michal/zettel/20240715214728-ansible-create-dir
+
+
+Here are the fundamental concepts in Ansible's architecture and how they work
+together.
+
+| Component | Definition | Purpose | Scope |
+|-----------|------------|---------|-------|
+| Task      | A single operation or module call | Execute specific operations | Individual actions |
+| Play      | A sequence of tasks with target hosts | Define what runs where | Host-specific operations |
+| Role      | Reusable collection of tasks and supporting files | Organize related functionality | Project-wide reuse |
+| Playbook  | Collection of plays | Orchestrate complete deployments | Entire automation process |
+
+
+## Detailed Breakdown
+
+
+### Tasks
+
+* Individual operations that execute Ansible modules 
+
+* Cannot specify target hosts on their own
+* Best suited for simple, one-off operations
+* Example:
+```yaml
+tasks:
+  - name: Install Apache
+    ansible.builtin.apache2:
+      state: present
+```
+
+
+### Plays
+
+* Define what hosts will receive which tasks or roles 
+
+* Must include a mandatory `hosts` keyword
+* Can combine multiple tasks and roles
+* Example:
+```yaml
+- hosts: webservers
+  become: yes
+  tasks:
+    - name: Install packages
+      ansible.builtin.package:
+        name: "{{ packages }}"
+        state: present
+```
+
+
+### Roles
+
+* Self-contained units of automation 
+
+* Follow a standardized directory structure
+* Include multiple components:
+  * Tasks (`tasks/main.yml`)
+  * Handlers (`handlers/main.yml`)
+  * Files (`files/`)
+  * Templates (`templates/`)
+  * Variables (`vars/`)
+
+
+### Playbooks
+
+* Highest-level construct in Ansible 
+
+* Can contain multiple plays
+* Define complete automation workflows
+* Example:
+```yaml
+---
+- name: Web Server Setup
+  hosts: webservers
+  roles:
+    - common
+    - webserver
+
+- name: Database Setup
+  hosts: databases
+  roles:
+    - common
+    - database
+```
+
+
+## Practical Usage Patterns
+
+
+### Task-Based Approach (Simple Playbook)
+
+```yaml
+---
+- hosts: webservers
+  become: yes
+  tasks:
+    - name: Install Apache
+      ansible.builtin.apache2:
+        state: present
+    - name: Configure firewall
+      ansible.builtin.ufw:
+        rule: allow
+        port: 80
+    - name: Start service
+      ansible.builtin.service:
+        name: apache2
+        state: started
+```
+
+Pros:
+* Clear and straightforward
+* Easy to understand and maintain
+* All operations visible in one place
+
+Cons:
+* Not reusable across playbooks
+* Can become unwieldy for complex setups
+* Harder to maintain as complexity grows
+
+
+### Role-Based Approach (Reusable Components)
+
+```yaml
+# roles/webserver/tasks/main.yml
+---
+- name: Install Apache
+  ansible.builtin.apache2:
+    state: present
+
+# playbook.yml
+---
+- hosts: webservers
+  become: yes
+  roles:
+    - webserver
+```
+
+Pros:
+* Highly reusable across projects
+* Better organization for complex setups
+* Easy to maintain and update
+
+Cons:
+* More complex initial setup
+* Requires understanding of role structure
+* Less visible what exactly runs where
+
+
+## Best Practices
+
+
+### Tasks:
+
+* Keep individual tasks focused on single operations
+* Use descriptive names
+* Include proper error handling
+
+
+### Plays:
+
+* Group related tasks together logically
+* Define clear host targeting
+* Consider variable precedence when combining plays
+
+
+### Roles:
+
+* Make roles self-contained and portable
+* Follow the standard directory structure
+* Document dependencies clearly
+
+
+### Playbooks:
+
+* Start simple with task-based approach
+* Move to roles as complexity grows
+* Keep playbook logic minimal, letting roles handle details
+
+
+Remember that while these components serve different purposes, they work
+together to create flexible and maintainable automation solutions. Choose the
+right level of abstraction based on your project's size and complexity.
