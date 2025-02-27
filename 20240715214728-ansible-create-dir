@@ -4,6 +4,9 @@
 +ansible
 
 
+/Users/michal/zettel/20250227205829-ansible-task-role-play-playbook
+
+
 In case you want to create a directory inside of a directory that does not
 exist yet, there's no need to specify that it should recurse: Ansible is going
 to create it either way. I mean this kind of task:
