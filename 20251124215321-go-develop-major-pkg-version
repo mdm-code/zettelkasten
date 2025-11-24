@@ -1,0 +1,25 @@
+# Go develop major package version
+
++go +repository +git +github +package +module +version +control
+
+
+Whenever you're planning to introduce changes that break backward compatibility
+of the code you're delivering, it has to be communicated with a major release tag.
+While for some languages it's not really all that strict, with Go, it is a bit
+of different story. It means you'll be branching out in the repository.
+
+Here is a list of steps that you'd take:
+1. BRANCH the repository at the latest version of the previous major version. So you'd go like
+`git switch -c v2`.
+2. In the checked out version, you append new major version to the module path like this
+`example.com/mymodule -> example.com/mymodule/v2`.
+3. In the Go code, every imported package path where you import a package from
+the module gets updated:
+```go
+import "example.com/mymodule/package1"
+# is replace with
+import "example.com/mymodule/v2/package1"
+```
+4. Make sure that the module is available by running the `go list` command to prompt Go to
+update its index of modules with information about the module you're publishing like so:
+`goproxy=proxy.golang.org go list -m example.com/mymodule/v2@latest`.
