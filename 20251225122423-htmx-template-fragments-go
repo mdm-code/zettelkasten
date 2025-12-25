@@ -1,0 +1,24 @@
+# HTMX template fragments Go
+
+
++go +golang +templ +template +htmx +fragment
+
+
+/Users/michal/zettel/20240324204528-htmx-notes
+
+
+The purpose of template fragments is to keep a template in a single file,
+declare its bits as template fragments that can be then rendered. Templates
+could be split across multiple files and then rendered or included as one see
+fit. It means though that it might be hard to see the big picture when a
+template is distributed across many files.
+
+Here is a brief essay from the htmx website on the topic: https://htmx.org/essays/template-fragments/.
+
+And here are implementations available for Go:
+1. [stdlib with the block concept] https://pkg.go.dev/text/template#example-Template-Block
+1a. [ctnd.] https://gist.github.com/benpate/f92b77ea9b3a8503541eb4b9eb515d8a
+2. [templ] https://templ.guide/syntax-and-usage/fragments/
+
+!!! A quick NOTE on the stdlib documentation: it might be clearer to have templates defined as separate
+html files, and either embed them as strings or use some sort of fs mount.
