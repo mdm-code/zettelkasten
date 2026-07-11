@@ -1,0 +1,86 @@
+# connascence
+
+
+#------------------------------------------------------------------------------
+# Definition
+#------------------------------------------------------------------------------
+Connascence is a software quality metric and a taxonomy for different types of coupling.
+
+#------------------------------------------------------------------------------
+# Takeaways:
+#------------------------------------------------------------------------------
+1. The more local connascence is, the stronger it can be, say, it's fine to be stronger in a function body or a single module.
+2. Name connascence is generally better, so try to avoid the guessing game and name things right.
+
+
+#------------------------------------------------------------------------------
+# Axes of connascence
+#------------------------------------------------------------------------------
+1. Strength - the stronger connascences are, the harder to discover and refactor they are (weaker is better).
+ @ name (trivial) < meaning (semantically harder)
+ @ static (examine source code) < dynamic (require knowledge of run-time behaviour)
+
+2. Degree - the number of entities a given entity is connascent with (fewer is better).
+ @ The order of magnitude; does it involve two or two hundred entities?
+
+3. Locality - elements close together better than ones that are far apart (closer is better).
+ @ Locality allows for stronger connascence.
+
+
+#------------------------------------------------------------------------------
+# Static connascences
+#------------------------------------------------------------------------------
+1. Name - the weakest and unavoidable. Components must agree on the name of an entity.
+ @ Involves the name of the entity such as classes, functions, arguments, etc.
+
+2. Type - components must agree on the type of an entity.
+ @ Dynamically typed languages suffer from less obvious instances of connascence.
+
+3. Meaning - components must agree on the meaning of particular values.
+ @ For instance, returning `None` from a function attaches a meaning to the `None` value.
+ @ Can be improved by replacing it with the connascence of name - moving magic values to named constants.
+ @ Primitive obsession where primitive types represent more complex domains.
+
+```python
+# worse:
+def find_user_in_database(name):
+    return db.find_user(name) or None
+
+# better:
+def find_user_in_database(name):
+    try:
+        db.find_user(name) or ObjectNotFound
+    except DatabaseError:
+        return None
+```
+
+4. Position - components must agree on the order of values.
+ @ The order of arguments in a function. Individual arguments can be replaced by a structured object - a class or a dictionary.
+
+5. Algorithm - components must agree on a particular algorithm.
+ @ Sender and receiver use one algorithm to checksum data. Both have to change it.
+
+
+#------------------------------------------------------------------------------
+# Dynamic connascences
+#------------------------------------------------------------------------------
+1. Execution - components must agree on the order of execution.
+ @ Locking and unlocking resources.
+ @ State machines - certain operations are allowed in certain states.
+
+2. Timing - components must agree on the timing of execution.
+
+3. Value - several values must change together.
+ @ Think about the state attribute on an object.
+
+```python
+from enum import Enum
+
+class ArticleState(Enum):
+    Draft = 1
+    Published = 2
+
+    InitialState = Draft  # indirection and name connascence is better here.
+```
+
+4. Identity - components reference the same entity.
