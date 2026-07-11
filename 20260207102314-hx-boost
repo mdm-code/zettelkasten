@@ -1,0 +1,15 @@
+# hx boost
+
+
++htmx
+
+
+/Users/michal/zettel/20251225122423-htmx-template-fragments-go
+
+
+https://htmx.org/attributes/hx-boost/
+
+The key here is that normal anchor and form tags are boosted to use AJAX instead.
+HTMX requests are not affected, so if they're the only one used, then there is no
+point in using it. This works nicely as a fallback if the user has no Javascript
+enabled. If js is enabled, then AJAX will be used for normal anchor and form tags.
