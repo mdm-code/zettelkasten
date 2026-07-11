@@ -1,0 +1,31 @@
+# maintain state with transaction log
+
+
++api +state +stateless +transaction +log +db +database
+
+
+/Users/michal/Documents/journal/zettel/20220503155300-stateless-application
+/Users/michal/Documents/journal/zettel/20220501124258-nullipotence-what-this-is
+/Users/michal/Documents/journal/zettel/20220501125329-idempotence-its-benefits
+
+
+A transaction log is a form of maintaining a history of changes happening to the data store. 
+It can be reapplied on each restart, crash, etc.
+
+It can be also used to put the program back in the desired state. It can also be
+replayed back to rewind changes -- just a few ideas.
+
+It is read-only on restart and is read sequentially, in a linear fashion, top to bottom.
+
+The log is append only.
+
+Each record has the following attributes:
+1. sequence number (ID, for short) -- an integer i from a sequence of 1, 2, 3, ..., n
+2. event type -- CRUD action, PUT and DELETE (GET is not needed)
+3. key -- the affected key string
+4. value -- the string value stored under a given key
+
+There two major issues with this kind of logging:
+1. One has to find a way to distribute the logged state between nodes when scaling up/down.
+2. Log files are stored on disk, and they cannot grow forever, one has to figure out how to
+make them more compact.
