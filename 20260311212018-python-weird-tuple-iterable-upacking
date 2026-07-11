@@ -1,0 +1,24 @@
+# python weird tuple iterable upacking
+
+
++python +tuple +iter +iterable +unpack
+
+
+Here is the weird syntax for tuple (or any iterable in fact) unpacking in
+Python that apparently works like a charm.
+
+```python
+[[value]] = ([1_000], )
+# value == 1_000
+[[*foo, bar]] = (range(10),)
+# foo = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+# bar = 9
+```
+
+The number of square braces is equivalent to the number of nested iterables.
+The example above gives two, but can be any, and it works with most (all?)
+tuple unpacking idioms.
+
+The double-square-bracket on the left hand side is doing (double)
+assignment-unpacking to get the single value back out of these two nested
+sequences
