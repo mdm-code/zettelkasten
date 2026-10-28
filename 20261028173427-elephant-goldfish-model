@@ -1,0 +1,158 @@
+# Elephant Goldfish Model
+
++elephant +goldfish +model +ai +llm +cursor +harness
+
+## TLDR
+
+Feed the elephant: the context-rich session, and the design document it helps
+write. It holds institutional knowledge, micro-decisions, the argument with the
+model, and the whole history of the feature.
+
+Test that document against the goldfish: a brand-new session with zero memory,
+which knows only what is put right in front of it.
+
+Two workflows use the same idea:
+
+1. Research a topic. Prepare the question and the acceptance criteria with the
+elephant, then have a goldfish do the research.
+
+2. Design and implement a feature. Grow and teach the elephant until the design
+document is solid, then test that document on fresh goldfish sessions before
+writing code.
+
+## Research
+
+### 1. Victory loves preparation — Elephant
+
+The model should act as an interrogator rather than a researcher.
+
+I want to buy a car. It will cost me a lot of money. I have to be informed
+before I make the decision. I am clearly missing critical aspects. Here is what
+I know so far, and your role is to keep asking me clarifying questions until I
+tell you to stop. Our job is to explore all of the important edges and
+decisions. Continue to question my assumptions and force me to clarify
+important points until I tell you we are done. Here is what I have come up with
+so far: <assumptions go here>
+
+Ask the model "What do you think?", and argue with it when you disagree. Argue
+to learn, not to win.
+
+If the model falls into sycophancy, break it by saying that it is not helpful,
+and that it should challenge your thinking and force you to think about the
+edges of the problem.
+
+A thorough description is now ready, but it is only one side of the problem.
+
+### 2. Trust but verify — Elephant
+
+The description is ready. Give it to a researcher you have never worked with
+before. The point is to know that the report can be trusted after it has been
+produced.
+
+Adopt the persona of an expert, skeptical fact-checker. Discuss everything that
+should be in the report to give confidence that the work was thorough and
+correct. Do the research once, and keep the chance to ask follow-up questions.
+Say when the acceptance criteria are done.
+
+After this step, both the question and the evaluation criteria are ready for
+the final step.
+
+### 3. Profit — Goldfish
+
+Open a new session and put the LLM in a deep research mode.
+
+> I have a topic I need you to think deeply about. Use any tools at your
+disposal to answer this question thoroughly. I am giving you both the research
+topic and the specific criteria to evaluate the quality of your final report.
+Your goal is to produce a final output that thoroughly answers the question and
+easily passes all the evaluation criteria.
+
+> Here is the description of the topic I want you to research: <text from step 1>.
+
+> Here are the criteria by which I will evaluate the quality of your output: <text from step 2>.
+
+Let the model run its deep research for as long as it takes. The output should
+be much better than a one-shot answer from a single prompt.
+
+### 4. Judgment
+
+Do not outsource judgment to the machine.
+
+Save the full description, the acceptance criteria, and the final output
+somewhere easy to find. Do not store the full discussion. It is mostly noise.
+
+## Design and implementation
+
+### Phase 1: Growing the Elephant
+
+1. Context loading. Feed it code, docs, and anything else that already exists.
+2. No-code rule. Do not write any code.
+3. The sycophant challenge. Ask "What do you think?"
+4. The first-draft technical proposal.
+5. Ask clarifying questions until the draft is good enough.
+
+### Phase 2: Teaching the Elephant
+
+1. Create an absolute source of truth, and the guardrails for the code.
+2. Do not ask the model to write everything at once. Build it iteratively.
+3. Have it state the problem in 3–5 sentences of plain English. A casual reader
+should understand the business problem.
+4. Have it write a jargon-light description of the big components and how they
+fit together. Include block diagrams of the major components. The goal is
+explanatory prose.
+5. Document alternative ideas, including the rejected ones. These become
+guardrails for the code.
+6. Detailed implementation. This is the longest section: a highly detailed
+implementation plan. Demand an enumeration of every file that will be created
+or changed, with a rationale for each. This keeps the model on the rails during
+implementation.
+7. Save the file. This is the first artifact.
+
+### Phase 3: The Goldfish protocol
+
+Start a new session for each check. When a critique is substantial, fix the
+document and run that check again.
+
+1. Comprehension test.
+
+> Read this document and the files it references. Tell me what it's trying to
+accomplish, and how my system currently works as it relates to this feature.
+
+If the goldfish cannot explain the system from that document and the files it
+references, add the missing details. Do not skip this loop.
+
+2. Critic review.
+
+> Assume the role of an expert technical reviewer. Read this design doc and all
+the files it references. Tell me all the things I missed, all the faulty
+assumptions, all the edge cases I'm missing, and things I should have
+considered but did not. Every mistake and ambiguity you find makes you more
+helpful and useful.
+
+Rinse and repeat until the critiques are trivial, or disappear.
+
+3. Implementation readiness.
+
+> You are an experienced software engineer familiar with our codebase. Read
+this document and the files it references and tell me: does it absolutely have
+all the information you would require to successfully implement this feature on
+your first pass?
+
+Rinse and repeat until the critiques are trivial, or disappear.
+
+### Phase 4: Implementation
+
+1. Coding and guardrails.
+
+> Read this design doc and the files it references. Implement the feature as
+described. Follow the plan exactly.
+
+2. The mean code reviewer.
+
+> I have a strong intuition that this code is of poor quality. Please tear it
+to shreds and tell me all the ways it sucks.
+
+Tell it to flag any place that goes 10 lines without a comment. Demand strict
+readability.
+
+Rinse and repeat until the critiques are trivial, or disappear.
